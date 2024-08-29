@@ -1,0 +1,35 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#clickable {
+    padding: 40px 80px; /* Augmente le padding pour un bouton plus grand */
+    font-size: 44px; /* Augmente la taille de la police */
+    cursor: pointer;
+    transition: transform 0.2s;
+    background-color: red; /* Le bouton devient rouge */
+    color: white; /* Le texte du bouton devient blanc pour un meilleur contraste */
+    border: none; /* Supprime les bordures du bouton */
+    border-radius: 20px; /* Arrondit légèrement les coins du bouton */
+    margin: 30px; /* Ajoute de l'espace autour du bouton */
+}
+
+
+#clickable:active {
+    transform: scale(0.9);
+}
+
+#hiddenImage {
+    position: fixed; /* Fixe l'image par rapport à la fenêtre */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Largeur de la fenêtre */
+    height: 100vh; /* Hauteur de la fenêtre */
+    object-fit: cover; /* Couvre toute la fenêtre sans déformer l'image */
+    display: none; /* Cache l'image par défaut */
+    z-index: 9999; /* Assure que l'image est au-dessus de tout le reste */
+}

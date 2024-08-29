@@ -1,0 +1,49 @@
+services:
+  nginx:
+    build: requirements/nginx/.
+    image: nginx
+    container_name: nginx
+    depends_on:
+      - prometheus
+      - website
+    ports:
+      - "80:80"
+    volumes:
+      - web:/var/www/html
+    env_file: 
+      - .env
+    restart: always
+    networks:
+      transcendance:
+  website:
+    build: requirements/website/.
+    container_name: website
+    image: website
+    expose:
+      - "9000"
+    volumes:
+      - web:/var/www/html
+    networks:
+      transcendance:
+  prometheus:
+    build: requirements/prometheus/.
+    container_name: prometheus
+    image: prometheus
+    ports:
+      - "9090:9090"
+    restart: always
+    networks:
+      transcendance:
+
+
+volumes:
+  web:
+    driver: local
+    driver_opts:
+      type: none
+      device: ../database/web
+      o: bind
+
+networks:
+  transcendance:
+    driver: bridge
