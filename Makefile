@@ -62,6 +62,7 @@ stopC: clean
 	@echo "${RED}Arrêt des containers...${NC}"
 	@docker compose -f srcs/docker-compose.yml down
 	@echo "${GREEN}Containers arrêtés.${NC}"
+	@docker volume rm srcs_web > /dev/null 2>&1
 	@echo "${RED}Nettoyage du système Docker...${NC}"
 	@docker system prune -a -f > /dev/null 2>&1
 	@echo "${GREEN}Nettoyage du système Docker terminé.${NC}"

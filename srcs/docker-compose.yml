@@ -35,13 +35,12 @@ services:
     networks:
       transcendance:
 
-
 volumes:
   web:
     driver: local
     driver_opts:
       type: none
-      device: ../database/web
+      device: database/web
       o: bind
 
 networks:
