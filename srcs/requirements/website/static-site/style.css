@@ -6,7 +6,14 @@ html, body {
     align-items: center;
 }
 
-#clickable {
+.top-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px; /* Optionnel : ajoute une marge pour éviter que l'élément ne soit collé au bord */
+}
+
+#play_pong {
     padding: 40px 80px; /* Augmente le padding pour un bouton plus grand */
     font-size: 44px; /* Augmente la taille de la police */
     cursor: pointer;
@@ -18,18 +25,47 @@ html, body {
     margin: 30px; /* Ajoute de l'espace autour du bouton */
 }
 
+#back_play_pong{
+    padding: 20px 40px;
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    background-color: red;
+    color: white;
+    border: none;
+    display: none; /*cache par defaut */
+    border-radius: 20px;
+    margin: 30px;
+}
+
+#game-container {
+    width: 980px;
+    height: 580px;
+    background-color: red;
+    display: none;
+    position: relative;
+}
+
+#player1, #player2 {
+    width: 20px;
+    height: 100px;
+    background-color: black;
+    position: absolute;
+}
+
+#player1 {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#player2 {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 
 #clickable:active {
     transform: scale(0.9);
-}
-
-#hiddenImage {
-    position: fixed; /* Fixe l'image par rapport à la fenêtre */
-    top: 0;
-    left: 0;
-    width: 100vw; /* Largeur de la fenêtre */
-    height: 100vh; /* Hauteur de la fenêtre */
-    object-fit: cover; /* Couvre toute la fenêtre sans déformer l'image */
-    display: none; /* Cache l'image par défaut */
-    z-index: 9999; /* Assure que l'image est au-dessus de tout le reste */
 }
