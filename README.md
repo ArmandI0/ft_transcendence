@@ -1,6 +1,5 @@
-# ft_transcendence
+# ft_transcendence - ROADMAP
 
-Pour un projet web en une seule page (Single Page Application ou SPA) avec Bootstrap et plusieurs interfaces (comme l'authentification, les paramètres, et le jeu), voici comment je m'y prendrais :
 
 ### 1. **Structurer le HTML**
    - **Diviser la page en sections** : Utiliser des sections HTML distinctes pour chaque interface. Ces sections peuvent être masquées ou affichées dynamiquement selon l'interaction de l'utilisateur.
