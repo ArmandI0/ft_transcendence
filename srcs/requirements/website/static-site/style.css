@@ -39,8 +39,8 @@ html, body {
 }
 
 #game-container {
-    width: 980px;
-    height: 580px;
+    width: 800px;
+    height: 400px;
     background-color: red;
     display: none;
     position: relative;
@@ -61,6 +61,17 @@ html, body {
 
 #player2 {
     right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#ball{
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    right: 50%;
     top: 50%;
     transform: translateY(-50%);
 }
