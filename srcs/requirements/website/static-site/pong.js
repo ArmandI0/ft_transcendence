@@ -5,11 +5,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const ballStyles = window.getComputedStyle(ball);
     const ballDiam = parseFloat(ballStyles.height);
 
+    const player1_score = document.getElementById('player1-score');
+    const player2_score = document.getElementById('player2-score');
+
     const container = document.getElementById('game-container');
     const containerStyles = window.getComputedStyle(container);
     const containerHeight = parseFloat(containerStyles.height);
     const containerWidth = parseFloat(containerStyles.width);
     
+
     console.log(`Container height: ${containerHeight}px`);
 
     let player1Y = containerHeight/ 2 - player1.offsetHeight / 2;
@@ -79,14 +83,62 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (ballY <= ballDiameter1 || ballY >= ballDiameter2)
             ballSpeedY = -ballSpeedY;
         // Collision avec joueur 1
-        else if (ballX <= playerWidth1 && ballY >= player1Y - playerCollisionOffset1 && ballY <= player1Y + playerCollisionOffset1)
-            ballSpeedX = -ballSpeedX;
+        else if ((ballX <= playerWidth1 && ballY >= player1Y - playerCollisionOffset1 && ballY <= player1Y + playerCollisionOffset1))
+        {    
+            const hitPosition = ballY - player1Y;
+            // centre
+            if(hitPosition <= 10 && hitPosition >= -10)
+            {
+                ballSpeedX = -ballSpeedX;
+                console.log(`tape centre raquette`);
+            }
+            // haut
+            else if(hitPosition < -10)
+            {
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY = -Math.abs(ballSpeedY);
+                console.log(`tape haut raquette`);
+            }
+            // bas
+            else
+            {
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY = Math.abs(ballSpeedY);
+                console.log(`tape bas raquette`);
+            }
+        }
         // Collision avec joueur 2
-        else if (ballX >= playerWidth2 && ballY >= player2Y - playerCollisionOffset1 && ballY <= player2Y + playerCollisionOffset1)
-            ballSpeedX = -ballSpeedX;
-        // Collision avec les bords du conteneur
-        else if (ballX <= accuracyWallHit_left || ballX >= accuracyWallHit_right )
+        else if ((ballX >= playerWidth2 && ballY >= player2Y - playerCollisionOffset1 && ballY <= player2Y + playerCollisionOffset1))
         {
+            const hitPosition = ballY - player2Y;
+            // centre
+            if(hitPosition <= 10 && hitPosition >= -10)
+            {
+                ballSpeedX = -ballSpeedX;
+                console.log(`tape centre raquette`);
+            }
+            // haut
+            else if(hitPosition < -10)
+            {
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY = -Math.abs(ballSpeedY);
+                console.log(`tape haut raquette`);
+            }
+            // bas
+            else
+            {
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY = Math.abs(ballSpeedY);
+                console.log(`tape bas raquette`);
+            }
+        }
+        // Collision avec les bords du conteneur
+        else if (ballX <= accuracyWallHit_left || ballX >= accuracyWallHit_right)
+        {
+            if (ballX <= accuracyWallHit_left)
+                player2_score.textContent++;
+            if (ballX >= accuracyWallHit_right)
+                player1_score.textContent++;
             ballX = containerWidth / 2;
             ballY = containerHeight / 2;
         }
