@@ -1,5 +1,5 @@
 services:
-  # Service pour l'application Django
+
   web:
     build: requirements/django/.
     volumes:
@@ -18,7 +18,6 @@ services:
     networks:
       - backend
 
-  # Service pour la base de données PostgreSQL
   database:
     image: postgres:13
     volumes:
@@ -29,6 +28,16 @@ services:
       POSTGRES_PASSWORD: mypassword
     ports:
       - "5432:5432"
+    networks:
+      - backend
+
+  prometheus:
+    build: requirements/prometheus/.
+    container_name: prometheus
+    image: prometheus
+    ports:
+      - "9090:9090"
+    restart: always
     networks:
       - backend
 
