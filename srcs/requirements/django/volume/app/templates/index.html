@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple static website</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <button id="back_play_pong" class="top-left">Back</button>
+    <button id="play_pong">Play PONG</button>
+    <div id="game-container">
+        <div id="player1"></div>
+        <div id="player2"></div>
+        <div id="ball"></div>
+        <div id="center-line"></div>
+        <div id="scoreboard">
+            <div id="player1-score">0</div>
+            <div id="player2-score">0</div>
+        </div>
+    </div>
+    <script src="{% static 'js/pong.js' %}"></script>
+    <script src="{% static 'js/mainPage.js' %}"></script>
+</body>
+</html>

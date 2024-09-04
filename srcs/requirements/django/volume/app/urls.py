@@ -1,5 +1,5 @@
 """
-URL configuration for transcendance_test project.
+URL configuration for app project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from app.views import index
 
 urlpatterns = [
+    path('', index, name="index"),
     path('admin/', admin.site.urls),
 ]

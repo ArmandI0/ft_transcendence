@@ -3,11 +3,11 @@ services:
   web:
     build: requirements/django/.
     volumes:
-      - .:/app
+      - ./requirements/django/volume:/website
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - database
     environment:
       - DEBUG=True
       - DJANGO_DB_HOST=db
@@ -19,7 +19,7 @@ services:
       - backend
 
   # Service pour la base de données PostgreSQL
-  db:
+  database:
     image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -27,6 +27,8 @@ services:
       POSTGRES_DB: mydatabase
       POSTGRES_USER: mydatabaseuser
       POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
     networks:
       - backend
 
