@@ -1,9 +1,9 @@
 services:
 
   web:
-    build: requirements/django/.
+    build: requirements/web/.
     volumes:
-      - ./requirements/django/volume:/website
+      - ./requirements/web/volume:/website
     ports:
       - "8000:8000"
     depends_on:
