@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PONG</title>
+    
+    {% load static %}
+    <!-- Lien vers la CSS de Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Lien vers votre CSS personnalisé -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stylePong.css' %}">
+</head>
+<body>
+    <!-- Container principal -->
+    <div class="container-fluid">
+        <div class="row text-center mb-4">
+            <div class="col">
+                <button class="btn btn-secondary rounded-pill px-3" id="Back" type="button">Back</button>
+            </div>
+            <div class="col">
+                <h1 id="game-name">ROLLAND GAPONG</h1>
+            </div>
+            <div class="col">
+                <button class="btn btn-secondary rounded-pill px-3" id="Parameters" type="button">Parameters</button>
+            </div>
+        </div>
+
+        <!-- Main menu and game container -->
+        <div class="row">
+            <div class="col-md-8">
+                <div id="main-menu-buttons" class="mb-3">
+                    <button class="btn btn-secondary rounded-pill px-3" id="button-1v1" type="button">1v1</button>
+                    <button class="btn btn-secondary rounded-pill px-3" id="button-tournament" type="button">Tournament</button>
+                </div>
+                
+                <div id="game-container" class="mb-3">
+                    <div id="player1" class="game-element"></div>
+                    <div id="player2" class="game-element"></div>
+                    <div id="ball" class="game-element"></div>
+                    <div id="center-line" class="game-element"></div>
+                    <div id="scoreboard">
+                        <div id="player1-score">0</div>
+                        <div id="player2-score">0</div>
+                    </div>
+                </div>
+                
+                <div id="tournament-container" class="d-none">
+                    <div class="form-group">
+                        <input class="form-control mb-2" type="text" placeholder="Player 1">
+                        <input class="form-control mb-2" type="text" placeholder="Player 2">
+                        <input class="form-control mb-2" type="text" placeholder="Player 3">
+                        <input class="form-control mb-2" type="text" placeholder="Player 4">
+                    </div>
+                    <button class="btn btn-secondary rounded-pill px-3" id="play-tournament" type="button">Play Tournament</button>
+                </div>
+            </div>
+
+            <!-- Tournament visualizer -->
+            <div class="col-md-4">
+                <div id="tournament-visualizer" class="text-center">
+                    <h1 id="player1_tv">player 1</h1>
+                    <h1 id="vs_tv">VS</h1>
+                    <h1 id="player2_tv">player 2</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts nécessaires pour Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Vos scripts personnalisés -->
+    <script src="{% static 'js/tournamentHandle.js' %}"></script>
+    <script src="{% static 'js/ball_movement.js' %}"></script>
+    <script src="{% static 'js/pong2D.js' %}"></script>
+    <script src="{% static 'js/menuInteracts.js' %}"></script>
+</body>
+</html>

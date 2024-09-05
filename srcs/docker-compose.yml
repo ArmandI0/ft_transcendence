@@ -1,30 +1,36 @@
 services:
-  nginx:
-    build: requirements/nginx/.
-    image: nginx
-    container_name: nginx
-    depends_on:
-      - prometheus
-      - website
+
+  web:
+    build: requirements/web/.
+    volumes:
+      - ./requirements/web/volume:/website
     ports:
-      - "80:80"
-    volumes:
-      - web:/var/www/html
-    env_file: 
-      - .env
-    restart: always
+      - "8000:8000"
+    depends_on:
+      - database
+    environment:
+      - DEBUG=True
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_PORT=5432
+      - DJANGO_DB_NAME=mydatabase
+      - DJANGO_DB_USER=mydatabaseuser
+      - DJANGO_DB_PASSWORD=mypassword
     networks:
-      transcendance:
-  website:
-    build: requirements/website/.
-    container_name: website
-    image: website
-    expose:
-      - "9000"
+      - transcendance
+
+  database:
+    image: postgres:13
     volumes:
-      - web:/var/www/html
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: mydatabaseuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
     networks:
-      transcendance:
+      - transcendance
+
   prometheus:
     build: requirements/prometheus/.
     container_name: prometheus
@@ -33,16 +39,13 @@ services:
       - "9090:9090"
     restart: always
     networks:
-      transcendance:
+      - transcendance
 
 volumes:
-  web:
-    driver: local
-    driver_opts:
-      type: none
-      device: database/web
-      o: bind
+  postgres_data:
+
 
 networks:
   transcendance:
     driver: bridge
+ 
