@@ -70,7 +70,7 @@ remove:
 	fi
 	@if [ -n "$$(docker images -a -q)" ]; then \
 		echo "Suppression des images Docker..."; \
-		docker rmi $$(docker images -a -q); \
+		docker rmi -f $$(docker images -a -q); \
 	else \
 		echo "Aucune image Docker à supprimer."; \
 	fi

@@ -41,6 +41,14 @@ services:
     networks:
       - transcendance
 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - transcendance
+
 volumes:
   postgres_data:
 
