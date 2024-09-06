@@ -3,7 +3,8 @@
 sleep 5
 
 echo "Applying database migrations..."
-python website/manage.py migrate
+python3 website/manage.py makemigrations
+python3 website/manage.py migrate
 
 #run website
 echo "Starting Django server..."
