@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mon site Bootstrap</title>
+	<!-- CSS de Bootstrap -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="test_threeJS.css">
+    <link rel="stylesheet" href="2d/style.css">
+	<!-- JavaScript de Bootstrap (jQuery et Popper.js inclus) -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="grid-container">
+		<div class="grid-item">
+			<button class="btn btn-secondary rounded-pill px-3" id= "button_to_2d" type="button">2D</button>
+		</div>
+		<div class="grid-item">
+		</div>
+		<div class="grid-item">
+			<button class="btn btn-secondary rounded-pill px-3" id= "button_to_3d" type="button">3D</button>
+		</div>
+		<div class="grid-item"></div>
+		<div class="grid-item game-window" id="threejs-container">
+			<!-- Cf. threejs-container.html -->
+			<div class ="grid-3d-render">
+				<div class="grid-item view-player" id="view-player1"></div>
+				<div class="grid-item"></div>
+				<div class="grid-item view-player" id="view-player2"></div>				
+			</div>
+			<!-- FIN -->
+		</div>
+		<div class="grid-item game-window" id="game-container-2d">
+			<!-- 2d game -->
+				<div id="player1"></div>
+				<div id="player2"></div>
+				<div id="ball"></div>
+				<div id="center-line"></div>
+				<div id="scoreboard">
+					<div id="player1-score">0</div>
+					<div id="player2-score">0</div>
+			<!-- FIN -->
+		</div>		
+		<div class="grid-item"></div>
+		<div class="grid-item"></div>
+		<div class="grid-item"></div>
+		<div class="grid-item"></div>
+	</div>
+	<script src="2d/pong.js"></script>	
+	<script src="2d/mainPage.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<script src="threeJS.js"></script>
+	<script src="architecture.js"></script>
+</body>
+</html>
