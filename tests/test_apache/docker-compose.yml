@@ -8,7 +8,7 @@ services:
             - '443:8443'
         volumes:
             - vol_html:/app
-            - ./conf/my_vhost.conf:/vhosts/my_vhost.conf:ro
+            - ./conf/my_vhost.conf:/opt/bitnami/apache/conf/vhosts/my_vhost.conf:ro
             - ./conf/httpd.conf:/opt/bitnami/apache/conf/httpd.conf
             - ./conf/modsecurity.conf:/opt/bitnami/apache/conf/modsecurity.conf
 
