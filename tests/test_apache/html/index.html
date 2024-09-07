@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mon site Bootstrap</title>
+	<!-- CSS de Bootstrap -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/test_threeJS.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<!-- JavaScript de Bootstrap (jQuery et Popper.js inclus) -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="grid-container">
+		<div class="grid-item">
+			<button class="btn btn-secondary rounded-pill px-3" id= "button_to_2d" type="button">2D</button>
+		</div>
+		<div class="grid-item">
+		</div>
+		<div class="grid-item">
+			<button class="btn btn-secondary rounded-pill px-3" id= "button_to_3d" type="button">3D</button>
+		</div>
+		<div class="grid-item"></div>
+		<div class="grid-item" id="game-window"></div>
+		<div class="grid-item"></div>
+		<div class="grid-item"></div>
+		<div class="grid-item"></div>
+		<div class="grid-item"></div>
+	</div>
+	<script src="{% static 'js/htmlRequest.js' %}"></script>	
+	<script src="{% static 'js/pong.js' %}"></script>	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<script src="{% static 'js/threeJS.js' %}"></script>
+	<script src="{% static 'js/architecture.js' %}"></script>
+</body>
+</html>

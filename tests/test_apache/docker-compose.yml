@@ -1,0 +1,28 @@
+services:
+
+    apache:
+        container_name: 'apache'
+        image: 'bitnami/apache:2.4.62-debian-12-r9'
+        ports:
+            - '80:8080'
+            - '443:8443'
+        volumes:
+            - vol_html:/app
+            - ./conf/my_vhost.conf:/vhosts/my_vhost.conf:ro
+            - ./conf/httpd.conf:/opt/bitnami/apache/conf/httpd.conf
+            - ./conf/modsecurity.conf:/opt/bitnami/apache/conf/modsecurity.conf
+
+volumes:
+    vol_html:
+        driver: local
+        driver_opts:
+            type: 'none'
+            o: 'bind'
+            device: './html/'	
+    postgres_data:
+
+
+networks:
+    transcendance:
+        driver: bridge
+
