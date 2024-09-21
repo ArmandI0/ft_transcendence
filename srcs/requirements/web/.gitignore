@@ -1,4 +1,4 @@
-envtest/
+volume/myenv/
 # Python
 *.pyc
 *.pyo

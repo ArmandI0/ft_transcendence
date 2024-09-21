@@ -1,5 +1,28 @@
 services:
 
+  # frontend:
+  #   build: requirements/frontend  # Répertoire contenant le Dockerfile pour le frontend
+  #   volumes:
+  #     - ./requirements/frontend/volume:/usr/share/nginx/html
+  #   ports:
+  #     - "8080:80"
+  #   depends_on:
+  #     - database
+  #   networks:
+  #     - transcendance
+
+  frontend:
+    image: 'bitnami/apache:latest'
+    ports:
+      - '8080:8080'
+      - '443:8443'
+    volumes:
+      - ./requirements/frontend/volume:/app
+    depends_on:
+      - database
+    networks:
+      - transcendance
+
   web:
     build: requirements/web/.
     volumes:
@@ -45,7 +68,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - 8085:8080
     networks:
       - transcendance
 

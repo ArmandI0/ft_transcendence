@@ -59,7 +59,7 @@ stop:
 
 # Arrêter les containers et nettoyer le système Docker
 
-remove:
+fclean:
 	@echo "${RED}Arrêt des containers...${NC}"
 	@docker compose -f srcs/docker-compose.yml down
 	@docker volume prune -f
@@ -80,4 +80,4 @@ remove:
 
 re: stop all
 
-.PHONY: all setup clean start debug stop remove re
+.PHONY: all setup clean start debug stop fclean re
