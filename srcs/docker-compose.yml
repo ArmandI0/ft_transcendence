@@ -1,80 +1,109 @@
 services:
 
-  # frontend:
-  #   build: requirements/frontend  # Répertoire contenant le Dockerfile pour le frontend
-  #   volumes:
-  #     - ./requirements/frontend/volume:/usr/share/nginx/html
-  #   ports:
-  #     - "8080:80"
-  #   depends_on:
-  #     - database
-  #   networks:
-  #     - transcendance
-
-  frontend:
-    image: 'bitnami/apache:latest'
-    ports:
-      - '8080:8080'
-      - '443:8443'
-    volumes:
-      - ./requirements/frontend/volume:/app
-    depends_on:
-      - database
-    networks:
-      - transcendance
-
   web:
     build: requirements/web/.
+    container_name: web
+    image: web
     volumes:
       - ./requirements/web/volume:/website
     ports:
-      - "8000:8000"
+      - '8000'
     depends_on:
-      - database
+      - vault
+      - postgres
     environment:
       - DEBUG=True
-      - DJANGO_DB_HOST=db
-      - DJANGO_DB_PORT=5432
-      - DJANGO_DB_NAME=mydatabase
-      - DJANGO_DB_USER=mydatabaseuser
-      - DJANGO_DB_PASSWORD=mypassword
+    env_file : 
+          - ./secrets/.env
+          - ./secrets/.django_token
     networks:
       - transcendance
 
-  database:
+  postgres:
     image: postgres:13
+    container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: mydatabase
       POSTGRES_USER: mydatabaseuser
       POSTGRES_PASSWORD: mypassword
+    env_file : 
+          - ./secrets/.env      
     ports:
-      - "5432:5432"
+      - '5432'
     networks:
       - transcendance
+    depends_on:
+      - vault
 
   prometheus:
     build: requirements/prometheus/.
     container_name: prometheus
     image: prometheus
     ports:
-      - "9090:9090"
+      - '9090'
     restart: always
     networks:
       - transcendance
+    depends_on:
+      - vault
 
   adminer:
     image: adminer
+    container_name: adminer
     restart: always
     ports:
-      - 8085:8080
+      - 8080:8080
     networks:
       - transcendance
 
+  vault :
+      container_name : 'vault'
+      build : ./requirements/vault/.
+      image: 'vault'
+      cap_add:
+          - IPC_LOCK
+      ports:
+          - '8200'
+      networks:
+          - transcendance
+      restart: on-failure:10
+      env_file : 
+          - ./secrets/.vault_tokens
+          - ./secrets/.env
+      volumes:
+        - vault_data:/vault/data
+
+  apache:
+      container_name: 'apache'
+      build : ./requirements/apache/.
+      image: 'apache'
+      ports:
+        - '8070:80'
+        - '8090:443'
+      volumes:
+        - ./requirements/apache/volume:/app
+      networks:
+        - transcendance
+      depends_on:
+        - vault
+
 volumes:
   postgres_data:
-
+      name : postgres_data
+      driver: local
+      driver_opts:
+          type: 'none'
+          o: 'bind'
+          device: '../postgres_data/'
+  vault_data:
+      name : vault_data
+      driver: local
+      driver_opts:
+          type: 'none'
+          o: 'bind'
+          device: '../vault_data/'
 
 networks:
   transcendance:

@@ -1,0 +1,252 @@
+/* Animations */
+@keyframes zoomInFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Containers */
+#card-container {
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+#cardGame-container {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: #000000;
+    overflow: hidden;
+}
+
+#tournament-container-card {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tournament-visualizer-card {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+}
+
+#chrono-visualizer {
+    display: none;
+    font-family: "Playfair Display", serif;
+    font-weight: bold;
+    color: white;
+    font-size: 38px;
+}
+
+#main-menu-buttons-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#select-chelem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(128, 128, 128, 0.7);
+    width: 300px;
+    height: 300px;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+#hide-game-container {
+    display: none;
+}
+
+#game-container {
+    width: 900px;
+    height: 450px;
+    background-color: rgba(161, 150, 143, 0.3);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    row-gap: 10px;
+    column-gap: 10px;
+    position: relative;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 15px;
+    padding: 10px;
+}
+
+/* Grid */
+.grid-container-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 2fr 1fr;
+    width: 100vw;
+    height: 100vh;
+}
+
+.grid-item-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Images */
+.grid-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    margin-left: 0px;
+    margin-top: 100px;
+    border-radius: 15px;
+}
+
+/* Buttons */
+.btn-custom, .btn-custom2, .btn-custom3 {
+    border: 2px solid rgba(212, 209, 209, 0.3);
+    color: rgb(255, 255, 255);
+    border-radius: 50px;
+    font-size: 16px;
+    font-family: "Playfair Display", serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 20px 40px;
+}
+
+.btn-custom:hover {
+    background-color: #ddd4cd;
+    transform: scale(1.2);
+}
+
+.btn-custom2 {
+    background-color: #000000;
+    padding: 10px 20px;
+}
+
+.btn-custom2:hover {
+    background-color: #d6cfc9;
+}
+
+.btn-custom3 {
+    background-color: #000000;
+    padding: 10px 20px;
+    margin-top: 5px;
+    width: 200px;
+    text-align: center;
+}
+
+.btn-custom3:hover {
+    background-color: #e4d9d2;
+}
+
+/* Text */
+#playing-order, #player1_tv, #player2_tv, #player3_tv, #player4_tv, #tournament-winner, #player1-score, #player2-score, #game-name {
+    font-family: "Playfair Display", serif;
+    font-weight: bold;
+    color: white;
+}
+
+#playing-order, #player1_tv, #player2_tv, #player3_tv, #player4_tv {
+    font-size: 38px;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+    white-space: nowrap;
+}
+
+#playing-order {
+    font-size: 40px;
+}
+
+#game-name {
+    font-size: 78px;
+    margin-top: 80px;
+}
+
+#player1-score, #player2-score {
+    font-size: 24px;
+}
+
+#tournament-winner {
+    font-weight: bold;
+}
+
+/* Miscellaneous */
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+.card-back, .card-front {
+    width: 100px;
+    height: 130px;
+    margin-left: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    perspective: 1000px;
+}
+
+.card-front {
+    font-size: 34px;
+    color: #333;
+}
+
+.card:hover {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+#start {
+    display: none;
+    position: absolute;
+    top: 45%;
+    left: 47%;
+    z-index: 3;
+}
+
+#button-1player {
+    margin-right: 50px;
+}
+
+#button-tournament-card {
+    margin-left: 50px;
+}
+
+.form-controls {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-control {
+    margin: 0 10px;
+}
+
+#play-tournament {
+    margin-top: 20px;
+}

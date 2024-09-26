@@ -1,0 +1,21 @@
+import requests
+from django.conf import settings
+
+def get_api42_cred_vault ():
+	vault_url ='http://vault:8200'
+	secret_path='secret/api42'
+	token = settings.DJANGO_VAULT_TOKEN
+	if not token:
+		print("Vault token is not set in settings.")
+		return None, 401
+
+	headers = {
+		"X-Vault-Token": token,
+	}
+	response = requests.get(f"{vault_url}/v1/{secret_path}", headers=headers)
+	if response.status_code == 200:
+		secret_data = response.json()
+		return secret_data, 200
+	else:
+		secret_data = None
+		return secret_data, response.status_code

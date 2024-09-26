@@ -1,0 +1,6 @@
+*.env
+*.keys
+vault_data/
+postgres_data/
+srcs/secrets/
+.config_ok

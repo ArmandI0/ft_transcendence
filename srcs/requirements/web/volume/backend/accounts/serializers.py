@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
     def validate(self, data):
         # On vérifie que le mot de passe et sa confirmation correspondent
         if data['password'] != data['password_confirm']:
-            raise serializers.ValidationError("Les mots de passe ne correspondent pas.")
+            raise serializers.ValidationError("The passwords do not match.")
         return data
 
     def create(self, validated_data):

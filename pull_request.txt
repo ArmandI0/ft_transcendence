@@ -1,0 +1,24 @@
+- remote authentification by api 42 connexion : 
+		> get login data : OK
+		> connexion with the DB : IN PROGRESS (to check with Armandi0)
+
+- implementation of vault : 
+		> implementation of vault : OK
+		> script of pre configuration of vault unseal token : OK
+		> script of post configuration of vault to insert roles : OK
+		> script of post configuration of vault to insert secrets : OK
+		> implementation of token use by container : OK
+
+- django container
+		> implementation of vault request to get dynamic secrets (dbuser & pass) : OK
+
+- database postgres :
+		> container name from 'database' to 'postgres' and update of different files
+		> pre configuration of the database : insertion of user vault
+
+- makefile : 
+		> update for launching scripts
+		> command 'make reset' to delete volumes and reset the setup
+
+- gitignore : 
+		> add of .env & .vault_tokens & .django_token files

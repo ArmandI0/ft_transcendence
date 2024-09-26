@@ -3,12 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kprigent <kprigent@student.42.fr>          +#+  +:+       +#+         #
+#    By: nledent <nledent@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:10:05 by kprigent          #+#    #+#              #
-#    Updated: 2024/08/05 17:49:30 by kprigent         ###   ########.fr        #
+#    Updated: 2024/09/24 14:42:46 by nledent          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+#include srcs/requirements/vault/conf/.env
+# export $(shell sed 's/=.*//' .env)
 
 # Couleurs
 RED=\033[0;31m
@@ -18,8 +21,14 @@ BLUE=\033[1;94m
 NC=\033[0m # No Color
 
 # Règles
-all: start
+all: config start postconfig
 
+config :
+	./preconfig.sh
+
+postconfig :
+	./postconfig.sh
+	
 # Lancer les containers un par un
 start:
 	@echo "${YELLOW}Lancement des containers...${NC}"
@@ -59,7 +68,7 @@ stop:
 
 # Arrêter les containers et nettoyer le système Docker
 
-fclean:
+remove:
 	@echo "${RED}Arrêt des containers...${NC}"
 	@docker compose -f srcs/docker-compose.yml down
 	@docker volume prune -f
@@ -80,4 +89,9 @@ fclean:
 
 re: stop all
 
-.PHONY: all setup clean start debug stop fclean re
+reset:
+	sudo rm -rf vault_data
+	sudo rm -rf postgres_data
+	sudo rm .config_ok
+	
+.PHONY: all setup clean start debug stop remove re reset config postconfig
