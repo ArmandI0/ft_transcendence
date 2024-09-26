@@ -101,7 +101,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_NAME'), # erase var before the comma, it's a default value if the var dosen't exist
+        'NAME': os.environ.get('POSTGRES_DB'), # erase var before the comma, it's a default value if the var dosen't exist
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         'HOST': os.environ.get('POSTGRES_HOST'),

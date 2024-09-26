@@ -24,10 +24,6 @@ services:
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: mydatabaseuser
-      POSTGRES_PASSWORD: mypassword
     env_file : 
           - ./secrets/.env      
     ports:
