@@ -98,4 +98,8 @@ body, html
     display: none;
 }
 
-
+#app
+{
+    width: 100vw;
+    height: 100vh;
+}
