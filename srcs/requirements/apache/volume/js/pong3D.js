@@ -308,7 +308,7 @@ async function  startGame3D()
 	// scene.add(light);
 
 	const spotLight = new THREE.SpotLight(color);
-	spotLight.position.set(0, 20, 10);
+	spotLight.position.set(0, 10, 0);
 	spotLight.angle = Math.PI / 6;
 	spotLight.penumbra = 0.1;
 	spotLight.target = table;
