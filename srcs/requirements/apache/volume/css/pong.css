@@ -117,24 +117,6 @@
     transition: background-color 0.3s ease;
 }
 
-.btn-custom-pong {
-    padding: 20px 40px;
-}
-
-.btn-custom-pong:hover, .btn-custom2-pong:hover, .btn-custom3-pong:hover {
-    background-color: #c0611d;
-}
-
-.btn-custom2-pong {
-    padding: 10px 20px;
-}
-
-.btn-custom3-pong {
-    padding: 10px 20px;
-    margin-top: 5px;
-    width: 200px;
-    text-align: center;
-}
 
 /* Text */
 #tournament-winner-pong, #player1_tv-pong, #vs_tv-pong, #player2_tv-pong, #game-name, #player1-score, #player2-score {
