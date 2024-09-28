@@ -1,3 +1,5 @@
+import { g_url_params } from "./globals/global_var.js";
+g_url_params = new URLSearchParams(window.location.search);
 
 document.getElementById('button_to_42api').addEventListener('click', async function() 
 {
@@ -18,16 +20,14 @@ function handleCode(code)
         });
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-
 function updateUrlWindow(newUrl) 
 {
     window.history.replaceState({ path: newUrl }, '', newUrl);
 }
 
-if (urlParams.has('code')) 
+if (g_url_params.has('code')) 
 {
-    const code = urlParams.get('code');
+    const code = g_url_params.get('code');
     handleCode(code);
     const url = window.location.origin + window.location.pathname;
     updateUrlWindow(url);

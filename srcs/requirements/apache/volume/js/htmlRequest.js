@@ -1,39 +1,41 @@
+import {loadEventListeners} from './utils/loadEventListeners.js';
+
 async function loadPage(page, div) {
-  const existingStyles = document.querySelectorAll('link[data-page]');
-  existingStyles.forEach(link => link.remove());
+	const existingStyles = document.querySelectorAll('link[data-page]');
+	existingStyles.forEach(link => link.remove());
 
-  // Ajouter une feuille de style spécifique à la page, si nécessaire
-  if (page) {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = `css/${page}.css`; // CSS spécifique à la page
-      link.dataset.page = page;
-      document.head.appendChild(link);
-  }
+	if (page) {
+		const link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.href = `css/${page}.css`;
+		link.dataset.page = page;
+		document.head.appendChild(link);
+	}
 
-  try {
-      const response = await fetch(`pages/${page}.html`);
-      if (!response.ok) {
-          throw new Error('Network response was not ok');
-      }
-      const html = await response.text();
-      const container = document.getElementById(div);
-      
-      if (container) {
-          container.innerHTML = html;
-      } else {
-          console.error(`Le conteneur ${div} n'existe pas`);
-      }
-      
-      // Charger le script spécifique à la page après le contenu HTML
-      await loadScript(page);
-  } catch (error) {
-      console.error('Error fetching the section:', error);
-      const container = document.getElementById(div);
-      if (container) {
-          container.innerHTML = '<div>Error loading page. Please try again.</div>';
-      }
-  }
+	try {
+		const response = await fetch(`pages/${page}.html`);
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+		const html = await response.text();
+		const container = document.getElementById(div);
+		
+		if (container) {
+			container.innerHTML = html;
+		} 
+		else
+			console.error(`Le conteneur ${div} n'existe pas`);
+		
+		await loadScript(page);
+		await loadEventListeners(page);
+	}
+	catch (error) {
+		console.error('Error fetching the section:', error);
+		const container = document.getElementById(div);
+		if (container) {
+			container.innerHTML = '<div>Error loading page. Please try again.</div>';
+		}
+	}
 }
 
 // Fonction pour charger un script spécifique
@@ -51,6 +53,7 @@ async function loadScript(page) {
   script.src = `js/${page}.js`; // Chemin vers le script spécifique à la page
   script.id = scriptId;
   script.async = true;
+  script.type = 'module';
 
   // Attendre que le script soit chargé
   return new Promise((resolve) => {

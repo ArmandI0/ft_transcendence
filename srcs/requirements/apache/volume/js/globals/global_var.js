@@ -1,0 +1,1 @@
+export let g_url_params = new URLSearchParams(window.location.search);

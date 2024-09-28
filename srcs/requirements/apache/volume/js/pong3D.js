@@ -1,69 +1,13 @@
-function showSectionPong(sectionId)
-{
-	document.getElementById(sectionId).style.display = 'flex';
-}
+import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock} from './globals/pong3D_const.js';
+import { hideSectionPong, showSectionPong } from './utils/showAndHideSections.js';
+clock.start();
 
-function hideSectionPong(sectionId) 
-{
-    document.getElementById(sectionId).style.display = 'none';
-}
-
-document.getElementById('button-start-pong-3D').addEventListener('click', function() 
-{
-    hideSectionPong('button-start-pong-3D');
-	document.getElementById('grid-3d-render').style.display = 'grid';
-    startGame3D();
-});
-
-class XYZ 
-{
-	constructor(x, y, z)
-	{
-	  this.x = x;
-	  this.y = y;
-	  this.z = z;
-	}
-  
-	displayInfo() 
-	{
-	  console.log(`x: ${this.x}, y: ${this.y}, z: ${this.z}`);
-	}
-  
-	setX(new_x) 
-	{
-	  this.x = new_x;
-	}
-	setY(new_y) 
-	{
-	  this.y = new_y;
-	}
-	setZ(new_z) 
-	{
-	  this.z = new_z;
-	}
-	getX() 
-	{
-	  return this.x;
-	}
-	getY() 
-	{
-	  return this.y;
-	}
-	getZ() 
-	{
-	  return this.z;
-	}	
-}
-
-// constants declaration
-const pads_width = 10;
-const pad_geom = new XYZ(pads_width, 1, 1);
-const ball_geom = new XYZ(0.75, 10, 10);
-const pad1_z = -40;
-const pad2_z = 40;
-const table_geom = new XYZ(40, 1, 80);
-const ball_start_dir = new XYZ(0, 0, 0.5);
-let clock = 0;
+// document.getElementById('button-start-pong-3D').addEventListener('click', function() 
+// {
+//     hideSectionPong('button-start-pong-3D');
+// 	document.getElementById('grid-3d-render').style.display = 'grid';
+//     startGame3D();
+// });
 
 function makeObjectInstance(geomType, geom, color, pos_z, scene) 
 {
@@ -157,7 +101,7 @@ function checkCollisionPad(ball, pad1, pad2)
 	}
 }
 
-function updateBallPosition(ball, ball_dir, pad1, pad2, gridCollision)
+function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause)
 {
 	gridCollision.visible = false;
 	ball.position.x += ball_dir.getX();
@@ -190,7 +134,8 @@ function updateBallPosition(ball, ball_dir, pad1, pad2, gridCollision)
 			ball.position.x = 0;
 			ball.position.y = calculateYposition(ball.position.z);
 			ball_dir.setX(0);
-			clock = Date.now();
+			pause = true;
+			clock.start();
 			pad1.position.x = 0;
 			pad2.position.x = 0;
 		}
@@ -205,7 +150,7 @@ function updateBallPosition(ball, ball_dir, pad1, pad2, gridCollision)
 				ball_dir.setX(-Math.abs(col_z)/offset);
 		}
 	}
-	return ball_dir;
+	return [ball_dir, pause];
 }
 
 function makeEdges(geometry, color)
@@ -256,8 +201,9 @@ function makeGridCollision(spacing)
     return grid;
 }
 
-async function  startGame3D()
+export async function  startGame3D()
 {
+	let pause = false;
 	const container1 = document.getElementById('view-player1');
 	const container2 = document.getElementById('view-player2');
 
@@ -332,13 +278,14 @@ async function  startGame3D()
 		keysPressed[event.code] = false;
 	});
 
-	function animate() 
+	function pong3DAnimate() 
 	{
-		requestAnimationFrame(animate);
-		if(!clock)
-			ball_dir = updateBallPosition(ball, ball_dir, pad1, pad2, gridCollision);
-		else if(Date.now() - clock > 1500)
-			clock = 0;
+		requestAnimationFrame(pong3DAnimate);
+		if(!pause)
+			[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause);
+		else if(clock.getElapsedTime() > 1.5)
+			pause = false;
+
 		linesEdgesPad1.position.x = pad1.position.x;
 		linesEdgesPad2.position.x = pad2.position.x;
 
@@ -358,7 +305,7 @@ async function  startGame3D()
 		renderer1.render(scene, camera1);
 		renderer2.render(scene, camera2);
 	}
-	animate();
+	pong3DAnimate();
 }
 
 
