@@ -41,7 +41,6 @@ async function loadScript(page) {
   const scriptId = `script-${page}`;
   let existingScript = document.getElementById(scriptId);
 
-  // Si le script est déjà chargé, ne rien faire
   if (existingScript) {
     existingScript.remove();
     }
