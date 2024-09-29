@@ -1,4 +1,5 @@
 import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock} from './globals/pong3D_const.js';
+import * as gameStatus from './utils/gameStatus.js' ;
 
 function makeObjectInstance(geomType, geom, color, pos_z, scene) 
 {
@@ -117,11 +118,13 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 	// check if pad hit or ball out
 	if (Math.abs(ball.position.z) >= table_geom.getZ() / 2 - pad_geom.getZ() / 1.5)
 	{
+		console.log(ball.position.z);
+
 		col_z = checkCollisionPad(ball, pad1, pad2);
 		// reset if out
 		if (col_z === -1000)
 		{
-			console.log(ball.position.z);
+			//console.log(ball.position.z);
 			ball.position.z = 0;
 			ball.position.x = 0;
 			ball.position.y = calculateYposition(ball.position.z);
@@ -195,6 +198,7 @@ function makeGridCollision(spacing)
 
 export async function  startGame3D()
 {
+    gameStatus.setStatus(true);
 	let pause = false;
 	const container1 = document.getElementById('view-player1');
 	const container2 = document.getElementById('view-player2');
@@ -271,8 +275,23 @@ export async function  startGame3D()
 	});
 
 	clock.start();
+
+		// window.addEventListener('popstate', function(event)
+		// {
+		// 	pong3D_run = false;
+		// 	console.log("Le jeu s'arrête.");
+		// });
+		
 	function pong3DAnimate() 
 	{
+		if (gameStatus.getStatus() === false)
+		{
+			console.log("stop");
+			return;		
+		}
+		else if (gameStatus.getStatus() === true)
+			console.log("started");
+
 		requestAnimationFrame(pong3DAnimate);
 		if(!pause)
 			[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause);
