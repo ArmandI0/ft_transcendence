@@ -1,9 +1,4 @@
 
-document.getElementById('button_to_42api').addEventListener('click', async function() 
-{
-    window.location.href = 'https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-e7eec0078c1ebf1f2c748a722b939725a58fb11846625ae5893e337c098104f7&redirect_uri=http%3A%2F%2Flocalhost%3A8070&response_type=code';
-});	
-
 function handleCode(code) 
 {
     const url = `/accounts/api42?code=${code}`;
@@ -18,17 +13,18 @@ function handleCode(code)
         });
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-
 function updateUrlWindow(newUrl) 
 {
     window.history.replaceState({ path: newUrl }, '', newUrl);
 }
 
-if (urlParams.has('code')) 
+export function handleAPI42return(url)
 {
-    const code = urlParams.get('code');
-    handleCode(code);
-    const url = window.location.origin + window.location.pathname;
-    updateUrlWindow(url);
+    if (url.has('code'))
+    {
+        const code = url.get('code');
+        handleCode(code);
+        const new_url = window.location.origin + window.location.pathname;
+        updateUrlWindow(new_url);
+    }
 }

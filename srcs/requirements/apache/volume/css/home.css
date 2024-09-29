@@ -1,0 +1,32 @@
+body, html
+{
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-container 
+{
+    display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 13fr;
+    width: 100vw;
+    height: 100vh;
+}
+
+
+.grid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    border: 1px solid #ccc;
+}
+
+.grid-item.navbar {
+    width: 100%;
+    justify-content: flex-start; /* Aligne les éléments à gauche */
+    align-items: flex-start; /* Aligne les éléments en haut */
+}

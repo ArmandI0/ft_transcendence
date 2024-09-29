@@ -1,38 +1,42 @@
-body, html 
+body 
 {
-    height: 100%;
-    margin: 0;
+    background-image: url('../images/bg_cyberpunk1.jpg');
+    background-size: cover;
+}
+
+#app 
+{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.grid-container 
-{
-    display: grid;
-	grid-template-columns: 1fr 2fr 1fr;
-	grid-template-rows: 1fr 2fr 1fr;
-    width: 100vw;
     height: 100vh;
+    width : 100vw
 }
 
-.grid-3d-render
+#header-3d
 {
-    display: grid;
+    position : absolute;
+    top : 5vh;
+    height: 10%;
+    padding: 10px;
+    text-align: center;
+}
+
+#grid-3d-render
+{
+    flex-grow: 1; 
+    justify-content: center;
+    display: none;
 	grid-template-columns: 95fr 5fr 95fr;
     height:100%;
     width:100%;
+    border:none;
 }
 
-#threejs-container 
+.grid-item
 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #ffd891;
-	width : 75%;
-	height: 75%;
-    border: 2px solid black;
+    border:none;
 }
 
 .view-player
@@ -40,7 +44,29 @@ body, html
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #91d3ff;
 	width : 100%;
 	height: 100%;
+    background-color: transparent;
+}
+
+.btn-custom-pong
+{
+    background-color: #ce2727;
+    border: 4px solid rgb(124, 26, 23);
+    color: rgb(255, 255, 255);
+    border-radius: 50px;
+    font-size: 16px;
+    font-family: "Playfair Display", serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right : 100px;
+}
+
+/* #button-start-pong-3D
+{
+} */
+
+a
+{
 }
