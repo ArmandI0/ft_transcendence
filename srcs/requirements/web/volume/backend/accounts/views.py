@@ -7,6 +7,7 @@ import logging
 import json
 import requests
 from .utils import get_api42_cred_vault
+from .utils import get_postgres_cred_dbuser_wo
 from django.contrib import messages
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -19,7 +20,7 @@ logger = logging.getLogger(__name__)
 def register(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()  # Appelle la méthode `create` pour créer l'utilisateur
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -43,10 +44,6 @@ def api42_request(request) :
 		url = 'https://api.intra.42.fr/oauth/token'
 
 		secret_data, status = get_api42_cred_vault()
-		if (secret_data != None):
-			print(secret_data)
-		else :
-			print ("ERROR UID API")
 		uid = secret_data['data']['client_id']
 		passwd = secret_data['data']['client_secret']
 
@@ -65,3 +62,28 @@ def api42_request(request) :
 			return get42UserData(response)
 	else :
 		return HttpResponseBadRequest("Bad request : not GET") 
+
+def put_data_db(request) :
+	if request.method == 'POST':
+		secret_data, status = get_postgres_cred_dbuser_wo()
+
+		dbuser = secret_data['data']['client_id']
+		passwd = secret_data['data']['client_secret']
+		print(dbuser);
+		print(passwd);
+		# data = {
+		# 	"grant_type": "authorization_code",
+		# 	'client_id': uid,
+		# 	'client_secret': passwd,
+		# 	'code': code,
+		# 	'redirect_uri': 'http://localhost:8070'
+		# }
+		# headers = {"Content-Type": "application/json; charset=utf-8"}
+		# response = requests.post(url, headers=headers, json=data)
+		# if response.status_code != 200:
+		# 	return HttpResponseBadRequest("Error : code status not 200")
+		# else:
+		# 	return JsonResponse(response.json())
+		return JsonResponse(secret_data.json())
+	else :
+		return HttpResponseBadRequest("Bad request : not POST") 

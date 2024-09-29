@@ -7,6 +7,7 @@ prepare and complete the .env file in the folder srcs/secrets :
  ```bash
 VAULT_USER_DB=
 VAULT_PSWD_DB=
+VAULT_URL=
 
 POSTGRES_DB=
 POSTGRES_USER=
