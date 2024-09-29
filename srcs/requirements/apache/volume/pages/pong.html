@@ -1,4 +1,10 @@
 <div id="pong-container" class="grid-container-pong">
+    <div id="background-video-container">
+        <video autoplay muted loop id="background-video">
+            <source src="img/backgroundPong.mp4" type="video/mp4">
+        </video>
+        <div id="video-overlay"></div>
+    </div>
     <div class="grid-item-pong">
         <button class="btn-custom2-pong" id= "Home-pong" type="button">Menu</button>
     </div>
@@ -8,11 +14,10 @@
     <div class="grid-item-pong">
         <button class="btn-custom2-pong" id= "Parameters" type="button">Parameters</button>
     </div>
-    <div class="grid-item-pong">
-        <!-- <img src="playerRight.png" alt="logo" class="grid-image"> -->
-    </div>
+    <div class="grid-item-pong"></div>
     <div class="grid-item-pong">
         <div id="main-menu-buttons-pong">
+            <button class="btn-custom-pong" id="button-ia" type="button">1 player</button>
             <button class="btn-custom-pong" id="button-1v1" type="button">2 players</button>
             <button class="btn-custom-pong" id="button-tournament-pong" type="button" >4 players</button>
         </div>
@@ -38,7 +43,7 @@
     <div class="grid-item-pong">
         <div id="select-chelem">
             <button class="btn-custom3-pong" id= "Roland" type="button">Roland</button>
-            <button class="btn-custom3-pong" id= "wimbledon" type="button">Wimbledon</button>
+            <button class="btn-custom3-pong" id= "wimbledon" type="button">wimbledon</button>
             <button class="btn-custom3-pong" id= "asOpen" type="button">Aus Open</button>
             <button class="btn-custom3-pong" id= "usOpen" type="button">US Open</button>
         </div>
