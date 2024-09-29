@@ -16,9 +16,41 @@
     padding: 0;
     height: 100vh;
     width: 100vw;
-    background-color: rgb(4, 41, 4);
+    /* background-color: rgb(4, 41, 4); */
     overflow: hidden;
     animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+#background-video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background-size: cover;
+}
+
+#video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 50, 0, 0.8); /* Ajustez cette valeur pour plus ou moins de transparence */
+    z-index: 1; /* Assurez-vous que le filtre est au-dessus de la vidéo */
 }
 
 #tournament-container-pong {
@@ -51,7 +83,7 @@
 }
 
 #select-chelem {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 10px;
@@ -106,7 +138,7 @@
 
 /* Buttons */
 .btn-custom-pong, .btn-custom2-pong, .btn-custom3-pong {
-    background-color: #D2691E;
+    background-color: rgba(210, 105, 30, 0.8);
     border: 2px solid rgb(212, 209, 209);
     color: rgb(255, 255, 255);
     border-radius: 50px;
@@ -117,6 +149,29 @@
     transition: background-color 0.3s ease;
 }
 
+.btn-custom-pong {
+    padding: 20px 40px;
+}
+
+.btn-custom-pong:hover, .btn-custom2-pong:hover, .btn-custom3-pong:hover {
+    background-color: #c0611d;
+}
+
+.btn-custom-pong:hover {
+    background-color: #c0611d;
+    transform: scale(1.2);
+}
+
+.btn-custom2-pong {
+    padding: 10px 20px;
+}
+
+.btn-custom3-pong {
+    padding: 10px 20px;
+    margin-top: 5px;
+    width: 200px;
+    text-align: center;
+}
 
 /* Text */
 #tournament-winner-pong, #player1_tv-pong, #vs_tv-pong, #player2_tv-pong, #game-name, #player1-score, #player2-score {
@@ -141,12 +196,13 @@
 }
 
 /* Miscellaneous */
-#button-1v1 {
+
+#button-ia {
     margin-right: 50px;
 }
 
-#button-tournament-pong {
-    margin-left: 50px;
+#button-1v1 {
+    margin-right: 50px;
 }
 
 .form-controls {
@@ -209,6 +265,7 @@
 }
 
 #ball {
+    display: none;
     width: 30px;
     height: 30px;
     background-color: yellow;
