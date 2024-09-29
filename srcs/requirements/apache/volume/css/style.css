@@ -64,3 +64,27 @@
     width: 200px;
     text-align: center;
 }
+
+/*----------NAVBAR-----------*/
+#navbar
+{
+    background-color: rgb(44, 60, 105);
+    width: 100%;
+    height: 10%;
+	flex-direction: row;
+    justify-content: center; 
+    align-items: center; 
+	border: none;  
+    margin-bottom: 2%;
+}
+
+.navbar-nav.me-auto.mb-2.mb-lg-0 a, .navbar-brand
+{
+    color : white;
+    font-weight: bold;
+}
+
+.navbar-nav.me-auto.mb-2.mb-lg-0 a:hover, .navbar-brand:hover
+{
+    color : rgb(255, 102, 0);
+}

@@ -13,7 +13,7 @@ body, html
 	height: 100vh;
     background-color: rgb(39, 79, 148);
     background-image: url('../images/bg_home.jpg');
-    background-position: top; /* Centre l'image horizontalement et verticalement */
+    background-position: 10% 5%;
     background-repeat: no-repeat;
 }
 
@@ -26,24 +26,3 @@ body, html
     justify-content: center;
 }
 
-#navbar 
-{
-    width: 100%;
-    height: 10%;
-	flex-direction: row;
-    justify-content: flex-start; 
-    align-items: flex-start; 
-	border: none;
-}
-
-a
-{
-    color : white;
-    font-weight: bold;
-}
-
-a:hover
-{
-    color : rgb(255, 102, 0);
-    
-}
