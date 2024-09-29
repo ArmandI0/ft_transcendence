@@ -1,73 +1,31 @@
 import {loadEventListeners} from './utils/loadEventListeners.js';
+import {loadComposant} from './utils/loadComposant.js';
+import {loadCss, loadHtml, loadScript} from './utils/loadPage.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 
-async function loadPage(page, div) {
+async function loadPage(page, div) 
+{
 	const existingStyles = document.querySelectorAll('link[data-page]');
 	existingStyles.forEach(link => link.remove());
 
-	if (page) {
-		const link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.href = `css/${page}.css`;
-		link.dataset.page = page;
-		document.head.appendChild(link);
-	}
-
-	try {
-		const response = await fetch(`pages/${page}.html`);
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
-		}
-		const html = await response.text();
-		const container = document.getElementById(div);
-		
-		if (container) {
-			container.innerHTML = html;
-		} 
-		else
-			console.error(`Le conteneur ${div} n'existe pas`);
-		
+	if (page) 
+		loadCss(page);
+	try 
+	{
+		await loadHtml(page, div);
+		await loadComposant(page);
 		await loadScript(page);
 		await loadEventListeners(page);
 	}
-	catch (error) {
+	catch (error) 
+	{
 		console.error('Error fetching the section:', error);
 		const container = document.getElementById(div);
-		if (container) {
+		if (container) 
 			container.innerHTML = '<div>Error loading page. Please try again.</div>';
-		}
 	}
 }
 
-// Fonction pour charger un script spécifique
-async function loadScript(page) {
-  const scriptId = `script-${page}`;
-  let existingScript = document.getElementById(scriptId);
-
-  if (existingScript) {
-    existingScript.remove();
-    }
-
-  // Créer un élément script
-  const script = document.createElement('script');
-  script.src = `js/${page}.js`; // Chemin vers le script spécifique à la page
-  script.id = scriptId;
-  script.async = true;
-  script.type = 'module';
-
-  // Attendre que le script soit chargé
-  return new Promise((resolve) => {
-      script.onload = () => {
-          console.log(`Script ${page}.js chargé avec succès.`);
-          resolve(); // Résoudre la promesse si le script est chargé
-      };
-      script.onerror = () => {
-          console.warn(`Le script ${page}.js n'a pas pu être chargé. Aucune erreur retournée.`); 
-          resolve(); // Résoudre la promesse même en cas d'erreur
-      };
-      document.body.appendChild(script);
-  });
-}
 
 document.addEventListener('DOMContentLoaded', async () => {
 	const app = document.getElementById('app');
@@ -75,14 +33,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 	// Chargement initial de la page
 	loadPage('home', 'app');
 
-	// Gestion simple du routage --> CE CODE NE FAIT RIEN ----------------------------------
-	// window.addEventListener('popstate', (event) => {
-	// 	gameStatus.setStatus(false);
-	// 	const path = window.location.pathname.substring(1) || 'home';
-	// 	const divToReplace = event.state || 'app';
-	// 	loadPage(path, divToReplace);
-	// });
-	// -------------------------------------------------------------------------------------
+	// SERT aux boutons BACKWARD AND FORWARD
+	window.addEventListener('popstate', (event) => {
+		const path = window.location.pathname.substring(1) || 'home';
+		const divToReplace = event.state || 'app';
+		loadPage(path, divToReplace);
+	});
 
 	let currentPage = 'home';
 	document.body.addEventListener('click', async (event) => {
