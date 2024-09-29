@@ -1,6 +1,38 @@
 import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock} from './globals/pong3D_const.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 
+async function putScoreToDb()
+{
+	const url = '/accounts/sendscore/';
+
+	const data = {
+		user : 'user1',
+		score: 'score1',
+	}
+
+	try 
+	{
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+
+		if (!response.ok) {
+			throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+		}
+
+		const responseData = await response.json();
+		console.log('Réponse du serveur:', responseData);
+	}
+	catch (error) 
+	{
+		console.error('Erreur lors de la requête POST:', error);
+	}
+}
+
 function makeObjectInstance(geomType, geom, color, pos_z, scene) 
 {
 	let geometry;
@@ -287,6 +319,7 @@ export async function  startGame3D()
 		if (gameStatus.getStatus() === false)
 		{
 			console.log("stop");
+			putScoreToDb();
 			return;		
 		}
 		else if (gameStatus.getStatus() === true)
