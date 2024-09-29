@@ -12,6 +12,7 @@ export async function loadEventListeners(page)
 			document.getElementById('grid-3d-render').style.display = 'grid';
 			startGame3D();
 		});
+
 	}
 	else if (page === 'home')
 	{
