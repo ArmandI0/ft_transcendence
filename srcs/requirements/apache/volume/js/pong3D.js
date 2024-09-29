@@ -1,13 +1,4 @@
 import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock} from './globals/pong3D_const.js';
-import { hideSectionPong, showSectionPong } from './utils/showAndHideSections.js';
-clock.start();
-
-// document.getElementById('button-start-pong-3D').addEventListener('click', function() 
-// {
-//     hideSectionPong('button-start-pong-3D');
-// 	document.getElementById('grid-3d-render').style.display = 'grid';
-//     startGame3D();
-// });
 
 function makeObjectInstance(geomType, geom, color, pos_z, scene) 
 {
@@ -130,6 +121,7 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 		// reset if out
 		if (col_z === -1000)
 		{
+			console.log(ball.position.z);
 			ball.position.z = 0;
 			ball.position.x = 0;
 			ball.position.y = calculateYposition(ball.position.z);
@@ -278,6 +270,7 @@ export async function  startGame3D()
 		keysPressed[event.code] = false;
 	});
 
+	clock.start();
 	function pong3DAnimate() 
 	{
 		requestAnimationFrame(pong3DAnimate);
