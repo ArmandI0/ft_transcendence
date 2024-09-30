@@ -52,7 +52,7 @@ def api42_request(request) :
 			'client_id': uid,
 			'client_secret': passwd,
 			'code': code,
-			'redirect_uri': 'http://localhost:8070'
+			'redirect_uri': 'https://localhost'
 		}
 		headers = {"Content-Type": "application/json; charset=utf-8"}
 		response = requests.post(url, headers=headers, json=data)
