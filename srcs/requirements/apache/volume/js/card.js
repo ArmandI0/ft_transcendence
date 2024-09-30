@@ -1,7 +1,9 @@
 let cardValue = [];
 let flippedCards = [];
 let stockChronos = [];
-playerNumber = 0;
+let playerNumber = 0;
+let startTime;
+let timer;
 
 
 ['card1', 'card2', 'card3', 'card4', 'card5', 'card6'
@@ -290,13 +292,6 @@ document.getElementById('Home').addEventListener('click', function()
     hideSectionCard('hide-game-container');
     hideSectionCard('tournament-container-card');
     showSectionCard('main-menu-buttons-card');
-});
-
-document.getElementById('back-main').addEventListener('click', function()
-{
-    resetCardGame();
-    hideSectionCard('card-container');
-    showSectionCard('main-page');
 });
 
 document.getElementById('play-tournament').addEventListener('click', function() 

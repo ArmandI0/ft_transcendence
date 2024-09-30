@@ -9,6 +9,12 @@
     align-items: center;
     text-align: center;
     margin: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.square-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .square-card .card-body {
@@ -26,12 +32,27 @@
 }
 
 #button_to_login{
-    margin-left: 1300px;
+    position: absolute;
+    right: 30px; 
+    top: 50%;
+    margin-left: 50px;
+    transform: translateY(-50%);
 }
 
-#button_to_register{
-    margin-left: 10px;
-    margin-right: 30px;
+#button_to_register {
+    position: absolute;
+    right: 120px;
+    top: 50%;
+    margin-left: 50px;
+    transform: translateY(-50%);
+}
+
+#button_to_42api {
+    position: absolute;
+    right: 220px;
+    top: 50%;
+    margin-left: 50px;
+    transform: translateY(-50%);
 }
 
 #tournament-container {

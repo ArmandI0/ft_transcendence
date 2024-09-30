@@ -41,7 +41,7 @@ start:
 	@echo " / /  | | | (_| | | | \\__ \\ (_|  __/ | | | (_| | (_| | | | | (_|  __/"
 	@echo " \\/   |_|  \\__,_|_| |_|___/\\___\\___|_| |_|\\__,_|\\__,_|_| |_|\\___\\___|"
 	@echo "${NC}"
-	@echo "${BLUE}-> Transcendance website :${NC} http://localhost:8000"
+	@echo "${BLUE}-> Transcendance website :${NC} http://localhost:8070"
 	@echo "${BLUE}-> Prometheus :${NC} http://localhost:9090"
 
 debug:
@@ -55,7 +55,7 @@ debug:
 	@echo " / /  | | | (_| | | | \\__ \\ (_|  __/ | | | (_| | (_| | | | | (_|  __/"
 	@echo " \\/   |_|  \\__,_|_| |_|___/\\___\\___|_| |_|\\__,_|\\__,_|_| |_|\\___\\___|"
 	@echo "${NC}"
-	@echo "${BLUE}-> Transcendance website :${NC} http://localhost:8000"
+	@echo "${BLUE}-> Transcendance website :${NC} http://localhost:8070"
 	@echo "${BLUE}-> Prometheus :${NC} http://localhost:9090"
 
 
