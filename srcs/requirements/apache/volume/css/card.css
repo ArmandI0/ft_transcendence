@@ -11,17 +11,26 @@
 }
 
 /* Containers */
-#card-container {
-    animation: zoomInFadeIn 0.5s ease-in-out;
-}
-
 #cardGame-container {
     margin: 0;
     padding: 0;
     height: 100vh;
     width: 100vw;
-    background-color: #000000;
     overflow: hidden;
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+#background-video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    background-size: cover;
 }
 
 #tournament-container-card {
