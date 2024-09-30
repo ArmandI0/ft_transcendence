@@ -76,8 +76,8 @@ services:
       build : ./requirements/apache/.
       image: 'apache'
       ports:
-        - '8070:80'
-        - '8090:443'
+        - '80'
+        - '443:443'
       volumes:
         - ./requirements/apache/volume:/app
       networks:
