@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 			currentPage = href.substring(1); // Met à jour la page actuelle
 
 			window.history.pushState(div, '', href.substring(1));
-			gameStatus.setStatus(false);
+			gameStatus.setStatus('game_run', false);
 			await loadPage(href.substring(1), div);
 		}
 	});

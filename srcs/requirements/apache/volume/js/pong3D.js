@@ -230,7 +230,7 @@ function makeGridCollision(spacing)
 
 export async function  startGame3D()
 {
-    gameStatus.setStatus(true);
+    gameStatus.setStatus('game_run', true);
 	let pause = false;
 	const container1 = document.getElementById('view-player1');
 	const container2 = document.getElementById('view-player2');
@@ -316,13 +316,13 @@ export async function  startGame3D()
 		
 	function pong3DAnimate() 
 	{
-		if (gameStatus.getStatus() === false)
+		if (gameStatus.getStatus('game_run') === false)
 		{
 			console.log("stop");
 			putScoreToDb();
 			return;		
 		}
-		else if (gameStatus.getStatus() === true)
+		else if (gameStatus.getStatus('game_run') === true)
 			console.log("started");
 
 		requestAnimationFrame(pong3DAnimate);
