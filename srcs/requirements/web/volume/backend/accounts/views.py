@@ -66,11 +66,17 @@ def api42_request(request) :
 def put_data_db(request) :
 	if request.method == 'POST':
 		secret_data, status = get_postgres_cred_dbuser_wo()
+		if (status == 200) :
+			dbuser = secret_data['data']['client_id']
+			passwd = secret_data['data']['client_secret']
+			print(dbuser)
+			print(passwd)
+			return JsonResponse(secret_data.json())
 
-		dbuser = secret_data['data']['client_id']
-		passwd = secret_data['data']['client_secret']
-		print(dbuser);
-		print(passwd);
+		else:
+			print("err req vault, status: ")
+			print(status)
+
 		# data = {
 		# 	"grant_type": "authorization_code",
 		# 	'client_id': uid,
@@ -84,6 +90,6 @@ def put_data_db(request) :
 		# 	return HttpResponseBadRequest("Error : code status not 200")
 		# else:
 		# 	return JsonResponse(response.json())
-		return JsonResponse(secret_data.json())
+			return HttpResponseBadRequest("ERR VAULT") 
 	else :
 		return HttpResponseBadRequest("Bad request : not POST") 

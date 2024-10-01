@@ -35,5 +35,6 @@ def get_postgres_cred_dbuser_wo():
 		secret_data = response.json()
 		return secret_data, 200
 	else:
+		print("MSGError:", response.status_code, response.text)  # Afficher le message d'erreur
 		secret_data = None
 		return secret_data, response.status_code

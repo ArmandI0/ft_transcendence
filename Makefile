@@ -92,6 +92,10 @@ re: stop all
 reset:
 	sudo rm -rf vault_data
 	sudo rm -rf postgres_data
-	sudo rm .config_ok
-	
+	@if [ -f .config_ok ]; then \
+		sudo rm .config_ok; \
+	fi
+	docker volume rm postgres_data
+	docker volume rm vault_data
+
 .PHONY: all setup clean start debug stop remove re reset config postconfig
