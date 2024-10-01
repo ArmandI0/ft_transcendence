@@ -67,11 +67,13 @@ def put_data_db(request) :
 	if request.method == 'POST':
 		secret_data, status = get_postgres_cred_dbuser_wo()
 		if (status == 200) :
-			dbuser = secret_data['data']['client_id']
-			passwd = secret_data['data']['client_secret']
+			dbuser = secret_data['data']['username']
+			passwd = secret_data['data']['password']
+			print("************************")
 			print(dbuser)
 			print(passwd)
-			return JsonResponse(secret_data.json())
+			print("************************")
+			return JsonResponse(secret_data)
 
 		else:
 			print("err req vault, status: ")
