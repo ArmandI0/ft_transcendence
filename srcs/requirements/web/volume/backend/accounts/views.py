@@ -67,31 +67,9 @@ def put_data_db(request) :
 	if request.method == 'POST':
 		secret_data, status = get_postgres_cred_dbuser_wo()
 		if (status == 200) :
-			dbuser = secret_data['data']['username']
-			passwd = secret_data['data']['password']
-			print("************************")
-			print(dbuser)
-			print(passwd)
-			print("************************")
 			return JsonResponse(secret_data)
-
 		else:
-			print("err req vault, status: ")
-			print(status)
-
-		# data = {
-		# 	"grant_type": "authorization_code",
-		# 	'client_id': uid,
-		# 	'client_secret': passwd,
-		# 	'code': code,
-		# 	'redirect_uri': 'http://localhost:8070'
-		# }
-		# headers = {"Content-Type": "application/json; charset=utf-8"}
-		# response = requests.post(url, headers=headers, json=data)
-		# if response.status_code != 200:
-		# 	return HttpResponseBadRequest("Error : code status not 200")
-		# else:
-		# 	return JsonResponse(response.json())
+			print("err req vault, status: ", status)
 			return HttpResponseBadRequest("ERR VAULT") 
 	else :
 		return HttpResponseBadRequest("Bad request : not POST") 
