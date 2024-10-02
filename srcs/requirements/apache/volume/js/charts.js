@@ -8,7 +8,24 @@ const data = [
     { y: 2, x:1 }
 ];
 
-const div_chart1 = document.getElementById('bars-score-by-game');
-const chart1 = new ChartBar(data,div_chart1);
-chart1.generateAxes();
-chart1.generateBars();
+function createTitle(title, div_parent)
+{
+    var title_div = document.createElement("h2");
+    title_div.innerHTML=title;
+    div_parent.appendChild(title_div);
+}
+
+function generateChart(div_id)
+{
+    var div_chart1 = document.getElementById(div_id);
+    createTitle("TITRE1", div_chart1);
+
+    var chart_body = document.createElement("div");
+    chart_body.classList.add('chart_body')
+    div_chart1.appendChild(chart_body);
+
+    const chart1 = new ChartBar(data, chart_body);
+    chart1.generate();
+}
+
+generateChart('bars-score-by-game');

@@ -19,6 +19,7 @@ body, html
 {
     flex-grow: 1; 
     justify-content: center;
+	align-items: center;
     display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr 1fr;
@@ -34,7 +35,17 @@ body, html
 	width : 90%;
 	height : 90%;
 	display : flex;
-	flex-direction: row;	
+	flex-direction: column;	
+}
+
+.chart_body
+{
+	display: grid;
+	grid-template-columns: 1fr 10fr;
+	grid-template-rows: 10fr 1fr;
+	height: 100%;
+	width: 100%;
+	background-color: rgb(255, 234, 140);
 }
 
 .bar_chart
@@ -49,7 +60,28 @@ body, html
 
 .axe_y_chart
 {
-	background-color: black;
-	width : 2px;
+	background-color: rgb(151, 151, 151);
+	width : 100%;
 	height: 100%;
+	border-right: 1px solid rgb(0,0,0);
+}
+
+.axe_x_chart
+{
+	background-color: rgb(255, 197, 197);
+	width : 100%;
+	height: 100%;
+	border-top: 1px solid rgb(0,0,0);
+}
+
+.origin_chart
+{
+	background-color: rgb(50, 255, 9);
+	width : 100%;
+	height: 100%;
+}
+
+.grid-item-chart h2
+{
+	text-align: center;
 }

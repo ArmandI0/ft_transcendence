@@ -8,7 +8,7 @@ export default class ChartBar
 		this.nb_obj = data_yx.length;
 	}
 
-	generateBars() 
+	generateBars(div_chart) 
 	{
 		this.data_yx.forEach(obj => 
 		{
@@ -21,16 +21,26 @@ export default class ChartBar
 			newBar.style.marginLeft = '5%';
 			newBar.style.display = 'inline-block';
 			newBar.classList.add('bar_chart');
-			this.html_container.appendChild(newBar);  
+			div_chart.appendChild(newBar);  
 		});
 	}
 
-	generateAxes()
+	generate()
 	{
-		var axeY = document.createElement("div");
-		axeY.classList.add('axe_y_chart');
+		var axe_y = document.createElement("div");
+		axe_y.classList.add('axe_y_chart');
+		this.html_container.appendChild(axe_y);
 
-		this.html_container.appendChild(axeY);
+		var div_chart = document.createElement("div");
+		this.generateBars(div_chart);
+		this.html_container.appendChild(div_chart);
 
+		var origin = document.createElement("div");
+		origin.classList.add('origin_chart');
+		this.html_container.appendChild(origin);
+
+		var axe_x = document.createElement("div");
+		axe_x.classList.add('axe_x_chart');
+		this.html_container.appendChild(axe_x);
 	}
 };
