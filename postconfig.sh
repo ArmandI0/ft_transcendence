@@ -6,7 +6,7 @@ if [ ! -f ./.config_ok ]; then
 		export $(grep -v '^#' ./srcs/secrets/.env | xargs)
 	fi
 
-	sleep 3
+	sleep 5
 	docker exec postgres psql -U $POSTGRES_USER -d $POSTGRES_DB -c "CREATE ROLE \"$VAULT_USER_DB\" WITH SUPERUSER LOGIN ENCRYPTED PASSWORD '$VAULT_PSWD_DB';"\
 		> /dev/null
 
@@ -53,11 +53,11 @@ else
 	echo "Already configured"
 fi
 
-if [ "$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8070)" -ne 200 ]; then
+# if [ "$(curl -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; then
 
-	echo -e "\033[0;31mWaiting for django to be available..."
-	while [ "$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8070)" -ne 200 ]; 
-	do sleep 1; 
-	done
-fi
+# 	echo -e "\033[0;31mWaiting for django to be available..."
+# 	while [ "$(curl -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; 
+# 	do sleep 1; 
+# 	done
+# fi
 echo -e "\033[0;32mDjango available !\033[0m"
