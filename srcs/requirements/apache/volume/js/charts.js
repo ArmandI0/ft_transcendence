@@ -10,4 +10,5 @@ const data = [
 
 const div_chart1 = document.getElementById('bars-score-by-game');
 const chart1 = new ChartBar(data,div_chart1);
+chart1.generateAxes();
 chart1.generateBars();
