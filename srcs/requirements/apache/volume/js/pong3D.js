@@ -3,7 +3,7 @@ import * as gameStatus from './utils/gameStatus.js' ;
 
 async function putScoreToDb()
 {
-	const url = '/accounts/sendscore/';
+	const url = '/api/setPongResult/';
 
 	const data = {
 		user : 'user1',
