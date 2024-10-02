@@ -14,8 +14,8 @@ services:
     environment:
       - DEBUG=True
     env_file : 
-          - ./secrets/.env
-          - ./secrets/.django_token
+      - ./secrets/.env
+      - ./secrets/.django_token
     networks:
       - transcendance
 
@@ -25,7 +25,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file : 
-          - ./secrets/.env      
+      - ./secrets/.env 
     ports:
       - '5432'
     networks:
