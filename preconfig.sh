@@ -18,7 +18,7 @@ if [ ! -d "vault_data" ];then
     
 	echo "----------"
 	echo -e "\033[0;31mpreconfiguration of vault policies and creation of app tokens..."
-	bash ./srcs/requirements/vault/conf/vault_config_rules.sh > /dev/null
+	bash ./srcs/requirements/vault/conf/vault_config_rules.sh 
 	echo -e "\033[0;32mpreconfiguration of vault finished !\033[0m"
 	echo "----------"
 
