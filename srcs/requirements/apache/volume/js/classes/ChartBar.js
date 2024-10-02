@@ -11,6 +11,9 @@ export default class ChartBar
 		this.data_yx.forEach(y => 
 		{
 			var newBar = document.createElement("div");
+			newBar.style.backgroundColor = ' blue' ;
+			newBar.style.height = '100%';
+			newBar.style.widht = '1Opx';
 			this.html_container.appendChild(newBar);  
 		});
 		// for (const [y, x] of Object.entries(object1))
