@@ -1,5 +1,6 @@
 import requests
 from django.conf import settings
+from django.db import connections
 
 def get_postgres_cred_dbuser_wo():
     vault_url = settings.VAULT_URL
@@ -19,3 +20,14 @@ def get_postgres_cred_dbuser_wo():
         print("MSGError:", response.status_code, response.text)  # Afficher le message d'erreur
         secret_data = None
         return secret_data, response.status_code
+    
+def configure_database(dbuser, passwd):
+    settings.DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nom_de_la_base_de_donnees',
+        'USER': dbuser,
+        'PASSWORD': passwd,
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+    connections['default'].close()
