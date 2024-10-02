@@ -2,7 +2,6 @@ import { hideSection, showSection } from './showAndHideSections.js';
 import { startGame3D } from '../pong3D.js';
 import { handleAPI42return } from '../home.js';
 import { startPong } from "../pong.js";
-import { resetGame } from "../pong.js";
 import { startTournament } from "../pong.js";
 import * as gameStatus from './gameStatus.js' ;
 
@@ -62,13 +61,13 @@ export async function loadEventListeners(page)
 
 		document.getElementById('play-tournament-pong').addEventListener('click', function() 
 		{
+			gameStatus.setStatus('tournamentMod', true);
 			startTournament();
 		});
 
 		document.getElementById('Home-pong').addEventListener('click', function()
 		{
 			gameStatus.setStatus('ia', false);
-			resetGame();
 			hideSection('ball');
 			hideSection('select-chelem');
 			showSection('main-menu-buttons-pong');
