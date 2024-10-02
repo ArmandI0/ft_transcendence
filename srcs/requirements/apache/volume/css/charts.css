@@ -34,3 +34,13 @@ body, html
 	width : 90%;
 	height : 90%;
 }
+
+.bar_chart
+{
+	background-color: rgb(31, 0, 170);
+}
+
+.bar_chart:hover
+{
+	background-color: rgb(143, 0, 0);
+}
