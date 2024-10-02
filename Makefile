@@ -98,6 +98,6 @@ reset:
 	sudo docker volume rm postgres_data
 	sudo docker volume rm vault_data
 	sudo rm -rf vault_data
-	sudo rm -rf postgres_data
+	sudo rm -rf postgres_data	
 
 .PHONY: all setup clean start debug stop remove re reset config postconfig
