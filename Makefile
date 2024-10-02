@@ -41,7 +41,7 @@ start:
 	@echo " / /  | | | (_| | | | \\__ \\ (_|  __/ | | | (_| | (_| | | | | (_|  __/"
 	@echo " \\/   |_|  \\__,_|_| |_|___/\\___\\___|_| |_|\\__,_|\\__,_|_| |_|\\___\\___|"
 	@echo "${NC}"
-	@echo "${BLUE}-> Transcendance website :${NC} http://localhost:8070"
+	@echo "${BLUE}-> Transcendance website :${NC} https://localhost"
 	@echo "${BLUE}-> Prometheus :${NC} http://localhost:9090"
 
 debug:
@@ -55,8 +55,8 @@ debug:
 	@echo " / /  | | | (_| | | | \\__ \\ (_|  __/ | | | (_| | (_| | | | | (_|  __/"
 	@echo " \\/   |_|  \\__,_|_| |_|___/\\___\\___|_| |_|\\__,_|\\__,_|_| |_|\\___\\___|"
 	@echo "${NC}"
-	@echo "${BLUE}-> Transcendance website :${NC} http://localhost:8070"
-	@echo "${BLUE}-> Prometheus :${NC} http://localhost:9090"
+	@echo "${BLUE}-> Transcendance website :${NC} https://localhost"
+	@echo "${BLUE}-> Prometheus :${NC} https://localhost:9090"
 
 
 # Arrêter les containers
@@ -90,8 +90,14 @@ remove:
 re: stop all
 
 reset:
+	sudo docker compose -f srcs/docker-compose.yml down
+	sudo docker system prune -af
+	if [ -f .config_ok ]; then \
+		sudo rm .config_ok;\
+	fi
+	sudo docker volume rm postgres_data
+	sudo docker volume rm vault_data
 	sudo rm -rf vault_data
-	sudo rm -rf postgres_data
-	sudo rm .config_ok
-	
+	sudo rm -rf postgres_data	
+
 .PHONY: all setup clean start debug stop remove re reset config postconfig

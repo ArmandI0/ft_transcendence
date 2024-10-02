@@ -18,7 +18,7 @@ export async function loadEventListeners(page)
 	{
 		document.getElementById('button_to_42api').addEventListener('click', async function() 
 		{
-			window.location.href = 'https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-e7eec0078c1ebf1f2c748a722b939725a58fb11846625ae5893e337c098104f7&redirect_uri=http%3A%2F%2Flocalhost%3A8070&response_type=code';
+			window.location.href = 'https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-e7eec0078c1ebf1f2c748a722b939725a58fb11846625ae5893e337c098104f7&redirect_uri=https%3A%2F%2Flocalhost&response_type=code';
 		});	
 
 		const url_params = new URLSearchParams(window.location.search);
