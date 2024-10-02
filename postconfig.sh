@@ -53,11 +53,11 @@ else
 	echo "Already configured"
 fi
 
-# if [ "$(curl -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; then
+if [ "$(curl -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; then
 
-# 	echo -e "\033[0;31mWaiting for django to be available..."
-# 	while [ "$(curl -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; 
-# 	do sleep 1; 
-# 	done
-# fi
-echo -e "\033[0;32mDjango available !\033[0m"
+	echo -e "\033[0;31mWaiting for website to be available..."
+	while [ "$(curl -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; 
+	do sleep 1; 
+	done
+fi
+echo -e "\033[0;32mWebsite available !\033[0m"
