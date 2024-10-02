@@ -14,6 +14,8 @@ export default class ChartBar
 			newBar.style.backgroundColor = ' blue' ;
 			newBar.style.height = '100%';
 			newBar.style.widht = '1Opx';
+			newBar.style.position = '1Opx';
+
 			this.html_container.appendChild(newBar);  
 		});
 		// for (const [y, x] of Object.entries(object1))
