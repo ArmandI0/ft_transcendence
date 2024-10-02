@@ -27,6 +27,10 @@ export default class ChartBar
 
 	generateAxes()
 	{
-		
+		var axeY = document.createElement("div");
+		axeY.classList.add('axe_y_chart');
+
+		this.html_container.appendChild(axeY);
+
 	}
 };

@@ -33,6 +33,8 @@ body, html
 	border: 2px solid rgb(0,0,0);
 	width : 90%;
 	height : 90%;
+	display : flex;
+	flex-direction: row;	
 }
 
 .bar_chart
@@ -43,4 +45,11 @@ body, html
 .bar_chart:hover
 {
 	background-color: rgb(143, 0, 0);
+}
+
+.axe_y_chart
+{
+	background-color: black;
+	width : 2px;
+	height: 100%;
 }
