@@ -89,6 +89,16 @@ remove:
 
 re: stop all
 
+del_vol:
+	sudo docker compose -f srcs/docker-compose.yml down
+	if [ -f .config_ok ]; then \
+		sudo rm .config_ok;\
+	fi
+	sudo docker volume rm postgres_data
+	sudo docker volume rm vault_data
+	sudo rm -rf vault_data
+	sudo rm -rf postgres_data	
+
 reset:
 	sudo docker compose -f srcs/docker-compose.yml down
 	sudo docker system prune -af
@@ -100,4 +110,4 @@ reset:
 	sudo rm -rf vault_data
 	sudo rm -rf postgres_data	
 
-.PHONY: all setup clean start debug stop remove re reset config postconfig
+.PHONY: all setup clean start debug stop remove re reset config postconfig del_vol
