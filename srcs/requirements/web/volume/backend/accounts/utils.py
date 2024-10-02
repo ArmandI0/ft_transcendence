@@ -30,7 +30,7 @@ def get_postgres_cred_dbuser_wo():
 	headers = {
 		"X-Vault-Token": token,
 	}
-	response = requests.get(f"{vault_url}/v1/{path}", headers=headers)
+	response = requests.post(f"{vault_url}/v1/{path}", headers=headers)
 	if response.status_code == 200:
 		secret_data = response.json()
 		return secret_data, 200

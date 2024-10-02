@@ -7,7 +7,6 @@ import logging
 import json
 import requests
 from .utils import get_api42_cred_vault
-from .utils import get_postgres_cred_dbuser_wo
 from django.contrib import messages
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -16,13 +15,6 @@ from .serializers import UserSerializer
 
 logger = logging.getLogger(__name__)
 
-@api_view(['POST'])
-def register(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def get42UserData(response):
 	try:
@@ -62,14 +54,3 @@ def api42_request(request) :
 			return get42UserData(response)
 	else :
 		return HttpResponseBadRequest("Bad request : not GET") 
-
-def put_data_db(request) :
-	if request.method == 'POST':
-		secret_data, status = get_postgres_cred_dbuser_wo()
-		if (status == 200) :
-			return JsonResponse(secret_data)
-		else:
-			print("err req vault, status: ", status)
-			return HttpResponseBadRequest("ERR VAULT") 
-	else :
-		return HttpResponseBadRequest("Bad request : not POST") 
