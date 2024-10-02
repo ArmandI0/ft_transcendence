@@ -52,11 +52,12 @@ if [ ! -f ./.config_ok ]; then
 else 
 	echo "Already configured"
 fi
-
-if [ "$(curl -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; then
+docker exec apache cat /cert/localhost.crt > srcs/secrets/localhost.crt
+docker exec apache cat /cert/localhost.key > srcs/secrets/localhost.key
+if [ "$(curl --cacert srcs/secrets/localhost.crt -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; then
 
 	echo -e "\033[0;31mWaiting for website to be available..."
-	while [ "$(curl -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; 
+	while [ "$(curl --cacert srcs/secrets/localhost.crt -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; 
 	do sleep 1; 
 	done
 fi
