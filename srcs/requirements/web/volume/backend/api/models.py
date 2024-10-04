@@ -1,10 +1,12 @@
 from django.db import models
 
-# Create your models here.
 class PongResult(models.Model):
-    user1 = models.CharField(max_length=200)
-    user2 = models.CharField(max_length=200)
-    # date = models.DateTimeField()
+    player1 = models.CharField(max_length=200)
+    player2 = models.CharField(max_length=200)
+    score_player1 = models.CharField(max_length=10)
+    score_player2 = models.CharField(max_length=10)
+    gameType = models.CharField()
+    date = models.DateTimeField()
     class Meta:
         db_table = 'pong_result'
-        # ordering = ['-date_published']
+        ordering = ['-date']
