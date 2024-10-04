@@ -90,6 +90,8 @@
 #navbar
 {
     background-color: rgb(44, 60, 105);
+    position : absolute;
+    top : 0px;
     width: 100%;
     height: 10%;
 	flex-direction: row;
