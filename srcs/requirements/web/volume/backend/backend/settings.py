@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from .utils import VaultToken
 import os , logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -154,6 +155,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     "http://web:8000",
 #     'http://localhost:8000'
 # ]
+AUTH_USER_MODEL = 'accounts.Api42User'
 
 DJANGO_VAULT_TOKEN = os.environ.get('DJANGO_VAULT_TOKEN', ' ')
 VAULT_URL = os.environ.get('VAULT_URL', 'http://vault:8200')

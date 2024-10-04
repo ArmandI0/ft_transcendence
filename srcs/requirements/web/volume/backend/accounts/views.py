@@ -1,22 +1,14 @@
-from django.shortcuts import render , redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate , login as auth_login
-from django.contrib.auth.forms import AuthenticationForm , UserCreationForm
+from django.contrib.auth import authenticate , login, logout
 from django.http import JsonResponse, HttpResponseBadRequest
 import logging
-import json
 import requests
-from .utils import get_api42_cred_vault
-from django.contrib import messages
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from .serializers import UserSerializer
+from .utils import get_api42_cred_vault , addUser
+from .models import Api42User
 
 logger = logging.getLogger(__name__)
 
 
-def get42UserData(response):
+def get42UserData(request, response):
 	try:
 		json_data = response.json()
 		access_token = json_data.get('access_token')
@@ -26,6 +18,13 @@ def get42UserData(response):
 		}
 		response = requests.get(url, headers=headers)
 		user_data = response.json()
+		log = user_data.get("login")
+		if Api42User.objects.filter(login42=log).exists():
+			user = Api42User.objects.get(login42=log)
+		else:
+			print("ADD_USER")
+			user = addUser(user_data)
+		login(request ,user)
 		return JsonResponse(user_data)
 	except ValueError:
 		return JsonResponse({'error': 'Failed to retrieve token', 'details': response.json()}, status=response.status_code)
@@ -51,6 +50,19 @@ def api42_request(request) :
 		if response.status_code != 200:
 			return HttpResponseBadRequest("Error : code status not 200")
 		else:
-			return get42UserData(response)
+			return get42UserData(request ,response)
 	else :
-		return HttpResponseBadRequest("Bad request : not GET") 
+		return HttpResponseBadRequest("Bad request : not GET")
+
+def	logoutUser(request):
+	if request.user.is_authenticated:
+		logout(request)
+		return JsonResponse({"message": "Response : logout"}, status=200)
+	else:
+		return JsonResponse({"message": "Response : no_auth"}, status=401)
+
+def	is_auth(request):
+	if request.user.is_authenticated:
+		return JsonResponse({"message": "Response : auth"}, status=200)
+	else:
+		return JsonResponse({"message": "Response : no_auth"}, status=401)

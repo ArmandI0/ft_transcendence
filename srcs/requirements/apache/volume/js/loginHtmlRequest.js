@@ -79,3 +79,4 @@ async function submitRegistrationForm(form)
         console.error('Erreur lors de la soumission du formulaire :', error);
     }
 }
+
