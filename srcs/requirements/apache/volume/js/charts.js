@@ -15,7 +15,7 @@ function createTitle(title, div_parent)
     div_parent.appendChild(title_div);
 }
 
-function generateChart(div_id)
+export function generateChart(div_id)
 {
     var div_chart1 = document.getElementById(div_id);
     createTitle("TITRE1", div_chart1);
@@ -27,5 +27,3 @@ function generateChart(div_id)
     const chart1 = new ChartBar(data, chart_body);
     chart1.generate();
 }
-
-generateChart('bars-score-by-game');

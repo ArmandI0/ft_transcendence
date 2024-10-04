@@ -25,11 +25,32 @@ export default class ChartBar
 		});
 	}
 
-	generate()
+	generateAxeY()
 	{
 		var axe_y = document.createElement("div");
 		axe_y.classList.add('axe_y_chart');
 		this.html_container.appendChild(axe_y);
+
+		for (let i = 1; i <= 10; i++)
+		{
+			var div = document.createElement("div");
+			if (i % 2 === 0)
+				div.classList.add('item_axe_y_line');
+			else
+			{
+				let y = this.y_max / (i / 2);
+				var p = document.createElement("p");
+				div.classList.add('item_axe_y_txt')
+				p.innerHTML =  y.toFixed(2);
+				div.appendChild(p);
+			}
+			axe_y.appendChild(div);
+		}
+	}
+
+	generate()
+	{
+		this.generateAxeY();
 
 		var div_chart = document.createElement("div");
 		this.generateBars(div_chart);
