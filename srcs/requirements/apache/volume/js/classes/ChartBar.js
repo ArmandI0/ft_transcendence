@@ -12,15 +12,12 @@ export default class ChartBar
 	{
 		this.data_yx.forEach(obj => 
 		{
-			console.log(obj.y);
 			var newBar = document.createElement("div");
-			const prct_height = 100 * obj.y / this.y_max;
+			const prct_height = obj.y;
 			const prct_width = 100 / this.nb_obj;
 			newBar.style.height = `${prct_height}%`;
 			newBar.style.width = `${prct_width - 5}%`;
-			newBar.style.marginLeft = '5%';
-			newBar.style.display = 'inline-block';
-			newBar.classList.add('bar_chart');
+			newBar.classList.add('bar_chart_el');
 			div_chart.appendChild(newBar);  
 		});
 	}
@@ -38,30 +35,71 @@ export default class ChartBar
 				div.classList.add('item_axe_y_line');
 			else
 			{
-				let y = this.y_max / (i / 2);
+				let y = 20 * (6 - (i + 1) / 2);
 				var p = document.createElement("p");
 				div.classList.add('item_axe_y_txt')
-				p.innerHTML =  y.toFixed(2);
+				p.innerHTML =  y + '%';
 				div.appendChild(p);
 			}
 			axe_y.appendChild(div);
 		}
 	}
 
-	generate()
+	generateOrigin()
 	{
-		this.generateAxeY();
-
-		var div_chart = document.createElement("div");
-		this.generateBars(div_chart);
-		this.html_container.appendChild(div_chart);
-
 		var origin = document.createElement("div");
 		origin.classList.add('origin_chart');
 		this.html_container.appendChild(origin);
+		for (let i = 11; i <= 12; i++)
+			{
+				var div = document.createElement("div");
+				if (i % 2 === 0)
+					div.classList.add('item_axe_y_line');
+				else
+				{
+					let y = 20 * (6 - (i + 1) / 2);
+					var p = document.createElement("p");
+					div.classList.add('item_axe_y_txt')
+					p.innerHTML =  y + '%';
+					div.appendChild(p);
+				}
+				origin.appendChild(div);
+			}		
+	}
 
+	generateAxeX()
+	{
 		var axe_x = document.createElement("div");
 		axe_x.classList.add('axe_x_chart');
 		this.html_container.appendChild(axe_x);
+		const prct_width = 100 / this.nb_obj;
+		const el_width = prct_width - 5;
+
+		for (let i = 1; i <= this.nb_obj; i++)
+		{
+			var div = document.createElement("div");
+			let x = 'x'
+			var p = document.createElement("p");
+			div.classList.add('item_axe_x_txt')
+			p.innerHTML =  x;
+			div.style.width = `${el_width}%`;
+			div.style.marginLeft = `${5 + el_width / 2}%`;
+			div.appendChild(p);
+
+			axe_x.appendChild(div);
+		}			
+	}
+	
+	generate()
+	{
+		this.generateAxeY();
+		
+		var div_chart = document.createElement("div");
+		this.generateBars(div_chart);
+		div_chart.classList.add('bar_chart');
+		this.html_container.appendChild(div_chart);
+
+		this.generateOrigin();
+		this.generateAxeX();
 	}
 };
