@@ -2,6 +2,7 @@ import {loadEventListeners} from './utils/loadEventListeners.js';
 import {loadComposant} from './utils/loadComposant.js';
 import {loadCss, loadHtml, loadScript} from './utils/loadPage.js';
 import * as gameStatus from './utils/gameStatus.js' ;
+import { launchFunctions } from './utils/launchFunctions.js';
 
 async function loadPage(page, div) 
 {
@@ -16,6 +17,7 @@ async function loadPage(page, div)
 		await loadComposant(page);
 		await loadScript(page);
 		await loadEventListeners(page);
+		await launchFunctions(page);
 	}
 	catch (error) 
 	{

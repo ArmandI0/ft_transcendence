@@ -24,6 +24,9 @@ export async function loadEventListeners(page)
 		const url_params = new URLSearchParams(window.location.search);
 		handleAPI42return(url_params);
 	}
+	else if (page == 'charts')
+	{
+	}
 }
 
 export async function removeEventListeners(page)

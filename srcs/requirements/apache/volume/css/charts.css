@@ -7,6 +7,7 @@ body, html
 
 #charts-page
 {
+	margin-top: 5%;
 	display: flex;
     flex-direction: column;	
 	justify-content: center;
@@ -18,19 +19,173 @@ body, html
 #grid-charts
 {
     flex-grow: 1; 
-    justify-content: center;
     display: grid;
+    justify-items: center;
+	align-items: center;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr 1fr;
     height:100%;
-    width:90%;
+    width:95%;
     border:none;
 
 }
 
 .grid-item-chart
 {
-	border: 2px solid rgb(0,0,0);
-	width : 90%;
-	height : 90%;
+	width : 97%;
+	height : 97%;
+	display : flex;
+	flex-direction: column;	
+    justify-content: center;
+	align-items: center;	
+	border: 1px solid rgb(20, 19, 20);
+
 }
+
+
+
+/* BARS CSS */
+#bars-score-by-game .chart_body
+{
+	display: grid;
+	grid-template-columns: 1fr 10fr;
+	grid-template-rows: 10fr 1fr;
+	height: 100%;
+	width: 100%;
+}
+.bar_chart
+{
+	/* background-color: rgb(255, 234, 140); */
+	display : flex;
+	flex-direction: row;
+	align-items: flex-end;
+}
+
+.bar_chart_el
+{
+	background-color: rgb(31, 0, 170);
+	margin-left: 5%;
+}
+
+.bar_chart_el:hover
+{
+	background-color: rgb(143, 0, 0);
+}
+
+/* AXES CSS */
+.axe_y_chart
+{
+	/* background-color: rgb(151, 151, 151); */
+	width : 100%;
+	height: 100%;
+	border-right: 1px solid rgb(0,0,0);
+	display : grid;
+	grid-template-columns: 3fr 2fr;
+}
+
+.axe_x_chart
+{
+	/* background-color: rgb(255, 197, 197); */
+	width : 100%;
+	height: 100%;
+	border-top: 1px solid rgb(0,0,0);
+	display:flex;
+	flex-direction: row;
+}
+
+.origin_chart
+{
+	display : grid;
+	grid-template-columns: 3fr 2fr;
+	/* background-color: rgb(50, 255, 9); */
+	width : 100%;
+	height: 100%;
+}
+
+.grid-item-chart h2
+{
+	text-align: center;
+}
+
+.item_axe_y_line
+{
+	border-top: 1px solid rgb(0,0,0);
+}
+
+.item_axe_y_txt
+{
+	position: relative;
+	font-size : 60%;
+}
+
+.item_axe_x_txt
+{
+	position: relative;
+	font-size : 60%;
+
+
+}
+
+.item_axe_y_txt p
+{
+	position : absolute;
+	top : 0px;
+	left : 0px;
+	margin: 0%;
+	padding: 0%;
+}
+
+/* PIE CHART */
+
+#pie-win-defeat
+{
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+#pie-win-defeat .chart_body
+{
+	margin-top: 10%;
+	height: 60%;
+	width: 60%;
+}
+
+#pie-chart
+{	
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1; 
+	border-radius: 50%;
+}
+	/* position:relative;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	overflow: hidden;
+}
+  
+#pie-win-defeat .slice-one 
+{
+	position:absolute;
+
+	width: 200px;
+	height: 200px;
+	background-color: lightblue;
+	clip: rect(0, 200px, 200px, 100px);
+	border-radius: 50%;
+	transform: rotate(0deg);
+}
+
+#pie-win-defeat .slice-two 
+{
+	position:absolute;
+
+	width: 200px;
+	height: 200px;
+	background-color: lightcoral;
+	clip: rect(0, 200px, 200px, 100px); 
+	border-radius: 50%;
+	transform: rotate(180deg);
+} */
