@@ -30,6 +30,54 @@ export async function loadEventListeners(page)
 	}
 	else if (page === 'pong')
 	{
+		document.querySelectorAll('.btn-custom4-pong').forEach(button => {
+			button.addEventListener('click', function() {
+				document.querySelectorAll('.btn-custom4-pong').forEach(btn => {
+					btn.classList.remove('selected');
+					btn.classList.add('not-selected');
+				});
+				
+				this.classList.add('selected');
+				this.classList.remove('not-selected');
+			});
+		});
+
+		document.querySelectorAll('.btn-custom5-pong').forEach(button => {
+			button.addEventListener('click', function() {
+				// Vérifier si le bouton est déjà sélectionné
+				if (this.classList.contains('selected')) {
+					this.classList.remove('selected');
+					this.classList.add('not-selected');
+				} else {
+					document.querySelectorAll('.btn-custom5-pong').forEach(btn => {
+						btn.classList.remove('selected');
+						btn.classList.add('not-selected');
+					});
+		
+					this.classList.add('selected');
+					this.classList.remove('not-selected');
+				}
+				const isSectionVisible = gameStatus.getStatus('tutoSectionVisible');
+			
+				const section = document.getElementById('tuto-container');
+			
+				if (isSectionVisible) 
+				{
+					section.classList.remove('show');
+					setTimeout(() => {
+						section.style.display = 'none';
+					}, 500);
+				}
+				else
+				{
+					section.style.display = 'flex'; 
+					setTimeout(() => {
+						section.classList.add('show');
+					}, 100);
+				}
+				gameStatus.setStatus('tutoSectionVisible', !isSectionVisible);
+			});
+		});
 
 		document.getElementById('button-1v1').addEventListener('click', function() 
 		{
@@ -55,18 +103,27 @@ export async function loadEventListeners(page)
 
 		document.getElementById('Parameters').addEventListener('click', function() {
 			const isSectionVisible = gameStatus.getStatus('paramSectionVisible');
+			
+			const section = document.getElementById('select-chelem');
 		
-			if (isSectionVisible)
+			if (isSectionVisible) 
 			{
-				hideSection('select-chelem');
+				section.classList.remove('show');
+				setTimeout(() => {
+					section.style.display = 'none';
+				}, 500);
 			}
 			else
 			{
-				showSection('select-chelem');
+				section.style.display = 'flex'; 
+				setTimeout(() => {
+					section.classList.add('show');
+				}, 10);
 			}
-		
-			gameStatus.setStatus('paramSectionVisible', !isSectionVisible); // Inverser l'état de la section
+			
+			gameStatus.setStatus('paramSectionVisible', !isSectionVisible);
 		});
+		
 
 		document.getElementById('button-tournament-pong').addEventListener('click', function() 
 		{
