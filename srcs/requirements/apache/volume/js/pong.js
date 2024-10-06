@@ -4,10 +4,9 @@ import * as gameStatus from './utils/gameStatus.js' ;
 
 
 const Players = [];
+let tournament;
 let animationFrameId;
 const keysPressed = {};
-let iaInterval;
-let lastCallTime = Date.now();
 
 /// CLASS PLAYER ////
 class Player {
@@ -83,11 +82,11 @@ class Court{
 
 class Tournament{
     
-    constructor(PlayersNames){
+    constructor(){
         this.firstMatch = true;
         this.secondMatch = false;
         this.finalMatch = false;
-        this.playersNames = PlayersNames;
+        this.playersNames = Players;
         this.playersScore = [0, 0, 0, 0];
     }
 }
@@ -105,18 +104,22 @@ function setupKeyboardEvents()
 }
 
 //// START PONG //////
+
 export function startPong()
 {
-    let tournament;
+    gameStatus.setStatus('isPaused', false);;
+
     let player1 = new Player('player1');
     let player2 = new Player('player2');
     
     let ball = new Ball('ball');
     let court = new Court('game-container-pong');
 
-    if (gameStatus.getStatus('tournamentMod') === true)
-        tournament = new Tournament(Players);
-
+    if (gameStatus.getStatus('tournamentMod') === true && gameStatus.getStatus('tournamentInProgress') === false)
+    {
+        tournament = new Tournament();
+        console.log('NEW TOURNAMENT');
+    } 
     // Appliquer les positions initiales
     player1.setPosition (200);
     player2.setPosition(200);
@@ -162,32 +165,34 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
     player1_score.textContent = player1.score;
     player2_score.textContent = player2.score;
 
-    if (gameStatus.getStatus('tournamentMod') === true)
-    {
-        tournamentFct(0, player1, player2, ball, tournament, court);
-    }
     if (player1.score >= 1 || player2.score >= 1) 
     {
+        gameStatus.setStatus('isPaused', true);;
+        
         if (player1.score >= 1)
         {
             player1_score.textContent = 'W';
             player2_score.textContent = 'L';
             if (gameStatus.getStatus('tournamentMod') === true)
+            {
+                console.log('PLAYER1 WIN!', tournament.secondMatch);
                 tournamentFct(1, player1, player2, ball, tournament, court);
+            }
             else
                 document.getElementById('play-pong').style.display = 'block';
-                
         } 
         else
         {
             player2_score.textContent = 'W';
             player1_score.textContent = 'L';
             if (gameStatus.getStatus('tournamentMod') === true)
+            {
+                console.log('PLAYER2 WIN!', tournament.secondMatch);
                 tournamentFct(2, player1, player2, ball, tournament, court);
+            }
             else
                 document.getElementById('play-pong').style.display = 'block';
         }
-
 
         // Arrêter le jeu
         ball.speedX = 0;
@@ -200,16 +205,16 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
     }
 }
 
-
 ///////// BALL MOVMENT ///////////
 
-let isPaused = false;
+let iaInterval;
+let lastCallTime = Date.now();
 
 function updateBallPosition(ball, player1, player2, court, tournament)
 {
     let direction = 'right';
 
-    if (!isPaused)
+    if (gameStatus.getStatus('isPaused') === false) 
     {
         ball.x += ball.speedX;
         ball.y += ball.speedY;
@@ -218,39 +223,57 @@ function updateBallPosition(ball, player1, player2, court, tournament)
             direction = 'right';
         else if (ball.speedX < 0)
             direction = 'left';
-        
+
         checkPlayerScore(player1, player2, ball, tournament, court);
 
         const maxAngle = 70 * (Math.PI / 180);
         const maxSpeedY = Math.tan(maxAngle) * Math.abs(ball.speedX);
 
         // Collision avec les murs haut et bas
-        if (ball.y - ball.rad <= 0 || ball.y + ball.rad >= court.height) 
+        if (ball.y - ball.rad <= 0 || ball.y + ball.rad >= court.height)
             ball.speedY = -ball.speedY;
 
-        // Collision avec joueur 1
-        if (ball.x - ball.rad <= ball.rad && ball.x - ball.rad >= 0 && ball.y >= player1.y - player1.height2 && ball.y <= player1.y + player1.height2) { 
-            let hitPosition = ball.y - player1.y;
+        // Collision avec joueur 1 (joueur gauche)
+        if (ball.x - ball.rad <= 20 && ball.x - ball.rad >= 0)
+        {
+            if (ball.y >= player1.y - player1.height2 && ball.y <= player1.y + player1.height2)
+            {
+                let hitPosition = ball.y - player1.y;
 
-            ball.speedX = -ball.speedX;
-            ball.speedY = hitPosition * 0.3;
+                ball.speedX = -ball.speedX;
+                ball.speedY = hitPosition * 0.3;
 
-            if (Math.abs(ball.speedY) > maxSpeedY)
-                ball.speedY = Math.sign(ball.speedY) * maxSpeedY;
+                if (Math.abs(ball.speedY) > maxSpeedY)
+                    ball.speedY = Math.sign(ball.speedY) * maxSpeedY;
+            }
+            else if (ball.y + ball.rad >= player1.y - player1.height2 && ball.y <= player1.y)
+                ball.speedY = -Math.abs(ball.speedY);
+            else if (ball.y - ball.rad <= player1.y + player1.height2 && ball.y >= player1.y)
+                ball.speedY = Math.abs(ball.speedY);
         }
-        // Collision avec joueur 2
-        else if (ball.x + ball.rad >= 765 && ball.x + ball.rad <= 780 && ball.y >= player2.y - player2.height2 && ball.y <= player2.y + player2.height2) { 
-            let hitPosition = ball.y - player2.y;
+        // Collision avec joueur 2 (joueur droite)
+        else if (ball.x + ball.rad >= 780)
+        {
 
-            ball.speedX = -ball.speedX;
-            ball.speedY = hitPosition * 0.3;
+            if (ball.y >= player2.y - player2.height2 && ball.y <= player2.y + player2.height2)
+            {
+                let hitPosition = ball.y - player2.y;
 
-            if (Math.abs(ball.speedY) > maxSpeedY)
-                ball.speedY = Math.sign(ball.speedY) * maxSpeedY;
+                ball.speedX = -ball.speedX;
+                ball.speedY = hitPosition * 0.3;
+
+                if (Math.abs(ball.speedY) > maxSpeedY)
+                    ball.speedY = Math.sign(ball.speedY) * maxSpeedY;
+            }
+            else if (ball.y + ball.rad >= player2.y - player2.height2 && ball.y <= player2.y)
+                ball.speedY = -Math.abs(ball.speedY);
+            else if (ball.y - ball.rad <= player2.y + player2.height2 && ball.y >= player2.y)
+                ball.speedY = Math.abs(ball.speedY);
         }
 
         // Collision avec les bords gauche et droit du conteneur (score)
-        if (ball.x <= -10 || ball.x >= court.width - 10) {
+        if (ball.x <= 5 || ball.x >= court.width - 5)
+        {
             if (ball.x <= -10)
                 player2.score += 1;
             if (ball.x >= court.width - 10)
@@ -262,54 +285,42 @@ function updateBallPosition(ball, player1, player2, court, tournament)
             ball.setPosition(400, 200);
 
             // Mettre le jeu en pause
-            isPaused = true;
+            gameStatus.setStatus('isPaused', true);
             cancelAnimationFrame(animationFrameId);
 
             // Attendre 1.5 secs avant de reprendre le mouvement
             setTimeout(() => {
                 ball.speedX = 3 * (Math.random() > 0.5 ? 1 : -1);
                 ball.speedY = 3 * (Math.random() > 0.5 ? 1 : -1);
-                isPaused = false;
+                gameStatus.setStatus('isPaused', false);
                 requestAnimationFrame(() => updateBallPosition(ball, player1, player2, court, tournament));
             }, 1500);
             return;
         }
-        
-        ball.setPosition(ball.x, ball.y);
-        if (gameStatus.getStatus('ia') === true) {
-            if (!iaInterval) {
-                iaInterval = setInterval(() => {
-                    const currentTime = Date.now();
-                    const elapsedTime = currentTime - lastCallTime;
 
-                    if (elapsedTime >= 1000 && ball.x > 500 && direction === 'right') {
-                        iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 1);
-                        lastCallTime = currentTime;
-                    } else {
-                        iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 0);
-                    }
-                }, 100); // Vérifie toutes les 100ms
+        ball.setPosition(ball.x, ball.y);
+
+        // Vérification du temps écoulé pour appeler iaPlayer
+        let currentTime = Date.now();
+        if (currentTime - lastCallTime >= 1000) {  // 1 seconde écoulée
+            if (gameStatus.getStatus('ia') === true && direction === 'right')
+            {
+                iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 1);
+                console.log("iaPlayer called...");
             }
-        } else {
-            clearInterval(iaInterval);
-            iaInterval = null;
+            lastCallTime = currentTime;  // Mise à jour du dernier appel
+        }
+        else
+        {
+            iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 0);
         }
 
         animationFrameId = requestAnimationFrame(() => updateBallPosition(ball, player1, player2, court, tournament));
     }
 }
 
+
 ////////// TOURNAMENT HANDLE ///////////////////
-
-const tournamentVizualizer = document.getElementById('tournament-visualizer-pong');
-
-const player1_visualizer = document.getElementById('player1_tv-pong');
-const player2_visualizer = document.getElementById('player2_tv-pong');
-const vs_visualizer = document.getElementById('vs_tv-pong');
-
-let firstMatch = true;
-let secondMatch = false;
-let finalMatch = false;
 
 export function startTournament()
 {
@@ -324,7 +335,6 @@ export function startTournament()
         showSection('game-container-pong');
         showSection('tournament-visualizer-pong');
         displayMatch(Players[0], Players[3]);
-        // gameStatus.setStatus('GamePaused', false);
 
         document.getElementById('play-pong').style.display = 'flex';
     }
@@ -351,12 +361,19 @@ function validatePlayers(players)
 
 function displayMatch(player1, player2)
 {
+    let player1_visualizer = document.getElementById('player1_tv-pong');
+    let player2_visualizer = document.getElementById('player2_tv-pong');
+
     player1_visualizer.textContent = player1;
     player2_visualizer.textContent = player2;
 }
 
 function displayWinner(winner)
 {
+    let player1_visualizer = document.getElementById('player1_tv-pong');
+    let player2_visualizer = document.getElementById('player2_tv-pong');
+    let vs_visualizer = document.getElementById('vs_tv-pong');
+
     player1_visualizer.style.display = 'none';
     player2_visualizer.style.display = 'none';
     vs_visualizer.style.display = 'none';
@@ -389,27 +406,25 @@ function waitForButtonClickBack(buttonId) {
 
 async function tournamentFct(winner, player1, player2, ball, tournament, court)
 {
-    const PlayersScore = [4];
-
+    if (!tournament || !tournament.playersNames)
+        return;
+    gameStatus.setStatus('tournamentInProgress', true);
     if (tournament.firstMatch)
     {
-        displayMatch(tournament.PlayersNames[0], tournament.PlayersNames[3]);   
+        displayMatch(tournament.playersNames[0], tournament.playersNames[3]);   
         if (winner === 1 || winner === 2)
         {
             if (winner === 1)
                 tournament.playersScore[0]++;
             else
                 tournament.playersScore[3]++;
-            // gameStatus.setStatus('GamePaused', true);
             hideSection('ball');
-            displayMatch(tournament.PlayersNames[1], tournament.PlayersNames[2]);
-            await waitForButtonClick('play-pong');
+            displayMatch(tournament.playersNames[1], tournament.playersNames[2]);
             player1.score = 0;
             player2.score = 0;
             tournament.firstMatch = false;
             tournament.secondMatch = true;
-            requestAnimationFrame(() => updateBallPosition(ball, player1, player2, court, tournament));
-            // requestAnimationFrame(updateBallPosition(ball, player1, player2, court, tournament));
+            await waitForButtonClick('play-pong');
         }
     }
     else if (tournament.secondMatch)
@@ -420,30 +435,28 @@ async function tournamentFct(winner, player1, player2, ball, tournament, court)
                 tournament.playersScore[1]++;
             else
                 tournament.playersScore[2]++;
-            // gameStatus.setStatus('GamePaused', true);
             hideSection('ball');
-            let firstFinalist = tournament.playersScore[0] > tournament.playersScore[3] ? tournament.PlayersNames[0] : tournament.PlayersNames[3];
-            let secondFinalist = tournament.playersScore[1] > tournament.playersScore[2] ? tournament.PlayersNames[1] : tournament.playersScore[2];
-    
+            let firstFinalist = tournament.playersScore[0] > tournament.playersScore[3] ? tournament.playersNames[0] : tournament.playersNames[3];
+            let secondFinalist = tournament.playersScore[1] > tournament.playersScore[2] ? tournament.playersNames[1] : tournament.playersNames[2];
+            
             displayMatch(firstFinalist, secondFinalist);
-            await waitForButtonClick('play-pong');
             player1.score = 0;
             player2.score = 0;
             tournament.secondMatch = false;
             tournament.finalMatch = true;
-            // requestAnimationFrame(updateBallPosition(ball, player1, player2, court, tournament));
-            requestAnimationFrame(() => updateBallPosition(ball, player1, player2, court, tournament));
+            console.log('secondMatch');
+            await waitForButtonClick('play-pong');
         }    
     }
-    else if (finalMatch)
+    else if (tournament.finalMatch)
     {
+        console.log('LastMatch');
         let firstFinalist = tournament.playersScore[0] > tournament.playersScore[3] ? tournament.playersScore[0] : tournament.playersScore[3];
         let secondFinalist = tournament.playersScore[1] > tournament.playersScore[2] ? tournament.playersScore[1] : tournament.playersScore[2];
 
         if (winner === 1 || winner === 2)
         {
             tournament.finalMatch = false;
-            // gameStatus.setStatus('GamePaused', true);
             hideSection('ball');
             if (winner === 1)
                 displayWinner(firstFinalist);

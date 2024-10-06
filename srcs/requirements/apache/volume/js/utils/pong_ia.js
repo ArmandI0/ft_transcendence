@@ -5,16 +5,26 @@ export function iaPlayer(ball_vX, ball_vY, ball_Y, ball_X, p_Y, data)
 {
     let keyPress = null;
     let delay;
-
-    if (data === 1) // Data dispo une fois pas seconde ==> prediction ball
-    {
-        // vitesse = distance / temps ==> temps = distance / vitesse
-        const timeToReachPlayer = (800 - ball_X) / ball_vX;
+    const playerRange = 100;
+    const playerCenterY = p_Y + playerRange / 2;
     
-        // d = v/t 'd = d + d' ==> postition probable en Y
+
+    if (data === 1) // Data dispo une fois par seconde ==> prediction ball
+    {
+        // Ajustement pour tenir compte de la taille de la balle et du joueur
+        let ballCollisionX = 770;
+    
+        // vitesse = distance / temps ==> temps = distance / vitesse
+        let timeToReachPlayer = (ballCollisionX - ball_X) / ball_vX;
+    
+        // Protection contre les divisions par zero
+        if (ball_vX === 0)
+            timeToReachPlayer = 9999;
+    
+        // d = v * t ==> Position probable de la balle en Y
         let futureBallY = ball_Y + ball_vY * timeToReachPlayer;
     
-        // Rebonds sur les murs
+        // Gestion des rebonds sur les murs
         while (futureBallY < 0 || futureBallY > 400)
         {
             if (futureBallY < 0)
@@ -22,24 +32,15 @@ export function iaPlayer(ball_vX, ball_vY, ball_Y, ball_X, p_Y, data)
             else if (futureBallY > 400)
                 futureBallY = 800 - futureBallY;
         }
-    
-        // Deplacement vers la position future de la ball
-        if (futureBallY < p_Y)
-            keyPress = 'ArrowUp';
-        else if (futureBallY > p_Y)
+
+        if (futureBallY < playerCenterY - playerRange / 2)
+            keyPress = 'ArrowUp'; 
+        else if (futureBallY > playerCenterY + playerRange / 2) 
             keyPress = 'ArrowDown';
-        delay = 400;
-    }
-    else  // Pas de data dispo ==> go centre
-    {
-        const centerY = 180;
-        if (p_Y < centerY - 10)
-            keyPress = 'ArrowDown';
-        else if (p_Y > centerY + 10) 
-            keyPress = 'ArrowUp';
         else
-            keyPress = null; // already middle
-        delay = 300;
+            keyPress = null; // Ne rien faire si la balle est dans la zone cible pour eviter mouvements parasites
+    
+        delay = 400;
     }
 
     if (keyPress)

@@ -42,7 +42,27 @@
     background-size: cover;
 }
 
-#video-overlay {
+#video-overlay1 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    z-index: 1; /* Assurez-vous que le filtre est au-dessus de la vidéo */
+}
+
+#video-overlay2 {
+    position: absolute;
+    top: 20%;
+    right: 50%;
+    width: 50%;
+    height: 80%;
+    opacity: 0.4;
+    z-index: 1; /* Assurez-vous que le filtre est au-dessus de la vidéo */
+}
+
+#video-overlayGreen {
     position: absolute;
     top: 0;
     left: 0;
@@ -68,10 +88,6 @@
     background-color: rgba(210, 105, 30, 0.8);
     display: none;
     position: relative;
-    border-left: 10px solid rgb(255, 255, 255);
-    border-right: 10px solid rgb(255, 255, 255);
-    border-top: 20px solid rgb(255, 255, 255);
-    border-bottom: 20px solid rgb(255, 255, 255);
     border-radius: 15px;
 }
 
@@ -136,11 +152,11 @@
 }
 
 /* Buttons */
-.btn-custom-pong, .btn-custom2-pong, .btn-custom3-pong {
-    background-color: rgba(210, 105, 30, 0.8);
-    border: 2px solid rgb(212, 209, 209);
+.btn-custom-pong, .btn-custom2-pong, .btn-custom3-pong, .btn-custom4-pong {
+    background-color: rgba(210, 105, 30, 0.1);
+    border: 4px solid #e2e2e2;;
     color: rgb(255, 255, 255);
-    border-radius: 50px;
+    border-radius: 25px;
     font-size: 16px;
     font-family: "Playfair Display", serif;
     font-weight: bold;
@@ -165,18 +181,32 @@
     padding: 10px 20px;
 }
 
-.btn-custom3-pong {
+.btn-custom4-pong {
     padding: 10px 20px;
     margin-top: 5px;
     width: 200px;
     text-align: center;
+    background-color: #e26906;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+
+
 /* Text */
-#tournament-winner-pong, #player1_tv-pong, #vs_tv-pong, #player2_tv-pong, #game-name, #player1-score, #player2-score {
+#tournament-winner-pong, 
+#player1_tv-pong, 
+#vs_tv-pong, 
+#player2_tv-pong, 
+#game-name, 
+#player1-score, 
+#player2-score {
     font-family: "Playfair Display", serif;
     font-weight: bold;
     color: white;
+    letter-spacing: 2px;
+    font-size: 24px;
 }
 
 #player1_tv-pong, #vs_tv-pong, #player2_tv-pong {
@@ -188,6 +218,14 @@
 #game-name {
     font-size: 78px;
     margin-top: 80px;
+}
+
+.roland {
+    color: white; /* Couleur pour Roland */
+}
+
+.gapong {
+    color: #c0611d; /* Couleur pour Gapong */
 }
 
 #player1-score, #player2-score {
@@ -247,8 +285,10 @@
 #player1, #player2 {
     width: 20px;
     height: 100px;
-    background-color: black;
+    border-radius: 50px;
+    background-color: grey;
     position: absolute;
+    border: 2px solid darkgray; /* Gris foncé */
 }
 
 #player1 {
@@ -262,6 +302,16 @@
     top: 50%;
     transform: translateY(-50%);
 }
+
+/* #ballPrediction {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+} */
 
 #ball {
     display: none;

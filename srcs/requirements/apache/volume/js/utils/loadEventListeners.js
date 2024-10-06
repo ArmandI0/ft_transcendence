@@ -29,11 +29,11 @@ export async function loadEventListeners(page)
 	}
 	else if (page === 'pong')
 	{
+
 		document.getElementById('button-1v1').addEventListener('click', function() 
 		{
 			hideSection('main-menu-buttons-pong');
 			showSection('game-container-pong');
-			showSection('select-chelem');
 			document.getElementById('play-pong').style.display = 'flex';
 		});
 
@@ -42,7 +42,7 @@ export async function loadEventListeners(page)
 			gameStatus.setStatus('ia', true);
 			hideSection('main-menu-buttons-pong');
 			showSection('game-container-pong');
-			showSection('select-chelem');
+
 			document.getElementById('play-pong').style.display = 'flex';
 		});
 
@@ -52,11 +52,25 @@ export async function loadEventListeners(page)
 			document.getElementById('play-pong').style.display = 'none';
 		});
 
+		document.getElementById('Parameters').addEventListener('click', function() {
+			const isSectionVisible = gameStatus.getStatus('paramSectionVisible');
+		
+			if (isSectionVisible)
+			{
+				hideSection('select-chelem');
+			}
+			else
+			{
+				showSection('select-chelem');
+			}
+		
+			gameStatus.setStatus('paramSectionVisible', !isSectionVisible); // Inverser l'état de la section
+		});
+
 		document.getElementById('button-tournament-pong').addEventListener('click', function() 
 		{
 			hideSection('main-menu-buttons-pong');
 			showSection('tournament-container-pong');
-			showSection('select-chelem');
 		});
 
 		document.getElementById('play-tournament-pong').addEventListener('click', function() 
@@ -68,8 +82,8 @@ export async function loadEventListeners(page)
 		document.getElementById('Home-pong').addEventListener('click', function()
 		{
 			gameStatus.setStatus('ia', false);
+			gameStatus.setStatus('tournamentInProgress', false);
 			hideSection('ball');
-			hideSection('select-chelem');
 			showSection('main-menu-buttons-pong');
 			hideSection('game-container-pong');
 			hideSection('tournament-container-pong');
@@ -77,17 +91,17 @@ export async function loadEventListeners(page)
 		});
 
 		document.getElementById('wimbledon').addEventListener('click', function() {
-			document.getElementById('game-container-pong').style.backgroundColor = 'green';
+			document.getElementById('game-container-pong').style.backgroundColor = 'rgba(0, 128, 0, 0.8)';
 			document.getElementById('tournament-winner-pong').style.color = 'purple';
 		});
 
 		document.getElementById('usOpen').addEventListener('click', function() {
-			document.getElementById('game-container-pong').style.backgroundColor = 'purple';
+			document.getElementById('game-container-pong').style.backgroundColor = 'rgba(128, 0, 128, 0.7)';
 			document.getElementById('tournament-winner-pong').style.color = 'yellow';
 		});
 
 		document.getElementById('asOpen').addEventListener('click', function() {
-			document.getElementById('game-container-pong').style.backgroundColor = 'blue';
+			document.getElementById('game-container-pong').style.backgroundColor = 'rgba(0, 0, 255, 0.7)';
 			document.getElementById('tournament-winner-pong').style.color = 'yellow';
 		});
 
