@@ -3,15 +3,66 @@ import {loadComposant} from './utils/loadComposant.js';
 import {loadCss, loadHtml, loadScript} from './utils/loadPage.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 
+function getCookie(name)
+{
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+async function is_auth()
+{
+	const csrfToken = getCookie('csrftoken');
+	const response = await fetch('/accounts/is_auth/',
+	{
+		method: 'GET',
+		headers:{
+			'X-Requested-With': 'XMLHttpRequest', 
+			'X-CSRFToken': csrfToken,
+		}
+	});
+	const data = await response.json();
+	if (response.status === 200)
+	{
+		console.log('Succès :', data.message);
+		return true
+	}
+	else
+	{
+		return false
+	}
+}
+
 async function loadPage(page, div) 
 {
+	let ret = true;
+
+	
+	if (page != 'home')
+	{
+		const isAuthenticated = await is_auth();
+		if (!isAuthenticated){
+			return;
+		}
+	}
 	const existingStyles = document.querySelectorAll('link[data-page]');
 	existingStyles.forEach(link => link.remove());
-
+		
 	if (page) 
 		loadCss(page);
 	try 
 	{
+		console.log("PAGE = " + page);
+		console.log("DIV = " + div);
 		await loadHtml(page, div);
 		await loadComposant(page);
 		await loadScript(page);
@@ -24,13 +75,13 @@ async function loadPage(page, div)
 		if (container) 
 			container.innerHTML = '<div>Error loading page. Please try again.</div>';
 	}
+	return ret;
 }
 
 
 document.addEventListener('DOMContentLoaded', async () => {
 	const app = document.getElementById('app');
 
-	// Chargement initial de la page
 	loadPage('home', 'app');
 
 	// SERT aux boutons BACKWARD AND FORWARD
@@ -42,19 +93,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	let currentPage = 'home';
 	document.body.addEventListener('click', async (event) => {
-		if (event.target.matches('a')) {
+		if (event.target.matches('a'))
+		{
 			event.preventDefault();
 			const href = event.target.getAttribute('href');
-			console.log(href);
 			const div = event.target.getAttribute('div');
-			console.log(div);
-			//   if (href.substring(1) === currentPage)
-			//     return;
-			currentPage = href.substring(1); // Met à jour la page actuelle
-
-			window.history.pushState(div, '', href.substring(1));
-			gameStatus.setStatus(false);
-			await loadPage(href.substring(1), div);
+			currentPage = href.substring(1);
+			let state = await loadPage(href.substring(1), div);
+			if(state)
+				window.history.pushState(div, '', href.substring(1));
 		}
 	});
 });
