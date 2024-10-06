@@ -15,7 +15,7 @@ function handleCode(code)
 
 function updateUrlWindow(newUrl) 
 {
-	window.history.replaceState({ path: newUrl }, '', newUrl);
+	window.history.replaceState('app', '', newUrl);
 }
 
 export function handleAPI42return(url)
