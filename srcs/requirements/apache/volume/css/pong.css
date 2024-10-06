@@ -10,6 +10,17 @@
     }
 }
 
+@keyframes zoomOutFadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
 /* Containers */
 #pong-container {
     margin: 0;
@@ -58,8 +69,53 @@
     right: 50%;
     width: 50%;
     height: 80%;
-    opacity: 0.4;
+    opacity: 0.6;
     z-index: 1; /* Assurez-vous que le filtre est au-dessus de la vidéo */
+}
+
+#rolandLogo {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+    z-index: 1;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+#rodgerLogo {
+    display: flex;
+    position: absolute;
+    top: 20%;
+    left: 100%;
+    width: 35%;
+    height: 90%;
+    opacity: 0.9; 
+    z-index: 1; 
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.slide-left {
+    transform: translateX(-90%);
+    opacity: 0.8;
+}
+
+.slide-right {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.slide-right-roland {
+    transform: translateX(40%);
+    opacity: 0;
+}
+
+.slide-left-roland {
+    top: 0;
+    left: 100%;
+    transform: translateX(-90%);
+    opacity: 0.8;
 }
 
 #video-overlayGreen {
@@ -68,18 +124,32 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 50, 0, 0.8); /* Ajustez cette valeur pour plus ou moins de transparence */
-    z-index: 1; /* Assurez-vous que le filtre est au-dessus de la vidéo */
+    background: rgba(0, 50, 0, 0.8); 
+    z-index: 1;
 }
 
 #tournament-container-pong {
     display: none;
     flex-direction: column;
     align-items: center;
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+#tournament-container-pong.hide {
+    animation: zoomOutFadeOut 0.5s ease-in-out;
+    opacity: 0;
+    transform: scale(0.5);
 }
 
 #tournament-visualizer-pong, #tournament-winner-pong {
     display: none;
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+#tournament-visualizer-pong.hide {
+    animation: zoomOutFadeOut 0.5s ease-in-out;
+    opacity: 0;
+    transform: scale(0.5);
 }
 
 #game-container-pong {
@@ -89,6 +159,13 @@
     display: none;
     position: relative;
     border-radius: 15px;
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+#game-container-pong.hide {
+    animation: zoomOutFadeOut 0.5s ease-in-out;
+    opacity: 0;
+    transform: scale(0.5);
 }
 
 #tuto-container {
@@ -141,7 +218,7 @@
     top: 25%;
     left: 20%;
     width: 20%;
-    height: 23%;
+    height: 21%;
     opacity: 0.4;
 }
 
@@ -150,7 +227,25 @@
     top: 25%;
     right: 20%;
     width: 20%;
-    height: 23%;
+    height: 21%;
+    opacity: 0.4;
+}
+
+#Up-key{
+    position: absolute;
+    top: 70%;
+    left: 20%;
+    width: 20%;
+    height: 21%;
+    opacity: 0.4;
+}
+
+#Down-key{
+    position: absolute;
+    top: 70%;
+    right: 20%;
+    width: 20%;
+    height: 21%;
     opacity: 0.4;
 }
 
@@ -159,6 +254,7 @@
     justify-content: center;
     align-items: center;
 }
+
 
 #select-chelem {
     display: none; /* Masqué par défaut */
@@ -419,16 +515,6 @@
     top: 50%;
     transform: translateY(-50%);
 }
-
-/* #ballPrediction {
-    width: 20px;
-    height: 20px;
-    background-color: red;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-} */
 
 #ball {
     display: none;
