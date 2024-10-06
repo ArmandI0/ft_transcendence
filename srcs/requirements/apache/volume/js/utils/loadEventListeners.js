@@ -110,9 +110,10 @@ export async function loadEventListeners(page)
 			document.getElementById('game-container-pong').style.backgroundColor = 'rgba(210, 105, 30, 0.8)';
 			document.getElementById('tournament-winner-pong').style.color = 'white';
 		});
-
+	}
 	else if (page == 'charts')
 	{
+		
 	}
 }
 
