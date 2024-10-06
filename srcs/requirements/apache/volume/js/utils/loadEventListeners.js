@@ -1,6 +1,9 @@
-import { hideSectionPong, showSectionPong } from './showAndHideSections.js';
+import { hideSection, showSection } from './showAndHideSections.js';
 import { startGame3D } from '../pong3D.js';
 import { handleAPI42return } from '../home.js';
+import { startPong } from "../pong.js";
+import { startTournament } from "../pong.js";
+import * as gameStatus from './gameStatus.js' ;
 
 export async function loadEventListeners(page)
 {
@@ -8,7 +11,7 @@ export async function loadEventListeners(page)
 	{
 		document.getElementById('button-start-pong-3D').addEventListener('click', function() 
 		{
-			hideSectionPong('button-start-pong-3D');
+			hideSection('button-start-pong-3D');
 			document.getElementById('grid-3d-render').style.display = 'grid';
 			startGame3D();
 		});
@@ -25,6 +28,89 @@ export async function loadEventListeners(page)
 		handleAPI42return(url_params);
 		
 	}
+	else if (page === 'pong')
+	{
+
+		document.getElementById('button-1v1').addEventListener('click', function() 
+		{
+			hideSection('main-menu-buttons-pong');
+			showSection('game-container-pong');
+			document.getElementById('play-pong').style.display = 'flex';
+		});
+
+		document.getElementById('button-ia').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('ia', true);
+			hideSection('main-menu-buttons-pong');
+			showSection('game-container-pong');
+
+			document.getElementById('play-pong').style.display = 'flex';
+		});
+
+		document.getElementById('play-pong').addEventListener('click', function()
+		{
+			startPong();
+			document.getElementById('play-pong').style.display = 'none';
+		});
+
+		document.getElementById('Parameters').addEventListener('click', function() {
+			const isSectionVisible = gameStatus.getStatus('paramSectionVisible');
+		
+			if (isSectionVisible)
+			{
+				hideSection('select-chelem');
+			}
+			else
+			{
+				showSection('select-chelem');
+			}
+		
+			gameStatus.setStatus('paramSectionVisible', !isSectionVisible); // Inverser l'état de la section
+		});
+
+		document.getElementById('button-tournament-pong').addEventListener('click', function() 
+		{
+			hideSection('main-menu-buttons-pong');
+			showSection('tournament-container-pong');
+		});
+
+		document.getElementById('play-tournament-pong').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('tournamentMod', true);
+			startTournament();
+		});
+
+		document.getElementById('Home-pong').addEventListener('click', function()
+		{
+			gameStatus.setStatus('ia', false);
+			gameStatus.setStatus('tournamentInProgress', false);
+			hideSection('ball');
+			showSection('main-menu-buttons-pong');
+			hideSection('game-container-pong');
+			hideSection('tournament-container-pong');
+			hideSection('tournament-visualizer-pong');
+		});
+
+		document.getElementById('wimbledon').addEventListener('click', function() {
+			document.getElementById('game-container-pong').style.backgroundColor = 'rgba(0, 128, 0, 0.8)';
+			document.getElementById('tournament-winner-pong').style.color = 'purple';
+		});
+
+		document.getElementById('usOpen').addEventListener('click', function() {
+			document.getElementById('game-container-pong').style.backgroundColor = 'rgba(128, 0, 128, 0.7)';
+			document.getElementById('tournament-winner-pong').style.color = 'yellow';
+		});
+
+		document.getElementById('asOpen').addEventListener('click', function() {
+			document.getElementById('game-container-pong').style.backgroundColor = 'rgba(0, 0, 255, 0.7)';
+			document.getElementById('tournament-winner-pong').style.color = 'yellow';
+		});
+
+		document.getElementById('Roland').addEventListener('click', function() {
+			document.getElementById('game-container-pong').style.backgroundColor = 'rgba(210, 105, 30, 0.8)';
+			document.getElementById('tournament-winner-pong').style.color = 'white';
+		});
+
 	else if (page == 'charts')
 	{
 	}

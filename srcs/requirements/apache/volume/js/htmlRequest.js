@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 			let state = await loadPage(href.substring(1), div);
 			if(state)
 				window.history.pushState(div, '', href.substring(1));
+			gameStatus.setStatus('game_run', false);
 		}
 	});
 });

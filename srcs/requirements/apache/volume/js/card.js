@@ -146,9 +146,7 @@ function returnCard(cardId)
                 }
             }
         });
-    } 
-    // else
-    //     console.error(`Element with ID ${cardId} not found`);
+    }
 }
 
 function returnFlippedCards() 
@@ -291,6 +289,7 @@ document.getElementById('Home').addEventListener('click', function()
     resetCardGame();
     hideSectionCard('hide-game-container');
     hideSectionCard('tournament-container-card');
+    hideSectionCard('tournament-visualizer-card');
     showSectionCard('main-menu-buttons-card');
 });
 
