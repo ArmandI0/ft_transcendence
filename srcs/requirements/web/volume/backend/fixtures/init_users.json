@@ -1,0 +1,302 @@
+[
+    {
+        "model": "accounts.api42user",
+        "pk": 1,
+        "fields": {
+            "username": "user1",
+            "first_name": "Alice",
+            "last_name": "Johnson",
+            "email": "alice.johnson@example.com",
+            "login42": "alice42",
+            "password": "hashed_password_1"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 2,
+        "fields": {
+            "username": "user2",
+            "first_name": "Bob",
+            "last_name": "Smith",
+            "email": "bob.smith@example.com",
+            "login42": "bob42",
+            "password": "hashed_password_2"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 3,
+        "fields": {
+            "username": "user3",
+            "first_name": "Charlie",
+            "last_name": "Brown",
+            "email": "charlie.brown@example.com",
+            "login42": "charlie42",
+            "password": "hashed_password_3"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 4,
+        "fields": {
+            "username": "user4",
+            "first_name": "Diana",
+            "last_name": "Prince",
+            "email": "diana.prince@example.com",
+            "login42": "diana42",
+            "password": "hashed_password_4"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 5,
+        "fields": {
+            "username": "user5",
+            "first_name": "Ethan",
+            "last_name": "Hunt",
+            "email": "ethan.hunt@example.com",
+            "login42": "ethan42",
+            "password": "hashed_password_5"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 6,
+        "fields": {
+            "username": "user6",
+            "first_name": "Fiona",
+            "last_name": "Gallagher",
+            "email": "fiona.gallagher@example.com",
+            "login42": "fiona42",
+            "password": "hashed_password_6"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 7,
+        "fields": {
+            "username": "user7",
+            "first_name": "George",
+            "last_name": "Costanza",
+            "email": "george.costanza@example.com",
+            "login42": "george42",
+            "password": "hashed_password_7"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 8,
+        "fields": {
+            "username": "user8",
+            "first_name": "Hannah",
+            "last_name": "Baker",
+            "email": "hannah.baker@example.com",
+            "login42": "hannah42",
+            "password": "hashed_password_8"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 9,
+        "fields": {
+            "username": "user9",
+            "first_name": "Isaac",
+            "last_name": "Clarke",
+            "email": "isaac.clarke@example.com",
+            "login42": "isaac42",
+            "password": "hashed_password_9"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 10,
+        "fields": {
+            "username": "user10",
+            "first_name": "Jack",
+            "last_name": "Ryan",
+            "email": "jack.ryan@example.com",
+            "login42": "jack42",
+            "password": "hashed_password_10"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 11,
+        "fields": {
+            "username": "user11",
+            "first_name": "Karen",
+            "last_name": "Page",
+            "email": "karen.page@example.com",
+            "login42": "karen42",
+            "password": "hashed_password_11"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 12,
+        "fields": {
+            "username": "user12",
+            "first_name": "Leonard",
+            "last_name": "Hofstadter",
+            "email": "leonard.hofstadter@example.com",
+            "login42": "leonard42",
+            "password": "hashed_password_12"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 13,
+        "fields": {
+            "username": "user13",
+            "first_name": "Monica",
+            "last_name": "Geller",
+            "email": "monica.geller@example.com",
+            "login42": "monica42",
+            "password": "hashed_password_13"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 14,
+        "fields": {
+            "username": "user14",
+            "first_name": "Nina",
+            "last_name": "Williams",
+            "email": "nina.williams@example.com",
+            "login42": "nina42",
+            "password": "hashed_password_14"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 15,
+        "fields": {
+            "username": "user15",
+            "first_name": "Olivia",
+            "last_name": "Pope",
+            "email": "olivia.pope@example.com",
+            "login42": "olivia42",
+            "password": "hashed_password_15"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 16,
+        "fields": {
+            "username": "user16",
+            "first_name": "Peter",
+            "last_name": "Parker",
+            "email": "peter.parker@example.com",
+            "login42": "peter42",
+            "password": "hashed_password_16"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 17,
+        "fields": {
+            "username": "user17",
+            "first_name": "Quinn",
+            "last_name": "Fabray",
+            "email": "quinn.fabray@example.com",
+            "login42": "quinn42",
+            "password": "hashed_password_17"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 18,
+        "fields": {
+            "username": "user18",
+            "first_name": "Rachel",
+            "last_name": "Green",
+            "email": "rachel.green@example.com",
+            "login42": "rachel42",
+            "password": "hashed_password_18"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 19,
+        "fields": {
+            "username": "user19",
+            "first_name": "Steve",
+            "last_name": "Rogers",
+            "email": "steve.rogers@example.com",
+            "login42": "steve42",
+            "password": "hashed_password_19"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 20,
+        "fields": {
+            "username": "user20",
+            "first_name": "Tina",
+            "last_name": "Belcher",
+            "email": "tina.belcher@example.com",
+            "login42": "tina42",
+            "password": "hashed_password_20"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 21,
+        "fields": {
+            "username": "user21",
+            "first_name": "Uma",
+            "last_name": "Thurman",
+            "email": "uma.thurman@example.com",
+            "login42": "uma42",
+            "password": "hashed_password_21"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 22,
+        "fields": {
+            "username": "user22",
+            "first_name": "Victor",
+            "last_name": "Frankenstein",
+            "email": "victor.frankenstein@example.com",
+            "login42": "victor42",
+            "password": "hashed_password_22"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 23,
+        "fields": {
+            "username": "user23",
+            "first_name": "Willow",
+            "last_name": "Rosenberg",
+            "email": "willow.rosenberg@example.com",
+            "login42": "willow42",
+            "password": "hashed_password_23"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 24,
+        "fields": {
+            "username": "user24",
+            "first_name": "Xena",
+            "last_name": "Warrior",
+            "email": "xena.warrior@example.com",
+            "login42": "xena42",
+            "password": "hashed_password_24"
+        }
+    },
+    {
+        "model": "accounts.api42user",
+        "pk": 25,
+        "fields": {
+            "username": "user25",
+            "first_name": "Yoda",
+            "last_name": "Jedi",
+            "email": "yoda.jedi@example.com",
+            "login42": "yoda42",
+            "password": "hashed_password_25"
+        }
+    }
+]
