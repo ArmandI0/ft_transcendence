@@ -26,6 +26,7 @@ export async function loadEventListeners(page)
 	}
 	else if (page == 'charts')
 	{
+
 	}
 }
 
