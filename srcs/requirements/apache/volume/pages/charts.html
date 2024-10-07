@@ -3,22 +3,26 @@
 	<div id = "navbar"></div>
 	<div id ="grid-charts">
 		<div id = "choice_graph_buttons">
+			<p></p>
 			<button class="btn-custom-pong" id="button-stats-pong" type="button">RollandGapong</button>
 			<button class="btn-custom-pong" id="button-stats-cyberpong" type="button">Cyberpong</button>
 			<button class="btn-custom-pong" id="button-stats-cards" type="button">Cards</button>
-			<form>
+
 				<label for="fname">Sets size:</label>
-				<input type="number" style="width: 50px;" id="sets-size-asked" min="1" max="100" required>
+				<input type="number" style="width: 50px; height:25px; display: flex; justify-content: center;" id="sets-size-field">
 				<button class="btn-custom-pong" id="button-stats-groups" type="button">Ok</button>
-			</form> 
+
 		</div>
 		<div id = "graphs_above">
 			<div id="bars-score-by-game"><canvas></canvas></div>
 			<div id="pie-win-defeat">
-				<p></p>
+				<p class = 'pie-title'></p>
 				<div>
 					<canvas></canvas>
-					<div class="legend"></div>
+					<div class="legend">
+						<div class = "legend-box-title"></div>
+						<div class = "legend-box-title"></div>
+					</div>
 				</div>
 			</div>
 		</div>

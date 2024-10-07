@@ -1,3 +1,5 @@
+import { addCanvasId } from "../utils/utils_charts.js";
+
 function roundUpUnlessInt(num) 
 {
     if (Number.isInteger(num))
@@ -62,7 +64,7 @@ export default class ChartBar
 		const valuesY = this.calculateValuesY(this.nb_obj, this.groupSize);
 
 		Chart.defaults.color = '#FFFFFF';
-		const chart = new Chart(this.ctx, 
+		const chartBar = new Chart(this.ctx, 
 		{
 			type: 'bar',
 			data: 
@@ -94,6 +96,7 @@ export default class ChartBar
 					}
 				},					
 				animations :false,
+				animaiton:false,
 				scales: {
 					x: {
 						title: {
@@ -123,5 +126,6 @@ export default class ChartBar
 				}
 			}
 		});
+		addCanvasId(chartBar);
 	}
 };

@@ -1,9 +1,10 @@
 import { hideSection, showSection } from './showAndHideSections.js';
 import { startGame3D } from '../pong3D.js';
 import { handleAPI42return } from '../home.js';
-import { startPong } from "../pong.js";
-import { startTournament } from "../pong.js";
+import { startPong, startTournament } from "../pong.js";
 import * as gameStatus from './gameStatus.js' ;
+import { setGameTypeData, setSetSize } from './utils_charts.js';
+import { generateCharts } from '../charts.js';
 
 export async function loadEventListeners(page)
 {
@@ -113,7 +114,42 @@ export async function loadEventListeners(page)
 	}
 	else if (page == 'charts')
 	{
+		document.getElementById('button-stats-pong').addEventListener('click', function() {
+			setGameTypeData("RollangGapong");
+			generateCharts();
+		});
+		document.getElementById('button-stats-cyberpong').addEventListener('click', function() {
+			setGameTypeData("Cyberpong");
+			generateCharts();
+		});	
+		document.getElementById('button-stats-cards').addEventListener('click', function() {
+			setGameTypeData("Cards");
+			generateCharts();
+		});	
+		document.getElementById('button-stats-groups').addEventListener('click', function() {
+			let nb = parseInt(document.getElementById("sets-size-field").value);
+			let groupSize;
 		
+			if (!isNaN(nb) && nb >= 1 && nb <= 100) {
+				groupSize = nb;
+			} 
+			else {
+				groupSize = 5;
+			}
+		
+			setSetSize(groupSize);
+			generateCharts();
+		});
+		// document.getElementById('button-stats-groups').addEventListener('keydown', function(event) {
+		// 	if (event.key === 'Enter') {
+		// 		event.preventDefault();
+		// 	}
+		// });	
+		// document.getElementById('button-stats-groups').addEventListener('keypress', function(event) {
+		// 	if (event.key === 'Enter') {
+		// 		event.preventDefault();
+		// 	}
+		// });		
 	}
 }
 
