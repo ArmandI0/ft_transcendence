@@ -55,10 +55,10 @@ async function submitRegistrationForm(form)
 		{
             method: 'POST',
             body: formData,
-            headers:{'X-Requested-With' : 'XMLHttpRequest'}// Indique qu'il s'agit d'une requête AJAX 
+            headers:{'X-Requested-With' : 'XMLHttpRequest'}
         });
 
-        const data = await response.json();  // Attend la réponse JSON
+        const data = await response.json();
         if (response.ok)
 		{
             console.log('Succès :', data.message);
