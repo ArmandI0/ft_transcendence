@@ -1,6 +1,8 @@
 import ChartBar from "./classes/ChartBar.js";
 import ChartPie from "./classes/ChartPie.js";
-import ChartTime from "./classes/ChartTime.js";
+import { drawLine } from "./utils/utils_charts.js";
+import { drawArc } from "./utils/utils_charts.js";
+import { drawPieSlice } from "./utils/utils_charts.js";
 
 function updateCanvasSize(chart) 
 {
@@ -18,41 +20,22 @@ function createTitle(title, div_parent)
 	div_parent.appendChild(title_div);
 }
 
-function generateBarsChart(div_id, data, title, legendYtext, legendXtext, groupSize)
+function generateBarsChart(div_id, data, title, legendYtext, legendXtext)
 {
-	const ctx = document.querySelector("#" + div_id + " canvas");
-	const options =({
-		ctx:ctx,
-		data:data,
-		title:title,
-		legendYText:legendYtext,
-		legendXText:legendXtext,
-		groupSize:groupSize
-	});
-	const chart = new ChartBar(options);
-	chart.generate();
-}
+	var chart;
+	var div_chart = document.getElementById(div_id);
+	//createTitle(title, div_chart);
 
-function generateLineChart(div_id, data, title, legendYtext, legendXtext, groupSize)
-{
-	const ctx = document.querySelector("#" + div_id + " canvas");
-	const options =({
-		ctx:ctx,
-		data:data,
-		title:title,
-		legendYText:legendYtext,
-		legendXText:legendXtext,
-		groupSize:groupSize
-	});
-	const chart = new ChartTime(options);
+	var chart_body = document.createElement("div");
+	chart_body.classList.add('chart_body')
+	div_chart.appendChild(chart_body);
+	chart = new ChartBar(data, chart_body, legendYtext, legendXtext);
 	chart.generate();
 }
 
 function generatePieChart(div_id, data, title)
 {
-	const p_title = document.querySelector("#" + div_id + " p");
-	p_title.innerHTML = title;
-	var chart = document.querySelector("#" + div_id + " div canvas");
+	var chart = document.querySelector("#" + div_id + " canvas");
 
 	var pieChart = new ChartPie(
 		{
@@ -72,10 +55,9 @@ function generatePieChart(div_id, data, title)
 
 export function generateCharts(datas)
 {
-	const groupSize = 5;
-	generateBarsChart('bars-score-by-game', datas, "Proportion of games won", "Proportion of games won (%)", `Sets of games played (by ${groupSize})`, groupSize);
-	generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
-	generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Sets of games played (by ${groupSize})`, groupSize);
+	generateBarsChart('bars-score-by-game', datas['bars'], "Proportion of games won every 10 games", "Proportion of games won (%)", "Pack of games played (by 10)");
+	generatePieChart('pie-win-defeat', datas['pie'], "Proportion of games won overall");
+	generateBarsChart('other-graph', datas['bars'], "Proportion of games won every 10 games", "Proportion of games won (%)", "Pack of games played (by 10)");
 }
 
 // export function generateChart(div_id, data, type, title)

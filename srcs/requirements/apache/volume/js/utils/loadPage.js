@@ -36,14 +36,12 @@ export async function loadScript(page)
 	existingScript.remove();
 	}
 
-	// Créer un élément script
 	const script = document.createElement('script');
 	script.src = `js/${page}.js`;
 	script.id = scriptId;
 	script.async = true;
 	script.type = 'module';
 
-	// Attendre que le script soit chargé
 	return new Promise((resolve) => {
 		script.onload = () => {
 			console.log(`Script ${page}.js chargé avec succès.`);

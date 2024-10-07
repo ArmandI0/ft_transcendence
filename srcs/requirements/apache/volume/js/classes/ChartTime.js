@@ -18,35 +18,37 @@ export default class ChartBar
 		this.groupSize = options.groupSize;
 	}
 
-	calculateValuesY(nbObj, groupSize)
+	calculateValuesY(groupSize)
 	{
 		let listLabels = [];
-		var i = 1;
-		var sum = 0;
-		const nbEl = roundUpUnlessInt(nbObj/ groupSize);
+		let i = 0;
+		let sum = 0;
 		this.datas.forEach((obj, index, array) => 
 		{
-			sum += obj.won;
-			if (i === groupSize || index === array.length - 1)
+			if (obj.won === 1)
+				{
+					sum += obj.time;
+					i++;
+				}
+			if (i === groupSize || ((index === array.length - 1) && (i != 0)))
 			{
-				const barHeight = (sum / i * 100).toFixed(2);
-				listLabels.push(barHeight);
+				const lineY = (sum / i).toFixed(1);
+				listLabels.push(lineY);
 				sum = 0;
-				i = 1;
+				i = 0;
 			}
-			i++;
 		});
 		return (listLabels);
 	}
 
-	calculateLabelX(nbObj, groupSize)
+	calculateLabelX(wonGames, groupSize)
 	{
-		const nb_el = roundUpUnlessInt(nbObj / groupSize);
+		const nb_el = roundUpUnlessInt(wonGames / groupSize);
 		let listLabels = [];
 		var i = 0;
-		for (i = 1; i <= nbObj; i++)
+		for (i = 1; i <= wonGames; i++)
 		{
-			if (i % groupSize === 0 || i === nbObj)
+			if (i % groupSize === 0 || i === wonGames)
 			{
 				let x = `${roundUpUnlessInt(i / groupSize)}`;
 				listLabels.push(x);
@@ -58,13 +60,14 @@ export default class ChartBar
 	generate()
 	{
 
-		const labelsX = this.calculateLabelX(this.nb_obj, this.groupSize);
-		const valuesY = this.calculateValuesY(this.nb_obj, this.groupSize);
+		const wonGames = this.datas.filter(obj => obj.won === 1).length;
+		const labelsX = this.calculateLabelX(wonGames, this.groupSize);
+		const valuesY = this.calculateValuesY(this.groupSize);
 
 		Chart.defaults.color = '#FFFFFF';
 		const chart = new Chart(this.ctx, 
 		{
-			type: 'bar',
+			type: 'line',
 			data: 
 			{
 				labels: labelsX,
