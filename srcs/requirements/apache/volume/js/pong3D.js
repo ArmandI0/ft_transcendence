@@ -1,36 +1,37 @@
-import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock} from './globals/pong3D_const.js';
+import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock, clockIA} from './globals/pong3D_const.js';
 import * as gameStatus from './utils/gameStatus.js' ;
+import { iaPlayer, preventKeys } from './utils/pong_ia_3d.js';
 
 async function putScoreToDb()
 {
-	const url = '/api/setPongResult/';
+	// const url = '/api/setPongResult/';
 
-	const data = {
-		user : 'user1',
-		score: 'score1',
-	}
+	// const data = {
+	// 	user : 'user1',
+	// 	score: 'score1',
+	// }
 
-	try 
-	{
-		const response = await fetch(url, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		});
+	// try 
+	// {
+	// 	const response = await fetch(url, {
+	// 		method: 'POST',
+	// 		headers: {
+	// 			'Content-Type': 'application/json'
+	// 		},
+	// 		body: JSON.stringify(data)
+	// 	});
 
-		if (!response.ok) {
-			throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
-		}
+	// 	if (!response.ok) {
+	// 		throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+	// 	}
 
-		const responseData = await response.json();
-		console.log('Réponse du serveur:', responseData);
-	}
-	catch (error) 
-	{
-		console.error('Erreur lors de la requête POST:', error);
-	}
+	// 	const responseData = await response.json();
+	// 	console.log('Réponse du serveur:', responseData);
+	// }
+	// catch (error) 
+	// {
+	// 	console.error('Erreur lors de la requête POST:', error);
+	// }
 }
 
 function makeObjectInstance(geomType, geom, color, pos_z, scene) 
@@ -150,13 +151,11 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 	// check if pad hit or ball out
 	if (Math.abs(ball.position.z) >= table_geom.getZ() / 2 - pad_geom.getZ() / 1.5)
 	{
-		console.log(ball.position.z);
-
 		col_z = checkCollisionPad(ball, pad1, pad2);
+
 		// reset if out
 		if (col_z === -1000)
 		{
-			//console.log(ball.position.z);
 			ball.position.z = 0;
 			ball.position.x = 0;
 			ball.position.y = calculateYposition(ball.position.z);
@@ -307,7 +306,8 @@ export async function  startGame3D()
 	});
 
 	clock.start();
-
+	if (gameStatus.getStatus('ia') === true)
+		clockIA.start();
 		// window.addEventListener('popstate', function(event)
 		// {
 		// 	pong3D_run = false;
@@ -322,8 +322,6 @@ export async function  startGame3D()
 			putScoreToDb();
 			return;		
 		}
-		else if (gameStatus.getStatus('game_run') === true)
-			console.log("started");
 
 		requestAnimationFrame(pong3DAnimate);
 		if(!pause)
@@ -334,6 +332,11 @@ export async function  startGame3D()
 		linesEdgesPad1.position.x = pad1.position.x;
 		linesEdgesPad2.position.x = pad2.position.x;
 
+		// if (gameStatus.getStatus('ia') === true)
+		// {
+		// 	preventKeys('ArrowLeft');
+		// 	preventKeys('ArrowRight');
+		// }
 		if (keysPressed['ArrowLeft']) {
 			pad1.position.x += 0.75; 
 		}
@@ -346,6 +349,15 @@ export async function  startGame3D()
 		if (keysPressed['KeyD']) {
 			pad2.position.x += 0.75;
 		}
+
+        if (clockIA.getElapsedTime() > 0.5 && gameStatus.getStatus('ia') === true) 
+		{
+			if (ball_dir.getZ() < 0)
+                iaPlayer(ball_dir, ball, pad1,1);
+			else
+				iaPlayer(ball_dir, ball, pad1,0);
+            clockIA.start();
+        }
 
 		renderer1.render(scene, camera1);
 		renderer2.render(scene, camera2);
