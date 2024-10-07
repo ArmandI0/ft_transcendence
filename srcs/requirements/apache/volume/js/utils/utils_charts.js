@@ -1,3 +1,7 @@
+let gameTypeData = "RollandGapong";
+let canvasID= [];
+let setSize = 5;
+
 export function drawLine(ctx, startX, startY, endX, endY, color, lineWidth)
 {
 	ctx.save();
@@ -35,7 +39,34 @@ export function drawPieSlice(ctx,centerX, centerY, radius, startAngle, endAngle,
     ctx.restore();
 }
 
-export function drawBox()
+export function getGameTypeData()
 {
-	
+	return gameTypeData;
+}
+
+export function setGameTypeData(type)
+{
+	gameTypeData = type;
+}
+
+export function addCanvasId(id)
+{
+	canvasID.push(id);
+}
+
+export function destroyCanvas()
+{
+	canvasID.forEach(element => {
+		element.destroy();
+	});
+}
+
+export function getSetSize()
+{
+	return setSize;
+}
+
+export function setSetSize(nb)
+{
+	setSize = nb;
 }

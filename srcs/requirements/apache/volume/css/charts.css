@@ -83,29 +83,53 @@ body, html
 	justify-content: flex-start;
 }
 
-#pie-win-defeat div
-{
-	height: 100%;
-	width: 100%;
-}
-
-#pie-win-defeat p
+.pie-title
 {
 	font-size: 20px;
 	font-weight: bold;
 }
 
+#pie-win-defeat div
+{
+	display : flex;
+	flex-direction: row;
+	height: 100%;
+	width: 90%;
+}
+
+
 #pie-win-defeat div canvas
 {
-	width: 100%;
-	height : 90%
+	width: 75%;
+	height : 100%
 }
 
 #pie-win-defeat div .legend
 {
-	width: 100%;
-	height : 10%;
-	background-color : rgb(129, 180, 9);
+	width: 25%;
+	height : 100%;
+	display: flex;
+	font-size: 15px;
+	flex-direction: column;
+}
+
+
+#pie-win-defeat div .legend-box-title
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+
+#pie-win-defeat div .legend-box-title .legend-boxes
+{
+	border: 1px solid black;
+	width : 50px;
+	height: 25px;
+	margin-right : 5px;
+	margin-bottom: 0;
 }
 
 /* BUTTONS*/
@@ -121,7 +145,8 @@ body, html
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-right : 100px;
+    margin-right : 20px;
+    margin-left : 20px;
 	padding-top: 0.5vh;
 	height : 4vh;
 }
