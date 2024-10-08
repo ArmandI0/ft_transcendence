@@ -10,6 +10,17 @@
     }
 }
 
+@keyframes zoomOutFadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
 /* Containers */
 #pong-container {
     margin: 0;
@@ -58,8 +69,54 @@
     right: 50%;
     width: 50%;
     height: 80%;
-    opacity: 0.4;
+    opacity: 0.6;
     z-index: 1; /* Assurez-vous que le filtre est au-dessus de la vidéo */
+}
+
+#rolandLogo {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+    z-index: 1;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+#rodgerLogo {
+    display: none;
+    position: absolute;
+    top: 20%;
+    left: 100%;
+    width: 35%;
+    height: 90%;
+    opacity: 0.9; 
+    z-index: 1; 
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.slide-left {
+    transform: translateX(-90%);
+    opacity: 0.8;
+}
+
+.slide-right {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.slide-right-roland {
+    transform: translateX(40%);
+    opacity: 0;
+}
+
+.slide-left-roland {
+    /* top: 0;
+    left: 100%; */
+    transform: translateX(-90%);
+    opacity: 0.8;
 }
 
 #video-overlayGreen {
@@ -68,18 +125,32 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 50, 0, 0.8); /* Ajustez cette valeur pour plus ou moins de transparence */
-    z-index: 1; /* Assurez-vous que le filtre est au-dessus de la vidéo */
+    background: rgba(0, 50, 0, 0.8); 
+    z-index: 1;
 }
 
 #tournament-container-pong {
     display: none;
     flex-direction: column;
     align-items: center;
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+#tournament-container-pong.hide {
+    animation: zoomOutFadeOut 0.5s ease-in-out;
+    opacity: 0;
+    transform: scale(0.5);
 }
 
 #tournament-visualizer-pong, #tournament-winner-pong {
     display: none;
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+#tournament-visualizer-pong.hide {
+    animation: zoomOutFadeOut 0.5s ease-in-out;
+    opacity: 0;
+    transform: scale(0.5);
 }
 
 #game-container-pong {
@@ -89,6 +160,94 @@
     display: none;
     position: relative;
     border-radius: 15px;
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+#game-container-pong.hide {
+    animation: zoomOutFadeOut 0.5s ease-in-out;
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+#tuto-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(128, 128, 128, 0.5);
+    width: 300px;
+    height: 300px;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: -20px;
+    opacity: 0;
+    transition: top 0.5s ease, opacity 0.5s ease;
+}
+
+#tuto-container.show {
+    display: flex; /* Affiche le conteneur */
+    top: 0; /* Remet à la position d'origine */
+    opacity: 1; /* Rend visible */
+}
+
+#top-title {
+    position: absolute;
+    top: 20px; /* Ajustez selon vos besoins */
+    left: 50%;
+    width: 100%; 
+    color: white;
+    transform: translateX(-50%);
+    font-size: 30px; /* Ajustez selon vos besoins */
+    text-align: center;
+}
+
+#middle-title {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    width: 100%; 
+    color: white;
+    transform: translate(-50%, -50%);
+    font-size: 30px; /* Ajustez selon vos besoins */
+    text-align: center;
+}
+
+#W-key{
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    width: 20%;
+    height: 21%;
+    opacity: 0.4;
+}
+
+#S-key{
+    position: absolute;
+    top: 25%;
+    right: 20%;
+    width: 20%;
+    height: 21%;
+    opacity: 0.4;
+}
+
+#Up-key{
+    position: absolute;
+    top: 70%;
+    left: 20%;
+    width: 20%;
+    height: 21%;
+    opacity: 0.4;
+}
+
+#Down-key{
+    position: absolute;
+    top: 70%;
+    right: 20%;
+    width: 20%;
+    height: 21%;
+    opacity: 0.4;
 }
 
 #main-menu-buttons-pong {
@@ -97,18 +256,35 @@
     align-items: center;
 }
 
-#select-chelem {
+#Home-pong{
     display: none;
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
+
+#select-chelem {
+    display: none; /* Masqué par défaut */
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    background-color: #808080;
+    background-color: rgba(128, 128, 128, 0.5);
     width: 300px;
-    height: 300px;
+    height: 450px;
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: -20px;
+    opacity: 0;
+    transition: top 0.5s ease, opacity 0.5s ease;
 }
+
+#select-chelem.show {
+    display: flex; /* Affiche le conteneur */
+    top: 0; /* Remet à la position d'origine */
+    opacity: 1; /* Rend visible */
+}
+
 
 #play-pong {
     display: none;
@@ -152,7 +328,7 @@
 }
 
 /* Buttons */
-.btn-custom-pong, .btn-custom2-pong, .btn-custom3-pong, .btn-custom4-pong {
+.btn-custom-pong, .btn-custom2-pong, .btn-custom3-pong {
     background-color: rgba(210, 105, 30, 0.1);
     border: 4px solid #e2e2e2;;
     color: rgb(255, 255, 255);
@@ -185,11 +361,81 @@
     padding: 10px 20px;
     margin-top: 5px;
     width: 200px;
+    border-radius: 15px;
     text-align: center;
-    background-color: #e26906;
-    border: 1px solid #ccc;
+    color: rgb(255, 255, 255);
+    background-color: #e2690613;
+    border: 3px solid #ccc;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+.btn-custom4-pong:hover {
+    background-color: #c0611d;
+    transform: scale(1.1);
+}
+
+.btn-custom4-pong.selected {
+    background-color: #c0611d;
+}
+
+.btn-custom4-pong.not-selected {
+    background-color: #e2690613;
+    border-color: #ccc;
+}
+
+.btn-custom5-pong {
+    padding: 10px 20px;
+    margin-top: 10px;
+    width: 200px;
+    border-radius: 15px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: #e2690613;
+    border: 3px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-custom5-pong:hover {
+    background-color: #c0611d;
+    transform: scale(1.1);
+}
+
+.btn-custom5-pong.selected {
+    background-color: #c0611d;
+}
+
+.btn-custom5-pong.not-selected {
+    background-color: #e2690613;
+    border-color: #ccc;
+}
+
+.btn-custom6-pong {
+    padding: 10px 20px;
+    margin-top: 30px;
+    width: 200px;
+    border-radius: 15px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: #e2690613;
+    border: 3px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-custom6-pong:hover {
+    background-color: #c0611d;
+    transform: scale(1.1);
+}
+
+.btn-custom6-pong.selected {
+    background-color: #c0611d;
+}
+
+.btn-custom6-pong.not-selected {
+    background-color: #e2690613;
+    border-color: #ccc;
 }
 
 
@@ -303,15 +549,15 @@
     transform: translateY(-50%);
 }
 
-/* #ballPrediction {
-    width: 20px;
-    height: 20px;
-    background-color: red;
+#visuIA {
+    display: none;
     position: absolute;
     right: 0;
     top: 50%;
-    transform: translateY(-50%);
-} */
+    width: 20px;
+    height: 20px;
+    background-color:red;
+}
 
 #ball {
     display: none;

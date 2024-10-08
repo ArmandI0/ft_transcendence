@@ -1,9 +1,11 @@
 let game_run = false;
 let ia = false;
-let isPaused = false;
+let isPaused = true;
 let tournamentMod = false;
 let tournamentInProgress = false;
 let paramSectionVisible = false;
+let tutoSectionVisible = false;
+let isPower = false;
 
 export function getStatus(name_var)
 {
@@ -19,6 +21,10 @@ export function getStatus(name_var)
 		return tournamentInProgress;
 	if (name_var === 'paramSectionVisible')
 		return paramSectionVisible;
+	if (name_var === 'tutoSectionVisible')
+		return tutoSectionVisible;
+	if (name_var === 'isPower')
+		return isPower;
 }
 
 export function setStatus(name_var, status)
@@ -35,4 +41,8 @@ export function setStatus(name_var, status)
 		tournamentInProgress = status;
 	else if (name_var === 'paramSectionVisible')
 		paramSectionVisible = status;
+	else if (name_var === 'tutoSectionVisible')
+		tutoSectionVisible = status;
+	else if (name_var === 'isPower')
+		isPower = status;
 }
