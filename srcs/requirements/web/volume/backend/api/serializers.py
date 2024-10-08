@@ -11,3 +11,8 @@ class PongChartResultSerializer(serializers.ModelSerializer):
             return int(obj.score_player1) > int(obj.score_player2)
         except ValueError:
             return False
+
+class CardChartResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PongGameResult
+        fields = ['game_id' , 'game_duration']
