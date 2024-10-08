@@ -238,6 +238,7 @@ function updateBallPosition(ball, player1, player2, court, tournament)
     {
         ball.x += ball.speedX;
         ball.y += ball.speedY;
+        console.log(ball.x);
 
         let direction = ball.speedX > 0 ? 'right' : 'left';
 

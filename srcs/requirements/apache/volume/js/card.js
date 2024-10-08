@@ -1,3 +1,5 @@
+import * as gameStatus from './utils/gameStatus.js' ;
+
 let cardValue = [];
 let flippedCards = [];
 let stockChronos = [];
@@ -123,9 +125,10 @@ function returnCard(cardId)
     
     if (cardElement) 
     {
+        
         cardElement.addEventListener('click', function() {
             
-            if (flippedCards.length < 2)
+            if (flippedCards.length < 2 && gameStatus.getStatus('isCardClickable'))
             {
                 this.classList.toggle('card-front');
                 this.classList.toggle('card-back');
@@ -176,7 +179,7 @@ function findValueInArray(array, value)
     return array.find(element => element === value);
 }
 
-function giveValue()
+async function giveValue()
 {
     let value;
     let banValues = [];
@@ -215,7 +218,44 @@ function giveValue()
     // Mise a jour des elements HTML avec les valeurs des cartes
     for (let i = 0; i < 18; i++)
         document.getElementById(`card${i + 1}`).textContent = cardValue[i];
+    // Utilisation de la fonction avec une durée de 3 secondes (3000 millisecondes)
+    
+    if (gameStatus.getStatus('isPower'))
+    {
+        gameStatus.setStatus('isCardClickable', false);
+        flipCardsTemporarily(['card1', 'card2', 'card3', 'card4', 'card5', 'card6', 'card7', 'card8',
+            'card9', 'card10', 'card11', 'card12', 'card13', 'card14', 'card15', 'card16', 'card17', 'card18']);
+        await reflipCardsTemporarily(['card1', 'card2', 'card3', 'card4', 'card5', 'card6', 'card7', 'card8',
+            'card9', 'card10', 'card11', 'card12', 'card13', 'card14', 'card15', 'card16', 'card17', 'card18'], 1000);
+    }
 }
+
+
+function flipCardsTemporarily(cardIds) {
+
+    cardIds.forEach(cardId => {
+        const card = document.getElementById(cardId);
+        if (card.classList.contains('card-back')) {
+            card.classList.remove('card-back');
+            card.classList.add('card-front');
+        }
+    });
+}
+
+async function reflipCardsTemporarily(cardIds, duration) {
+    setTimeout(() => {
+        cardIds.forEach(cardId => {
+            const card = document.getElementById(cardId);
+            if (card.classList.contains('card-front')) {
+                card.classList.remove('card-front');
+                card.classList.add('card-back');
+            }
+        });
+        gameStatus.setStatus('isCardClickable', true);
+    }, duration);
+
+}
+
 
 function formatTime(milliseconds) 
 {
@@ -283,10 +323,113 @@ document.getElementById('start').addEventListener('click', function()
     document.getElementById('start').style.display = 'none';
 });
 
+document.getElementById('Parameters').addEventListener('click', function() {
+    const isSectionVisible = gameStatus.getStatus('paramSectionVisible');
+    
+    const section = document.getElementById('select-param');
+
+    if (isSectionVisible) 
+    {
+        section.classList.remove('show');
+        setTimeout(() => {
+            section.style.display = 'none';
+        }, 500);
+    }
+    else
+    {
+        section.style.display = 'flex'; 
+        setTimeout(() => {
+            section.classList.add('show');
+        }, 10);
+    }
+    
+    gameStatus.setStatus('paramSectionVisible', !isSectionVisible);
+});
+
+document.querySelectorAll('.btn-custom4-card').forEach(button => {
+    button.addEventListener('click', function() {
+        document.querySelectorAll('.btn-custom4-card').forEach(btn => {
+            btn.classList.remove('selected');
+            btn.classList.add('not-selected');
+        });
+        
+        this.classList.add('selected');
+        this.classList.remove('not-selected');
+    });
+});
+
+document.querySelectorAll('.btn-custom5-card').forEach(button => {
+    button.addEventListener('click', function() {
+
+        if (this.classList.contains('selected')) {
+            gameStatus.setStatus('isPower', false);
+            this.classList.remove('selected');
+            this.classList.add('not-selected');
+        } else {
+            gameStatus.setStatus('isPower', true);
+            document.querySelectorAll('.btn-custom5-card').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.classList.add('not-selected');
+            });
+
+            this.classList.add('selected');
+            this.classList.remove('not-selected');
+        }
+    });
+});
+
+document.getElementById('white').addEventListener('click', function() {
+    const cardBacks = document.getElementsByClassName('card-back');
+    const cardFronts = document.getElementsByClassName('card-front');
+
+    for (let i = 0; i < cardFronts.length; i++) {
+        cardFronts[i].style.backgroundColor = 'white';
+    }
+    for (let i = 0; i < cardBacks.length; i++) {
+        cardBacks[i].style.backgroundColor = 'white';
+    }
+});
+
+document.getElementById('grey').addEventListener('click', function() {
+    const cardBacks = document.getElementsByClassName('card-back');
+    const cardFronts = document.getElementsByClassName('card-front');
+
+    for (let i = 0; i < cardFronts.length; i++) {
+        cardFronts[i].style.backgroundColor = 'grey';
+    }
+    for (let i = 0; i < cardBacks.length; i++) {
+        cardBacks[i].style.backgroundColor = 'grey';
+    }
+});
+
+document.getElementById('blue').addEventListener('click', function() {
+    const cardBacks = document.getElementsByClassName('card-back');
+    const cardFronts = document.getElementsByClassName('card-front');
+
+    for (let i = 0; i < cardBacks.length; i++) {
+        cardBacks[i].style.backgroundColor = 'lightblue';
+    }
+    for (let i = 0; i < cardFronts.length; i++) {
+        cardFronts[i].style.backgroundColor = 'lightblue';
+    }
+});
+
+document.getElementById('yellow').addEventListener('click', function() {
+    const cardBacks = document.getElementsByClassName('card-back');
+    const cardFronts = document.getElementsByClassName('card-front');
+    
+    for (let i = 0; i < cardFronts.length; i++) {
+        cardFronts[i].style.backgroundColor = '#FFFFE0';
+    }
+    for (let i = 0; i < cardBacks.length; i++) {
+        cardBacks[i].style.backgroundColor = '#FFFFE0';
+    }
+});
 
 document.getElementById('Home').addEventListener('click', function()
 {
     resetCardGame();
+    gameStatus.setStatus('isPower', false);
     hideSectionCard('hide-game-container');
     hideSectionCard('tournament-container-card');
     hideSectionCard('tournament-visualizer-card');

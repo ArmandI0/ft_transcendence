@@ -143,7 +143,7 @@ export async function loadEventListeners(page)
 			
 			const section = document.getElementById('select-chelem');
 		
-			if (isSectionVisible) 
+			if (isSectionVisible)
 			{
 				section.classList.remove('show');
 				setTimeout(() => {
