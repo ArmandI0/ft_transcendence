@@ -4,7 +4,7 @@ import {loadCss, loadHtml, loadScript} from './utils/loadPage.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 import { launchFunctions } from './utils/launchFunctions.js';
 
-function getCookie(name)
+export function getCookie(name)
 {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -35,11 +35,11 @@ async function is_auth()
 	if (response.status === 200)
 	{
 		console.log('Succès :', data.message);
-		return true
+		return true;
 	}
 	else
 	{
-		return false
+		return false;
 	}
 }
 

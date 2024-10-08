@@ -7,3 +7,4 @@ export const pad2_z = 40;
 export const table_geom = new XYZ(40, 1, 80);
 export const ball_start_dir = new XYZ(0, 0, 0.5);
 export const clock = new THREE.Clock();
+export const clockIA = new THREE.Clock();
