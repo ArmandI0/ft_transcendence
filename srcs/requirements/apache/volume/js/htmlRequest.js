@@ -34,8 +34,8 @@ async function is_auth()
 	const data = await response.json();
 	if (response.status === 200)
 	{
-		console.log('Succès :', data.message);
-		return true;
+		console.log('Success :', data.message);
+		return true
 	}
 	else
 	{

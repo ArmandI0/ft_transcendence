@@ -28,7 +28,9 @@ def get42UserData(request, response):
 		return JsonResponse(user_data)
 	except ValueError:
 		return JsonResponse({'error': 'Failed to retrieve token', 'details': response.json()}, status=response.status_code)
-	
+
+
+
 def api42_request(request) :
 	if request.method == 'GET':
 		code = request.GET.get('code')

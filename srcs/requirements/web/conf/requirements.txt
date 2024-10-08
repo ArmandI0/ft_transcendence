@@ -1,5 +1,5 @@
 Django
-psycopg2-binary
+psycopg2>=2.9
 djangorestframework
 django-cors-headers
 hvac
