@@ -1,10 +1,7 @@
 import { hideSection, showSection } from './showAndHideSections.js';
 import { startGame3D } from '../pong3D.js';
 import { handleAPI42return } from '../home.js';
-import { resetVisualizerTournament, startPong } from "../pong.js";
-import { startTournament } from "../pong.js";
-import { startPong, startTournament } from "../pong.js";
-
+import { resetVisualizerTournament, startPong, startTournament } from "../pong.js";
 import * as gameStatus from './gameStatus.js' ;
 import { setGameTypeData, setSetSize } from './utils_charts.js';
 import { generateCharts } from '../charts.js';
