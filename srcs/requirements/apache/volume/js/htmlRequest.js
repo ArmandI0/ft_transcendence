@@ -58,7 +58,7 @@ async function loadPage(page, div)
 	const existingStyles = document.querySelectorAll('link[data-page]');
 	existingStyles.forEach(link => link.remove());
 		
-	if (page) 
+	if (page)
 		loadCss(page);
 	try 
 	{
@@ -83,17 +83,26 @@ async function loadPage(page, div)
 
 document.addEventListener('DOMContentLoaded', async () => {
 	const app = document.getElementById('app');
+	let historyNav = JSON.parse(localStorage.getItem('historyNav')) || [{ page: 'home', div: 'app' }];
+	const actualState = historyNav[historyNav.length];
 
-	loadPage('home', 'app');
+	const actualPage = actualState.page;
+	const actualDiv = actualState.Div;
 
-	// SERT aux boutons BACKWARD AND FORWARD
+	loadPage(actualPage, actualDiv);
+
 	window.addEventListener('popstate', (event) => {
-		const path = window.location.pathname.substring(1) || 'home';
-		const divToReplace = event.state || 'app';
-		loadPage(path, divToReplace);
+		const prevState = historyNav.length > 0 ? historyNav[historyNav.length - 1] : null;
+		if (prevState === null)
+		{
+			const prevPage = prevState.page;
+			const prevDiv = prevState.Div;
+			loadPage(prevPage, prevDiv);
+		}
+		else
+			loadPage('home', 'div');
 	});
 
-	let currentPage = 'home';
 	document.body.addEventListener('click', async (event) => {
 		if (event.target.matches('a'))
 		{
@@ -101,9 +110,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 			const href = event.target.getAttribute('href');
 			const div = event.target.getAttribute('div');
 			currentPage = href.substring(1);
+
+
+
 			let state = await loadPage(href.substring(1), div);
 			if(state)
-				window.history.pushState(div, '', href.substring(1));
+			{
+				historyStack.push({ page: href.substring(1), div: div });
+				localStorage.setItem('lastPage', href.substring(1));
+            	localStorage.setItem('lastDiv', div);
+				window.history.pushState({ page: currentPage }, '', href);
+			}
 			gameStatus.setStatus('game_run', false);
 		}
 	});

@@ -15,8 +15,8 @@ function handleCode(code)
 
 function updateUrlWindow(newUrl) 
 {
-	window.history.replaceState('app', '', newUrl);
-}
+	localStorage.setItem('lastPage', 'home');
+	localStorage.setItem('lastDiv', 'app');}
 
 export function handleAPI42return(url)
 {
@@ -26,6 +26,7 @@ export function handleAPI42return(url)
 		handleCode(code);
 		const new_url = window.location.origin + window.location.pathname;
 		updateUrlWindow(new_url);
+		history.replaceState({}, '', window.location.pathname);
 	}
 }
 
