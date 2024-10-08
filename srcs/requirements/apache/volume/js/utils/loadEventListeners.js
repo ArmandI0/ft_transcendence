@@ -1,79 +1,11 @@
 import { hideSection, showSection } from './showAndHideSections.js';
 import { startGame3D } from '../pong3D.js';
 import { handleAPI42return } from '../home.js';
-import { resetVisualizerTournament, startPong, startTournament } from "../pong.js";
+import { resetVisualizerTournament, resetPower, startPong, startTournament } from "../pong.js";
 import * as gameStatus from './gameStatus.js' ;
 import { setGameTypeData, setSetSize } from './utils_charts.js';
 import { generateCharts } from '../charts.js';
-
-let isAnimating = false;
-
-function slideInRodgerLogo()
-{
-    const rolandLogo = document.getElementById('rolandLogo');
-    const rodgerLogo = document.getElementById('rodgerLogo');
-
-    if (!isAnimating)
-	{
-        isAnimating = true; // Définir l'état de l'animation
-
-        // Réinitialiser les classes d'animation
-        rolandLogo.classList.remove('slide-right-roland');
-        rodgerLogo.classList.remove('slide-left');
-
-        // Forcer un reflow pour que les classes soient effectivement retirées
-        void rolandLogo.offsetWidth;
-
-        rolandLogo.classList.add('slide-right-roland');
-
-        // Attendre la fin de l'animation pour changer l'overlay
-        setTimeout(() => {
-            rolandLogo.classList.remove('slide-right-roland');
-            rolandLogo.style.display = 'none';
-            rodgerLogo.style.display = 'flex';
-
-            setTimeout(() => {
-                rodgerLogo.classList.add('slide-left');
-                isAnimating = false;
-            }, 500);
-        }, 500);
-    }
-}
-
-function slideInRolandLogo()
-{
-    const rolandLogo = document.getElementById('rolandLogo');
-    const rodgerLogo = document.getElementById('rodgerLogo');
-
-    if (!isAnimating)
-	{
-        isAnimating = true;
-
-        // Réinitialiser les classes d'animation
-        rodgerLogo.classList.remove('slide-right');
-        rolandLogo.classList.remove('slide-left-roland');
-
-        // Forcer un reflow pour que les classes soient effectivement retirées
-        void rodgerLogo.offsetWidth;
-
-		rolandLogo.style.top = '0';
-		rolandLogo.style.left = '140%';
-
-        rodgerLogo.classList.add('slide-right');
-
-        // Attendre la fin de l'animation pour changer l'overlay
-        setTimeout(() => {
-            rodgerLogo.classList.remove('slide-right');
-            rodgerLogo.style.display = 'none';
-            rolandLogo.style.display = 'flex';
-
-            setTimeout(() => {
-                rolandLogo.classList.add('slide-left-roland');
-                isAnimating = false;
-            }, 500);
-        }, 500); 
-    }
-}
+import { slideInRodgerLogo, slideInRolandLogo } from './pongAnim.js';
 
 export async function loadEventListeners(page)
 {
@@ -248,6 +180,7 @@ export async function loadEventListeners(page)
 			gameStatus.setStatus('ia', false);
 			gameStatus.setStatus('tournamentInProgress', false);
 			gameStatus.setStatus('isPaused', true);
+			resetPower();
 			resetVisualizerTournament();
 			hideSection('ball');
 			showSection('main-menu-buttons-pong');
