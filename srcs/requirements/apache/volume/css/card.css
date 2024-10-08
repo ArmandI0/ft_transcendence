@@ -10,6 +10,29 @@
     }
 }
 
+#tournament-visualizer-card-final {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+}
+
+#Home {
+    display: none; /* Cache le bouton par défaut */
+}
+
+#Final, #player1_finalist, #player2_finalist {
+    font-family: "Playfair Display", serif;
+    font-weight: bold;
+    font-size: 38px;
+    margin: 0;
+    padding: 0;
+    margin-top: 15px;
+    white-space: nowrap;
+    color: white;
+}
+
 /* Containers */
 #cardGame-container {
     margin: 0;
@@ -47,6 +70,7 @@
     margin: 0;
 }
 
+
 #chrono-visualizer {
     display: none;
     font-family: "Playfair Display", serif;
@@ -59,18 +83,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-#select-chelem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    background-color: rgba(128, 128, 128, 0.7);
-    width: 300px;
-    height: 300px;
-    border-radius: 15px;
-    padding: 20px;
 }
 
 #hide-game-container {
@@ -115,6 +127,85 @@
     margin-left: 0px;
     margin-top: 100px;
     border-radius: 15px;
+}
+
+/* Params */
+
+#select-param {
+    display: none; /* Masqué par défaut */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(128, 128, 128, 0.5);
+    width: 300px;
+    height: 380px;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: -20px;
+    opacity: 0;
+    transition: top 0.5s ease, opacity 0.5s ease;
+}
+
+#select-param.show {
+    display: flex; /* Affiche le conteneur */
+    top: 0; /* Remet à la position d'origine */
+    opacity: 1; /* Rend visible */
+}
+
+.btn-custom4-card {
+    padding: 10px 20px;
+    margin-top: 5px;
+    width: 200px;
+    border-radius: 15px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: #e2690613;
+    border: 3px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-custom4-card:hover {
+    background-color: #ddd4cd;
+    transform: scale(1.1);
+}
+
+.btn-custom4-card.selected {
+    background-color: #ddd4cd;
+}
+
+.btn-custom4-card.not-selected {
+    background-color: #e2690613;
+    border-color: #ccc;
+}
+
+.btn-custom5-card {
+    padding: 10px 20px;
+    margin-top: 20px;
+    width: 200px;
+    border-radius: 15px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: #e2690613;
+    border: 3px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-custom5-card:hover {
+    background-color: #ddd4cd;
+    transform: scale(1.1);
+}
+
+.btn-custom5-card.selected {
+    background-color: #ddd4cd;
+}
+
+.btn-custom5-card.not-selected {
+    background-color: #e2690613;
+    border-color: #ccc;
 }
 
 /* Buttons */
@@ -259,3 +350,4 @@
 #play-tournament {
     margin-top: 20px;
 }
+

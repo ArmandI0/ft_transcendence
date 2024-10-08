@@ -5,8 +5,6 @@ import * as gameStatus from './utils/gameStatus.js' ;
 let Players = [];
 let tournament;
 let animationFrameId;
-let player1Power = false;
-let player2Power = false;
 const keysPressed = {};
 
 /// CLASS PLAYER ////
@@ -215,6 +213,17 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
     }
 }
 
+export function resetPower()
+{
+    const p1Green = document.getElementById('player1');
+    const p2Green = document.getElementById('player2');
+
+    p1Green.style.backgroundColor = 'grey';
+    p2Green.style.backgroundColor = 'grey';
+    gameStatus.setStatus('player1Power', false);
+    gameStatus.setStatus('player2Power', false);
+}
+
 ///////// BALL MOVMENT ///////////
 
 let lastCallTime = Date.now();
@@ -229,6 +238,7 @@ function updateBallPosition(ball, player1, player2, court, tournament)
     {
         ball.x += ball.speedX;
         ball.y += ball.speedY;
+        console.log(ball.x);
 
         let direction = ball.speedX > 0 ? 'right' : 'left';
 
@@ -237,8 +247,8 @@ function updateBallPosition(ball, player1, player2, court, tournament)
             if (direction === 'right')
             {
                 if (gameStatus.getStatus('isPower'))
-                    player2Power = getRandomPower();
-                if (player2Power === true)
+                    gameStatus.setStatus('player2Power', getRandomPower());
+                if (gameStatus.getStatus('player2Power') === true)
                 {
                     greenPlayer2.style.backgroundColor = 'lightgreen';
                     console.log('2 POWER');
@@ -247,8 +257,8 @@ function updateBallPosition(ball, player1, player2, court, tournament)
             else if (direction === 'left')
             {
                 if (gameStatus.getStatus('isPower'))
-                    player1Power = getRandomPower();
-                if (player1Power === true)
+                    gameStatus.setStatus('player1Power', getRandomPower());
+                if (gameStatus.getStatus('player1Power') === true)
                 {
                     greenPlayer1.style.backgroundColor = 'lightgreen';
                     console.log('1 POWER');
@@ -275,8 +285,9 @@ function updateBallPosition(ball, player1, player2, court, tournament)
         {
             if (ball.y >= player1.y - player1.height2 && ball.y <= player1.y + player1.height2)
             {
-                if (player1Power)
+                if (gameStatus.getStatus('player1Power') === true)
                 {
+                    console.log('BOOOOM');
                     ball.speedX = -ball.speedX * 4;
                     ball.speedY = 0;
                     greenPlayer1.style.backgroundColor = 'grey';
@@ -302,8 +313,9 @@ function updateBallPosition(ball, player1, player2, court, tournament)
         {
             if (ball.y >= player2.y - player2.height2 && ball.y <= player2.y + player2.height2)
             {
-                if (player2Power)
+                if (gameStatus.getStatus('player2Power') === true)
                 {
+                    console.log('BOOOOM');
                     ball.speedX = -ball.speedX * 4;
                     ball.speedY = 0;
                     greenPlayer2.style.backgroundColor = 'grey';
