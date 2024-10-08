@@ -3,9 +3,14 @@ import * as gameStatus from './utils/gameStatus.js' ;
 let cardValue = [];
 let flippedCards = [];
 let stockChronos = [];
+let finalist = [];
+let finalistChronos = [];
 let playerNumber = 0;
 let startTime;
 let timer;
+let tournamentCard = false;
+
+const PlayersCard = [4];
 
 
 ['card1', 'card2', 'card3', 'card4', 'card5', 'card6'
@@ -35,12 +40,42 @@ function resetCardGame()
     });
 }
 
-function findMinChronoIndex(stockChronos)
+function findMinChronoIndex(finalistChronos)
 {
-    if (stockChronos.length === 0)
+    const minChrono = Math.min(...finalistChronos);
+    const minIndex = finalistChronos.indexOf(minChrono);
+    return minIndex;
+}
+
+function demiAndFinal()
+{
+    const visuPool = document.getElementById('tournament-visualizer-card');
+    const visuFinal = document.getElementById('tournament-visualizer-card-final');
+    const p1Final = document.getElementById('player1_finalist');
+    const p2Final = document.getElementById('player2_finalist');
+
+    if (stockChronos.lenght === 0)
         return null;
-    const minChrono = Math.min(...stockChronos);
-    return stockChronos.indexOf(minChrono);
+    const minChrono1 = Math.min(...stockChronos);
+    const minIndex1 = stockChronos.indexOf(minChrono1);
+    
+    stockChronos[minIndex1] = Infinity;
+    
+    const minChrono2 = Math.min(...stockChronos);
+    const minIndex2 = stockChronos.indexOf(minChrono2);
+    
+    stockChronos[minIndex1] = minChrono1;
+    
+    finalist.push(PlayersCard[minIndex1]);
+    finalist.push(PlayersCard[minIndex2]);
+
+    let toto = PlayersCard[minIndex1];
+    let roro =PlayersCard[minIndex2];
+
+    p1Final.textContent = ` ${toto}`;
+    p2Final.textContent = ` ${roro}`;
+    visuPool.style.display = 'none';
+    visuFinal.style.display = 'flex';
 }
 
 function displayChrono(chrono)
@@ -50,6 +85,9 @@ function displayChrono(chrono)
     const player3Element = document.getElementById('player3_tv');
     const player4Element = document.getElementById('player4_tv');
 
+    const p1Final = document.getElementById('player1_finalist');
+    const p2Final = document.getElementById('player2_finalist');
+    
     if (playerNumber === 0)
     {
         const formattedChrono = formatTime(chrono);
@@ -77,16 +115,31 @@ function displayChrono(chrono)
         player4Element.textContent = ` ${formattedChrono}`;
         stockChronos.push(chrono);
 
+        playerNumber = 4;
+        demiAndFinal();
+    }
+    else if(playerNumber === 4)
+    {
+        // FINAL
+        const formattedChrono = formatTime(chrono);
+        player3Element.textContent = ` ${formattedChrono}`;
+        finalistChronos.push(chrono);
+        playerNumber = 5;
+    }
+    else if (playerNumber === 5)
+    {
+        // RESULT FINAL
+        const formattedChrono = formatTime(chrono);
+        player4Element.textContent = ` ${formattedChrono}`;
+        finalistChronos.push(chrono);
+
         playerNumber = 0;
-        let winner = findMinChronoIndex(stockChronos);
+
+        let winner = findMinChronoIndex(finalistChronos);
         if (winner === 0)
-            player1Element.style.color = 'yellow';
+            p1Final.style.color = 'yellow';
         else if (winner === 1)
-            player2Element.style.color = 'yellow';
-        else if (winner === 2)
-            player3Element.style.color = 'yellow';
-        else if (winner === 3)
-            player4Element.style.color = 'yellow';
+            p2Final.style.color = 'yellow';
     }
 }
 
@@ -307,6 +360,7 @@ document.getElementById('button-1player').addEventListener('click', function()
 {
     hideSectionCard('main-menu-buttons-card');
     showSectionCard('hide-game-container');
+    showSectionCard('Home');
     document.getElementById('start').style.display = 'flex';
 });
 
@@ -314,6 +368,7 @@ document.getElementById('button-tournament-card').addEventListener('click', func
 {
     hideSectionCard('main-menu-buttons-card');
     showSectionCard('tournament-container-card');
+    showSectionCard('Home');
 });
 
 document.getElementById('start').addEventListener('click', function() 
@@ -430,9 +485,11 @@ document.getElementById('Home').addEventListener('click', function()
 {
     resetCardGame();
     gameStatus.setStatus('isPower', false);
+    hideSectionCard('tournament-visualizer-card-final');
     hideSectionCard('hide-game-container');
     hideSectionCard('tournament-container-card');
     hideSectionCard('tournament-visualizer-card');
+    hideSectionCard('Home');
     showSectionCard('main-menu-buttons-card');
 });
 
@@ -462,10 +519,6 @@ document.getElementById('play-tournament').addEventListener('click', function()
 
 
 //////////// TOURNAMENT HANDLE //////////////
-
-let tournamentCard = false;
-
-const PlayersCard = [4];
 
 function validatePlayers(players) 
 {
