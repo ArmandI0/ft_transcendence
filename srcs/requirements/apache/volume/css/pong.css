@@ -74,6 +74,7 @@
 }
 
 #rolandLogo {
+    display: flex;
     position: absolute;
     top: 0;
     left: 50%;
@@ -85,7 +86,7 @@
 }
 
 #rodgerLogo {
-    display: flex;
+    display: none;
     position: absolute;
     top: 20%;
     left: 100%;
@@ -112,8 +113,8 @@
 }
 
 .slide-left-roland {
-    top: 0;
-    left: 100%;
+    /* top: 0;
+    left: 100%; */
     transform: translateX(-90%);
     opacity: 0.8;
 }
@@ -255,6 +256,11 @@
     align-items: center;
 }
 
+#Home-pong{
+    display: none;
+    animation: zoomInFadeIn 0.5s ease-in-out;
+}
+
 
 #select-chelem {
     display: none; /* Masqué par défaut */
@@ -263,7 +269,7 @@
     gap: 10px;
     background-color: rgba(128, 128, 128, 0.5);
     width: 300px;
-    height: 380px;
+    height: 450px;
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -380,7 +386,7 @@
 
 .btn-custom5-pong {
     padding: 10px 20px;
-    margin-top: 30px;
+    margin-top: 10px;
     width: 200px;
     border-radius: 15px;
     text-align: center;
@@ -401,6 +407,33 @@
 }
 
 .btn-custom5-pong.not-selected {
+    background-color: #e2690613;
+    border-color: #ccc;
+}
+
+.btn-custom6-pong {
+    padding: 10px 20px;
+    margin-top: 30px;
+    width: 200px;
+    border-radius: 15px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: #e2690613;
+    border: 3px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-custom6-pong:hover {
+    background-color: #c0611d;
+    transform: scale(1.1);
+}
+
+.btn-custom6-pong.selected {
+    background-color: #c0611d;
+}
+
+.btn-custom6-pong.not-selected {
     background-color: #e2690613;
     border-color: #ccc;
 }
@@ -514,6 +547,16 @@
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+}
+
+#visuIA {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background-color:red;
 }
 
 #ball {

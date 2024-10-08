@@ -1,59 +1,77 @@
 import { hideSection, showSection } from './showAndHideSections.js';
 import { startGame3D } from '../pong3D.js';
 import { handleAPI42return } from '../home.js';
-import { startPong } from "../pong.js";
+import { resetVisualizerTournament, startPong } from "../pong.js";
 import { startTournament } from "../pong.js";
 import * as gameStatus from './gameStatus.js' ;
 
-function slideInRodgerLogo() {
+let isAnimating = false;
+
+function slideInRodgerLogo()
+{
     const rolandLogo = document.getElementById('rolandLogo');
     const rodgerLogo = document.getElementById('rodgerLogo');
 
-	rolandLogo.offsetHeight;
-    // Appliquer l'animation de glissement à l'overlay rolandLogo
-    rolandLogo.classList.add('slide-right-roland');
-	
-    // Attendre la fin de l'animation pour changer l'overlay
-    rolandLogo.addEventListener('transitionend', function handleTransitionEnd() {
-		console.log('test1');
+    if (!isAnimating)
+	{
+        isAnimating = true; // Définir l'état de l'animation
+
+        // Réinitialiser les classes d'animation
         rolandLogo.classList.remove('slide-right-roland');
-        rolandLogo.style.display = 'none'; // Masquer l'overlay actuel
-        rodgerLogo.style.display = 'flex'; // Afficher l'overlay rodger
+        rodgerLogo.classList.remove('slide-left');
 
-        // Ajouter une petite pause pour s'assurer que le navigateur a le temps de mettre à jour l'affichage
+        // Forcer un reflow pour que les classes soient effectivement retirées
+        void rolandLogo.offsetWidth;
+
+        rolandLogo.classList.add('slide-right-roland');
+
+        // Attendre la fin de l'animation pour changer l'overlay
         setTimeout(() => {
-            rodgerLogo.classList.add('slide-left'); // Appliquer l'animation de glissement
-        }, 10); // Une très petite durée pour permettre au DOM de mettre à jour
+            rolandLogo.classList.remove('slide-right-roland');
+            rolandLogo.style.display = 'none';
+            rodgerLogo.style.display = 'flex';
 
-        // Supprimer l'écouteur d'événement pour éviter les appels multiples
-        rolandLogo.removeEventListener('transitionend', handleTransitionEnd);
-    });
+            setTimeout(() => {
+                rodgerLogo.classList.add('slide-left');
+                isAnimating = false;
+            }, 500);
+        }, 500);
+    }
 }
 
-function slideInRolandLogo() {
+function slideInRolandLogo()
+{
     const rolandLogo = document.getElementById('rolandLogo');
     const rodgerLogo = document.getElementById('rodgerLogo');
 
-	rolandLogo.style.top = '0';
-	rolandLogo.style.left = '140%';
-    // Appliquer l'animation de glissement à l'overlay rodgerLogo
-    rodgerLogo.classList.add('slide-right');
+    if (!isAnimating)
+	{
+        isAnimating = true;
 
-    // Attendre la fin de l'animation pour changer l'overlay
-    rodgerLogo.addEventListener('transitionend', function handleTransitionEnd() {
-        console.log('test2');
-		rodgerLogo.classList.remove('slide-right');
-        rodgerLogo.style.display = 'none'; // Masquer l'overlay actuel
-        rolandLogo.style.display = 'flex'; // Afficher l'overlay roland
+        // Réinitialiser les classes d'animation
+        rodgerLogo.classList.remove('slide-right');
+        rolandLogo.classList.remove('slide-left-roland');
 
-        // Ajouter une petite pause pour s'assurer que le navigateur a le temps de mettre à jour l'affichage
+        // Forcer un reflow pour que les classes soient effectivement retirées
+        void rodgerLogo.offsetWidth;
+
+		rolandLogo.style.top = '0';
+		rolandLogo.style.left = '140%';
+
+        rodgerLogo.classList.add('slide-right');
+
+        // Attendre la fin de l'animation pour changer l'overlay
         setTimeout(() => {
-            rolandLogo.classList.add('slide-left-roland'); // Appliquer l'animation de glissement
-        }, 10); // Une très petite durée pour permettre au DOM de mettre à jour
+            rodgerLogo.classList.remove('slide-right');
+            rodgerLogo.style.display = 'none';
+            rolandLogo.style.display = 'flex';
 
-        // Supprimer l'écouteur d'événement pour éviter les appels multiples
-        rodgerLogo.removeEventListener('transitionend', handleTransitionEnd);
-    });
+            setTimeout(() => {
+                rolandLogo.classList.add('slide-left-roland');
+                isAnimating = false;
+            }, 500);
+        }, 500); 
+    }
 }
 
 export async function loadEventListeners(page)
@@ -93,6 +111,28 @@ export async function loadEventListeners(page)
 			});
 		});
 
+		document.querySelectorAll('.btn-custom6-pong').forEach(button => {
+			button.addEventListener('click', function() {
+				if (gameStatus.getStatus('isPaused'))
+				{
+					if (this.classList.contains('selected')) {
+						gameStatus.setStatus('isPower', false);
+						this.classList.remove('selected');
+						this.classList.add('not-selected');
+					} else {
+						gameStatus.setStatus('isPower', true);
+						document.querySelectorAll('.btn-custom6-pong').forEach(btn => {
+							btn.classList.remove('selected');
+							btn.classList.add('not-selected');
+						});
+			
+						this.classList.add('selected');
+						this.classList.remove('not-selected');
+					}
+				}
+			});
+		});
+
 		document.querySelectorAll('.btn-custom5-pong').forEach(button => {
 			button.addEventListener('click', function() {
 				if (this.classList.contains('selected')) {
@@ -129,7 +169,9 @@ export async function loadEventListeners(page)
 			});
 		});
 
-		document.getElementById('button-1v1').addEventListener('click', function() {
+		document.getElementById('button-1v1').addEventListener('click', function()
+		{
+			showSection('Home-pong');
 			hideSection('main-menu-buttons-pong');
 			showSection('game-container-pong');
 			document.getElementById('play-pong').style.display = 'flex';
@@ -138,6 +180,7 @@ export async function loadEventListeners(page)
 		
 		document.getElementById('button-ia').addEventListener('click', function() 
 		{
+			showSection('Home-pong');
 			gameStatus.setStatus('ia', true);
 			hideSection('main-menu-buttons-pong');
 			showSection('game-container-pong');
@@ -177,6 +220,7 @@ export async function loadEventListeners(page)
 
 		document.getElementById('button-tournament-pong').addEventListener('click', function() 
 		{
+			showSection('Home-pong');
 			hideSection('main-menu-buttons-pong');
 			showSection('tournament-container-pong');
 		});
@@ -191,12 +235,15 @@ export async function loadEventListeners(page)
 		{
 			gameStatus.setStatus('ia', false);
 			gameStatus.setStatus('tournamentInProgress', false);
+			gameStatus.setStatus('isPaused', true);
+			resetVisualizerTournament();
 			hideSection('ball');
-			slideInRolandLogo();
 			showSection('main-menu-buttons-pong');
 			hideSection('game-container-pong');
 			hideSection('tournament-container-pong');
 			hideSection('tournament-visualizer-pong');
+			slideInRolandLogo();
+			hideSection('Home-pong');
 		});
 
 		document.getElementById('wimbledon').addEventListener('click', function() {
