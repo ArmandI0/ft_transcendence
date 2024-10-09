@@ -20,12 +20,13 @@ services:
       - transcendance
 
   postgres:
-    image: postgres:13
+    build: requirements/postgres/.
+    image: postgres
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file : 
-      - ./secrets/.env 
+      - ./secrets/.postgres_token
     ports:
       - '5432'
     networks:
@@ -67,7 +68,6 @@ services:
       restart: on-failure:10
       env_file : 
           - ./secrets/.vault_tokens
-          - ./secrets/.env
       volumes:
         - vault_data:/vault/data
 

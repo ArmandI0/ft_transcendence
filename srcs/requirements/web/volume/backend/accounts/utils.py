@@ -32,5 +32,4 @@ def get_api42_cred_vault ():
 		return secret_data, 200
 	else:
 		secret_data = None
-		print("BORDEL DE MERDE !!!!!!! ")
 		return secret_data, response.status_code

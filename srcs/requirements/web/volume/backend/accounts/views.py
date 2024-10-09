@@ -37,8 +37,8 @@ def api42_request(request) :
 		url = 'https://api.intra.42.fr/oauth/token'
 
 		secret_data, status = get_api42_cred_vault()
-		uid = secret_data['data']['client_id']
-		passwd = secret_data['data']['client_secret']
+		uid = secret_data['data']['API42_UID']
+		passwd = secret_data['data']['API42_PASS']
 
 		data = {
 			"grant_type": "authorization_code",
