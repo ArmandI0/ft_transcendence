@@ -11,7 +11,7 @@ if [ ! -f ./.config_ok ]; then
 	while ! docker exec postgres pg_isready -h localhost -p 5432 > /dev/null; 
 	do sleep 1;
 	done
-	echo -e "\033[0;32mPostgres up\033[0m !"
+	echo -e "\033[0;32mPostgres up !\033[0m"
 
 
 	docker exec postgres psql -U $POSTGRES_USER -d $POSTGRES_DB -c "CREATE ROLE \"$VAULT_USER_DB\" WITH SUPERUSER LOGIN ENCRYPTED PASSWORD '$VAULT_PSWD_DB';"\
