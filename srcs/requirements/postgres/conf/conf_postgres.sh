@@ -14,9 +14,6 @@ for name in $(echo "$secrets" | jq -r '.data | keys[]'); do
     value=$(echo "$secrets" | jq -r ".data[\"$name\"]")
     export "$name"="$value"
 done
-env
+
 exec bash /usr/local/bin/docker-entrypoint.sh postgres
 
-# while true; do
-#   sleep 1  # Attendre 1 seconde avant de recommencer
-# done

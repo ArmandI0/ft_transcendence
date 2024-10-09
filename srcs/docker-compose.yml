@@ -14,7 +14,6 @@ services:
     environment:
       - DEBUG=True
     env_file : 
-      - ./secrets/.env
       - ./secrets/.django_token
     networks:
       - transcendance
