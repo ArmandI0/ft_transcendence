@@ -126,7 +126,7 @@ def setTournament(request):
 @permission_classes([IsAuthenticated])
 def getPongResult(request):
     user = request.user
-    results = PongGameResult.objects.filter(player_1=user).order_by('-date').all
+    results = PongGameResult.objects.filter(player1=user).order_by('-date').all()
     serializer = PongChartResultSerializer(results, many=True)
     return Response(serializer.data)
 
@@ -136,6 +136,6 @@ def getPongResult(request):
 @permission_classes([IsAuthenticated])
 def getCardResult(request):
     user = request.user
-    results = CardGameResult.objects.filter(player=user).order_by('-date').all
+    results = CardGameResult.objects.filter(player=user).order_by('-date').all()
     serializer = CardChartResultSerializer(results, many=True)
     return Response(serializer.data)

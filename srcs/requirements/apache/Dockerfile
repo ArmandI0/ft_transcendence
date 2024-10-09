@@ -6,7 +6,6 @@ RUN a2enmod security2
 RUN a2enmod proxy
 RUN a2enmod proxy_http
 RUN a2enmod ssl
-RUN a2enmod rewrite
 
 COPY ./conf/modsecurity.conf /etc/modsecurity/.
 COPY ./conf/conf_apache.sh /conf.sh

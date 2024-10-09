@@ -178,7 +178,7 @@ export async function generateCharts()
 		// else
 		// {
 			const pageTitle = document.querySelector("#choice_graph_buttons p");
-			pageTitle.innerHTML = `Statistics for User : ${getCookie("login")} - Game : ${getGameTypeData()}`
+			pageTitle.innerHTML = `Statistics for User : ${sessionStorage.getItem("username")} - Game : ${getGameTypeData()}`
 			generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Sets of games played (by ${groupSize})`, groupSize);
 			generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
 			generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Sets of games won (by ${groupSize})`, groupSize);
