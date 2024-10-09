@@ -27,18 +27,17 @@ from .serializers import PongChartResultSerializer , CardChartResultSerializer
 @permission_classes([IsAuthenticated])
 def setPongResult(request):
     try:
-        data = json.loads(request.body)
         result = PongGameResult()
         player1 = request.user
 
         result.player1 = player1
-        result.player2 = data.get('player2')
-        result.score_player1 = data.get('score_player1')
-        result.score_player2 = data.get('score_player2')
-        result.game = data.get('game')
-        result.game_duration = data.get('game_duration')
-        result.date = data.get('date')
-        tournament_id = data.get('tournament_id')
+        result.player2 = request.data.get('player2')
+        result.score_player1 = request.data.get('score_player1')
+        result.score_player2 = request.data.get('score_player2')
+        result.game = request.data.get('game')
+        result.game_duration = request.data.get('game_duration')
+        result.date = request.data.get('date')
+        tournament_id = request.data.get('tournament_id')
         if (tournament_id != None):
             try:
                 result.tournament_id = Tournament.objects.get(id=tournament_id)
@@ -66,15 +65,14 @@ def setPongResult(request):
 @permission_classes([IsAuthenticated])
 def setCardResult(request):
     try:
-        data = json.loads(request.body)
         result = CardGameResult()  
         player = request.user
 
         result.player = player
-        result.score_player = data.get('score_player')  
-        result.game_duration = data.get('game_duration')  
-        result.date = data.get('date') 
-        tournament_id = data.get('tournament_id') 
+        result.score_player = request.data.get('score_player')  
+        result.game_duration = request.data.get('game_duration')  
+        result.date = request.data.get('date') 
+        tournament_id = request.data.get('tournament_id') 
         if tournament_id is not None:
             try:
                 result.tournament_id = Tournament.objects.get(id=tournament_id)
@@ -82,7 +80,6 @@ def setCardResult(request):
                 return JsonResponse({'error': 'Tournament not found'}, status=404)
         else:
             result.tournament_id = None
-
         result.full_clean()
         result.save()
 
@@ -107,11 +104,10 @@ def setCardResult(request):
 @permission_classes([IsAuthenticated])
 def setTournament(request):
     try:
-        data = json.loads(request.body)
         result = Tournament()
 
-        result.game_type = data.get('game_type')
-        result.date = data.get('date')  
+        result.game_type = request.data.get('game_type')
+        result.date = request.data.get('date')  
         result.full_clean()
         result.save()
         return JsonResponse({'success': result.tournament_id}, status=200)
