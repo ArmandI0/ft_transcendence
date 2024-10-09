@@ -6,7 +6,7 @@ function handleCode(code)
 	fetch(url)
 		.then(response => response.json())
 		.then(data => {
-			console.log('Réponse du backend:', data);
+			console.log('Data from 42 received');
 		})
 		.catch((error) => {
 			console.error('Erreur:', error);

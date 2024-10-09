@@ -21,9 +21,8 @@ RUN mkdir -p /vault/config /vault/logs
 COPY ./conf/vault.hcl /vault/config/.
 COPY ./conf/vault_config.sh /conf/vault_config.sh
 COPY ./conf/django_policy.hcl /conf/django_policy.hcl
+COPY ./conf/postgres_policy.hcl /conf/postgres_policy.hcl
 RUN chmod +x /conf/vault_config.sh
 ENV VAULT_ADDR='http://127.0.0.1:8200'
 
-# ENTRYPOINT ["vault", "server", "-config=/vault/config/vault.hcl"]
-# ENTRYPOINT ["vault", "server", "-dev"]
 ENTRYPOINT ["bash", "/conf/vault_config.sh"]
