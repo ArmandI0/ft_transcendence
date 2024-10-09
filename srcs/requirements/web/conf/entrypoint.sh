@@ -4,7 +4,7 @@ while [ "$(curl -s -o /dev/null -w "%{http_code}" http://vault:8200/v1/sys/healt
 do sleep 1; 
 done
 
-secrets=$(curl -s --header "X-Vault-Token: $POSTGRES_VAULT_TOKEN" "$VAULT_URL/v1/secret/postgres_data")
+secrets=$(curl -s --header "X-Vault-Token: $DJANGO_VAULT_TOKEN" "$VAULT_URL/v1/secret/postgres_data")
 
 if [[ $(echo "$secrets" | jq -r '.data') == "null" ]]; then
   echo "Error when getting secrets from Vault"
