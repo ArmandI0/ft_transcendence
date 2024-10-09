@@ -104,7 +104,6 @@ export async function loadEventListeners(page)
 		{
 			window.location.href = 'https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-e7eec0078c1ebf1f2c748a722b939725a58fb11846625ae5893e337c098104f7&redirect_uri=https%3A%2F%2Flocalhost&response_type=code';
 		});	
-
 		const url_params = new URLSearchParams(window.location.search);
 		handleAPI42return(url_params);
 		
