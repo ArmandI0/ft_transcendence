@@ -62,6 +62,7 @@ async function loadPage(page, div)
 		loadCss(page);
 	try 
 	{
+		console.log(sessionStorage.getItem("username"));
 		console.log("PAGE = " + page);
 		console.log("DIV = " + div);
 		await loadHtml(page, div);
