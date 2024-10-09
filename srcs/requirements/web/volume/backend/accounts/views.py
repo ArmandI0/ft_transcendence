@@ -25,7 +25,7 @@ def get42UserData(request, response):
 			print("ADD_USER")
 			user = addUser(user_data)
 		login(request ,user)
-		return JsonResponse(user_data)
+		return JsonResponse({'username' : user.username})
 	except ValueError:
 		return JsonResponse({'error': 'Failed to retrieve token', 'details': response.json()}, status=response.status_code)
 

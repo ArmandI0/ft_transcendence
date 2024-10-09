@@ -8,14 +8,10 @@ class Tournament(models.Model):
         ('card', 'Card'),
     ]
     game_type = models.CharField(max_length=10, choices= GAME_TYPE_CHOICES)
-    game_duration = models.TimeField()
     date = models.DateTimeField()
-    tournament_winner = models.ForeignKey(Api42User, on_delete=models.CASCADE)
     class Meta:
         db_table = 'tournament'
         ordering = ['-date']
-
-
 
 class PongGameResult(models.Model):
     game_id = models.AutoField(primary_key=True)
@@ -31,6 +27,7 @@ class PongGameResult(models.Model):
     game_duration = models.TimeField()
     date = models.DateTimeField()
     tournament_id = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True, blank=True)
+    tournament_phase = models.CharField(max_length=10, null=True, blank=True)
     class Meta:
         db_table = 'pong_result'
         ordering = ['-date']

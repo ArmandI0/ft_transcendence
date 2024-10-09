@@ -77,7 +77,6 @@ def setCardResult(request):
         result.game_duration = data.get('game_duration')  
         result.date = data.get('date') 
         tournament_id = data.get('tournament_id') 
-
         if tournament_id is not None:
             try:
                 result.tournament_id = Tournament.objects.get(id=tournament_id)
@@ -108,30 +107,16 @@ def setCardResult(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def setCardResult(request):
+def setTournament(request):
     try:
         data = json.loads(request.body)
-        result = CardGameResult()  
-        player = request.user
+        result = Tournament()
 
-        result.player = player
-        result.score_player = data.get('score_player')  
-        result.game_duration = data.get('game_duration')  
-        result.date = data.get('date') 
-        tournament_id = data.get('tournament_id') 
-
-        if tournament_id is not None:
-            try:
-                result.tournament_id = Tournament.objects.get(id=tournament_id)
-            except Tournament.DoesNotExist:
-                return JsonResponse({'error': 'Tournament not found'}, status=404)
-        else:
-            result.tournament_id = None
-
+        result.game_type = data.get('game_type')
+        result.date = data.get('date')  
         result.full_clean()
         result.save()
-
-        return JsonResponse({'success': result.game_id}, status=200)
+        return JsonResponse({'success': result.tournament_id}, status=200)
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
