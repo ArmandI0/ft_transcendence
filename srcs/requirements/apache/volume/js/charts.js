@@ -126,61 +126,59 @@ function generatePieChart(div_id, data, title)
 	});	
 }
 
-async function getGameDatas()
-{
-	try {
-		const csrfToken = getCookie('csrftoken');
-		const dataPost = {
-			gameType: getGameTypeData()
-		}
-		const response = await fetch('/accounts/stats/',
-		{
-			method: 'POST',
-			headers:{
-				'X-Requested-With': 'XMLHttpRequest', 
-				'X-CSRFToken': csrfToken,
-			},
-			body: JSON.stringify(dataPost)
-		});
-		const dataReturn = await response.json();
-		if (response.status === 200)
-		{
-			console.log('Succès :', dataReturn);
-			return dataReturn;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	catch (error)
-	{
-		return null;
-	}
-}
+async function getGameDatas() {
+    try {
+        const csrfToken = getCookie('csrftoken');
+        const dataPost = {
+            gameType: getGameTypeData()
+        };
 
+        const response = await fetch('/api/get_pong_result/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify(dataPost),
+        });
+        if (!response.ok) {
+            const errorData = await response.text();
+            console.error('Erreur lors de la requête :', response.status, errorData);
+            return null;
+        }
+
+        const dataReturn = await response.json();
+        console.log('Succès :', dataReturn);
+        return dataReturn;
+
+    } catch (error) {
+        console.error('Erreur lors de l\'appel à l\'API :', error);
+        return null;
+    }
+}
 export async function generateCharts()
 {
-	destroyCanvas();
-	const datas = datasX;
-	const page = document.getElementById("grid-charts");
-	let groupSize = getSetSize();
+    destroyCanvas();
+    // const datas = datasX;
+    const page = document.getElementById("grid-charts");
+    let groupSize = getSetSize();
 
-	//const datas = await getGameDatas();
-		// if (!datas2)
-		// {
-		// 	page.innerHTML = "<p>Error with loading data</p>";
-		// }
-		// else if ((Array.isArray(datas2) && datas2.length === 0) )
-		// {
-		// 	page.innerHTML = "<p>No statistics available yet : go play some games !</p>";
-		// }
-		// else
-		// {
-			const pageTitle = document.querySelector("#choice_graph_buttons p");
-			pageTitle.innerHTML = `Statistics for User : ${sessionStorage.getItem("username")} - Game : ${getGameTypeData()}`
-			generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Sets of games played (by ${groupSize})`, groupSize);
-			generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
-			generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Sets of games won (by ${groupSize})`, groupSize);
-		// }
+    const datas = await getGameDatas();
+        if (!datas)
+        {
+            page.innerHTML = "<p>Error with loading data</p>";
+        }
+        else if ((Array.isArray(datas) && datas.length === 0) )
+        {
+            page.innerHTML = "<p>No statistics available yet : go play some games !</p>";
+        }
+        else
+        {
+            const pageTitle = document.querySelector("#choice_graph_buttons p");
+            pageTitle.innerHTML = `Statistics for User : ${getCookie("login")} - Game : ${getGameTypeData()}`
+            generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Sets of games played (by ${groupSize})`, groupSize);
+            generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
+            generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Sets of games won (by ${groupSize})`, groupSize);
+        }
 }

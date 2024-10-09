@@ -122,7 +122,7 @@ def setTournament(request):
 
 # https://localhost/api/get_pong_result/
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def getPongResult(request):
     user = request.user
