@@ -13,11 +13,6 @@ function handleCode(code)
 		});
 }
 
-function updateUrlWindow(newUrl) 
-{
-	window.history.pushState({page : 'home', div : 'app'}, 'home', '');
-}
-
 export function handleAPI42return(url)
 {
 	if (url.has('code'))
@@ -25,7 +20,6 @@ export function handleAPI42return(url)
 		const code = url.get('code');
 		handleCode(code);
 		const new_url = window.location.origin + window.location.pathname;
-		// updateUrlWindow(new_url);
 		history.replaceState({page : 'home', div : 'app'}, 'home', window.location.pathname);
 	}
 }
