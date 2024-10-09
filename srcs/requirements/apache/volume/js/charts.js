@@ -133,7 +133,7 @@ async function getGameDatas()
 		const dataPost = {
 			gameType: getGameTypeData()
 		}
-		const response = await fetch('/accounts/stats/',
+		const response = await fetch('/api/get_pong_result/',
 		{
 			method: 'POST',
 			headers:{
@@ -166,21 +166,21 @@ export async function generateCharts()
 	const page = document.getElementById("grid-charts");
 	let groupSize = getSetSize();
 
-	//const datas = await getGameDatas();
-		// if (!datas2)
-		// {
-		// 	page.innerHTML = "<p>Error with loading data</p>";
-		// }
-		// else if ((Array.isArray(datas2) && datas2.length === 0) )
-		// {
-		// 	page.innerHTML = "<p>No statistics available yet : go play some games !</p>";
-		// }
+	// const datas = await getGameDatas();
+	// 	if (!datas)
+	// 	{
+	// 		page.innerHTML = "<p>Error with loading data</p>";
+	// 	}
+	// 	else if ((Array.isArray(datas) && datas.length === 0) )
+	// 	{
+	// 		page.innerHTML = "<p>No statistics available yet : go play some games !</p>";
+	// 	}
 		// else
 		// {
 			const pageTitle = document.querySelector("#choice_graph_buttons p");
-			pageTitle.innerHTML = `Statistics for User : ${getCookie("login")} - Game : ${getGameTypeData()}`
+			pageTitle.innerHTML = `Statistics for User : ${sessionStorage.getItem("username")} - Game : ${getGameTypeData()}`
 			generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Sets of games played (by ${groupSize})`, groupSize);
 			generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
 			generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Sets of games won (by ${groupSize})`, groupSize);
-		// }
+		//}
 }
