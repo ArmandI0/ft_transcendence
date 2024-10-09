@@ -38,7 +38,7 @@ services:
     container_name: prometheus
     image: prometheus
     ports:
-      - '9090'
+      - '9090:9090'
     restart: always
     networks:
       - transcendance
