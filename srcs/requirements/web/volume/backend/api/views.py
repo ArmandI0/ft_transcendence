@@ -6,10 +6,25 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import PongChartResultSerializer
+from .serializers import PongChartResultSerializer , CardChartResultSerializer
 
-@api_view(['POST'])  # Déclare que cette vue ne peut recevoir que des requêtes POST
-@permission_classes([IsAuthenticated])  # Assure que seuls les utilisateurs authentifiés peuvent accéder à cette vue
+
+# JSON RESULT PONG => https://localhost/api/set_pong_result/
+# {
+#   "player2": "player_two",
+#   "score_player1": "7",
+#   "score_player2": "5",
+#   "game": "pong",
+#   "game_duration": "00:15:00",
+#   "date": "2024-10-08T18:00:00Z",
+#
+#   "tournament_id": {id tournament} => Ne pas renseigner si la partie ne fait pas partie d'un tournoi
+#   }
+# }
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def setPongResult(request):
     try:
         data = json.loads(request.body)
@@ -38,6 +53,15 @@ def setPongResult(request):
         return JsonResponse({'error': str(e)}, status=400) 
 
 
+# SET CARD RESULT => https://localhost/api/set_card_result/
+# {
+#   "score_player": "1500",
+#   "date": "2024-10-08T20:00:00Z",
+#   "game_duration": "00:25:00",
+#   "tournament_id": {id tournament} => Ne pas renseigner si la partie ne fait pas partie d'un tournoi
+#   }
+# }
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def setCardResult(request):
@@ -51,7 +75,6 @@ def setCardResult(request):
         result.game_duration = data.get('game_duration')  
         result.date = data.get('date') 
         tournament_id = data.get('tournament_id') 
-
         if tournament_id is not None:
             try:
                 result.tournament_id = Tournament.objects.get(id=tournament_id)
@@ -67,37 +90,52 @@ def setCardResult(request):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+
+# SET TOURNAMENT => => https://localhost/api/set_tournament/
 # {
-#     "player1_id": 1,  // L'ID de player1 dans la table Api42User
-#     "player2": "Joueur 2",
-#     "score_player1": "10",
-#     "score_player2": "8",
-#     "game": "pong",  // ou "pong3D"
-#     "game_duration": "00:15:30",  // Durée du jeu
-#     "date": "2023-10-07T14:48:00",  // Date et heure du jeu
-#     "tournament_id": 1  // L'ID du tournoi dans la table Tournament
+#   "game_type": "pong",
+#   "game_duration": "00:30:00",
+#   "date": "2024-10-01T15:00:00Z",
+#   "tournament_winner": {
+#     "id": 123,
+#     "username": "winner_user",
+#     "email": "winner@example.com"
+#   }
 # }
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def setTournament(request):
+    try:
+        data = json.loads(request.body)
+        result = Tournament()
+
+        result.game_type = data.get('game_type')
+        result.date = data.get('date')  
+        result.full_clean()
+        result.save()
+        return JsonResponse({'success': result.tournament_id}, status=200)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+# https://localhost/api/get_pong_result/
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def getPongResult25(request):
+def getPongResult(request):
     user = request.user
-    results = PongGameResult.objects.filter(player_1=user).order_by('-date')[:25]
+    results = PongGameResult.objects.filter(player_1=user).order_by('-date').all
     serializer = PongChartResultSerializer(results, many=True)
     return Response(serializer.data)
 
+# https://localhost/api/get_card_result/
 
-# reqPong et Pong3D
-# {
-#     "total_game_played" : x,
-#     "total_game_won" : x,
-#     "game_played_by_week" :[week1:x,week2:x,...],
-# }
-
-# reqCard
-# {
-#     "total_game_played": x,
-#     "total_game_won" : x, 
-#     "game_played_by_week" : [week1:x,week2:x,...],
-#     "time_to_win_by_game_won_in_secs" : [t1,t2,t3,...],
-# } (modifié)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getCardResult(request):
+    user = request.user
+    results = CardGameResult.objects.filter(player=user).order_by('-date').all
+    serializer = CardChartResultSerializer(results, many=True)
+    return Response(serializer.data)
