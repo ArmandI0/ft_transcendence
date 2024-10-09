@@ -120,22 +120,29 @@ def setTournament(request):
         return JsonResponse({'error': str(e)}, status=400)
 
 
-# https://localhost/api/get_pong_result/
+# https://localhost/api/get_result/
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def getPongResult(request):
-    user = request.user
-    results = PongGameResult.objects.filter(player1=user).order_by('-date').all()
-    serializer = PongChartResultSerializer(results, many=True)
-    return Response(serializer.data)
+def getResult(request):
+    try:
+        user = request.user
+        gameType = request.data.get('gameType') 
+        # gameType = data.get('gameType')
 
-# https://localhost/api/get_card_result/
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getCardResult(request):
-    user = request.user
-    results = CardGameResult.objects.filter(player=user).order_by('-date').all()
-    serializer = CardChartResultSerializer(results, many=True)
-    return Response(serializer.data)
+        if gameType == 'RollandGapong':
+            results = PongGameResult.objects.filter(player1=user, game=gameType).order_by('-date').all()
+            serializer = PongChartResultSerializer(results, many=True)
+            return Response(serializer.data)
+        elif gameType == 'Cyberpong':
+            results = PongGameResult.objects.filter(player1=user, game=gameType).order_by('-date').all()
+            serializer = PongChartResultSerializer(results, many=True)
+            return Response(serializer.data)
+        elif gameType == 'Cards':
+            results = CardGameResult.objects.filter(player=user).order_by('-date').all()
+            serializer = CardChartResultSerializer(results, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'error': 'game type not recognized'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)

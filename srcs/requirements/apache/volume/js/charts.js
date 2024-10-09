@@ -133,7 +133,7 @@ async function getGameDatas() {
             gameType: getGameTypeData()
         };
 
-        const response = await fetch('/api/get_pong_result/', {
+        const response = await fetch('/api/get_result/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
