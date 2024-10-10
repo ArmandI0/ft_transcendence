@@ -350,14 +350,14 @@ export async function  startGame3D()
 			pad2.position.x += 0.75;
 		}
 
-        if (clockIA.getElapsedTime() > 0.5 && gameStatus.getStatus('ia') === true) 
+		if (clockIA.getElapsedTime() > 0.5 && gameStatus.getStatus('ia') === true) 
 		{
 			if (ball_dir.getZ() < 0)
-                iaPlayer(ball_dir, ball, pad1,1);
+				iaPlayer(ball_dir, ball, pad1,1);
 			else
 				iaPlayer(ball_dir, ball, pad1,0);
-            clockIA.start();
-        }
+			clockIA.start();
+		}
 
 		renderer1.render(scene, camera1);
 		renderer2.render(scene, camera2);

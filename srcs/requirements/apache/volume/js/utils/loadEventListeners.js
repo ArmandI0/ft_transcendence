@@ -11,24 +11,30 @@ export async function loadEventListeners(page)
 {
 	if (page === 'pong3D')
 	{
+		document.getElementById('button-start-pong-3D').addEventListener('click', function() 
+		{
+			if (gameStatus.getStatus('ia') ===  true)
+				{
+					document.getElementById('grid-3d-render').style.display = 'flex';
+					hideSection('pong3d-separator');
+					hideSection('view-player2');
+				}
+			else
+				document.getElementById('grid-3d-render').style.display = 'grid';
+			hideSection('button-start-pong-3D');
+			startGame3D();
+		});		
+	}
+	else if (page === 'pong3D_menu')
+	{
 		document.getElementById('button-start-pong-3D-2p').addEventListener('click', function() 
 		{
-			hideSection('button-start-pong-3D-2p');
-			hideSection('button-start-pong-3D-1p');
-			document.getElementById('grid-3d-render').style.display = 'grid';
-			startGame3D();
+			gameStatus.setStatus('ia', false);
 		});
 		document.getElementById('button-start-pong-3D-1p').addEventListener('click', function() 
 		{
-			hideSection('button-start-pong-3D-2p');
-			hideSection('button-start-pong-3D-1p');
 			gameStatus.setStatus('ia', true);
-			document.getElementById('grid-3d-render').style.display = 'flex';
-			hideSection('pong3d-separator');
-			hideSection('view-player2');
-			startGame3D();
-		});		
-
+		});
 	}
 	else if (page === 'home')
 	{
