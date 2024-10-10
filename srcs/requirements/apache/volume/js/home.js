@@ -6,16 +6,12 @@ function handleCode(code)
 	fetch(url)
 		.then(response => response.json())
 		.then(data => {
-			console.log('Data from 42 received');
+			console.log('Réponse du backend:', data.login);
+			sessionStorage.setItem("username", data.login)
 		})
 		.catch((error) => {
 			console.error('Erreur:', error);
 		});
-}
-
-function updateUrlWindow(newUrl) 
-{
-	window.history.pushState({page : 'home', div : 'app'}, 'home', '');
 }
 
 export function handleAPI42return(url)
@@ -25,7 +21,6 @@ export function handleAPI42return(url)
 		const code = url.get('code');
 		handleCode(code);
 		const new_url = window.location.origin + window.location.pathname;
-		// updateUrlWindow(new_url);
 		history.replaceState({page : 'home', div : 'app'}, 'home', window.location.pathname);
 	}
 }
