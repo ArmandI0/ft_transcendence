@@ -1,4 +1,4 @@
-let gameTypeData = "RollandGapong";
+let gameTypeData = "Cyberpong";
 let canvasID= [];
 let setSize = 5;
 
