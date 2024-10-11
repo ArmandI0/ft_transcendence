@@ -16,6 +16,7 @@ class PongChartResultSerializer(serializers.ModelSerializer):
         return obj.game_duration
 
 class CardChartResultSerializer(serializers.ModelSerializer):
+    time = serializers.SerializerMethodField()
     class Meta:
         model = PongGameResult
         fields = ['game_id' , 'time']
