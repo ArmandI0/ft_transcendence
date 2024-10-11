@@ -1,4 +1,4 @@
-import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock, clockIA} from '../globals/pong3D_const.js';
+import {padsWidth, padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir, clock, clockIA} from '../globals/pong3D_const.js';
 
 /////////// IA /////////////////
 
@@ -26,11 +26,11 @@ export function iaPlayer(ball_dir, ball, padIA, recenter)
 {
     let keyPress = null;
     let delay = 200;
-    const playerRange = table_geom.getX();
+    const playerRange = tableGeom.getX();
     const padCenterX = padIA.position.x;
 
 	// // Ajustement pour tenir compte de la taille de la balle et du joueur
-	// let ballCollisionZ = table_geom.getY() - ball_geom.getX();
+	// let ballCollisionZ = tableGeom.getY() - ballGeom.getX();
 
 	// let timeToReachPlayer;
 	
@@ -45,29 +45,29 @@ export function iaPlayer(ball_dir, ball, padIA, recenter)
 	// let futureBallX = ball.position.x + ball_dir.getX() * timeToReachPlayer;
 
 	// // Gestion des rebonds sur les murs
-	// while (futureBallX < - table_geom.getX() / 2 || futureBallX > table_geom.getX() / 2)
+	// while (futureBallX < - tableGeom.getX() / 2 || futureBallX > tableGeom.getX() / 2)
 	// {
 	// 	console.log("boucle IA chelou");
-	//     if (futureBallX < - table_geom.getX() / 2)
+	//     if (futureBallX < - tableGeom.getX() / 2)
 	//         futureBallX = -futureBallX;
-	//     else if (futureBallX > table_geom.getX() / 2)
-	//         futureBallX = table_geom.getX() / 2 - futureBallX;
+	//     else if (futureBallX > tableGeom.getX() / 2)
+	//         futureBallX = tableGeom.getX() / 2 - futureBallX;
 	// }
 
 	if (recenter)
 	{
-		if (ball.position.x < padCenterX - pad_geom.getX() / 3)
+		if (ball.position.x < padCenterX - padGeom.getX() / 3)
 			keyPress = 'ArrowRight';
-		else if (ball.position.x > padCenterX + pad_geom.getX() / 3) 
+		else if (ball.position.x > padCenterX + padGeom.getX() / 3) 
 			keyPress = 'ArrowLeft'; 
 		else
 			keyPress = null;
 	}
 	else
 	{
-		// if (padCenterX - pad_geom.getX() / 3 > 0)
+		// if (padCenterX - padGeom.getX() / 3 > 0)
 		// 	keyPress = 'ArrowRight';
-		// else if (padCenterX + pad_geom.getX() / 3 < 0)
+		// else if (padCenterX + padGeom.getX() / 3 < 0)
 		// 	keyPress = 'ArrowLeft'; 
 		// else
 		// 	keyPress = null;

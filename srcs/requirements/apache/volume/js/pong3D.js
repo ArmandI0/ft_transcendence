@@ -1,4 +1,4 @@
-import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock, clockIA} from './globals/pong3D_const.js';
+import {padsWidth, padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir, clock, clockIA, scoreToWin} from './globals/pong3D_const.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 import { iaPlayer, preventKeys } from './utils/pong_ia_3d.js';
 import { loadPage } from './htmlRequest.js';
@@ -81,7 +81,7 @@ function makeTable(scene)
 		transparent: true        
 	});
 	
-	const geometry = new THREE.BoxGeometry(table_geom.getX(), table_geom.getY(), table_geom.getZ());
+	const geometry = new THREE.BoxGeometry(tableGeom.getX(), tableGeom.getY(), tableGeom.getZ());
 	const table = new THREE.Mesh(geometry, glassMaterial);
 	const edges = new THREE.EdgesGeometry(geometry); 
 	const lines = new THREE.LineSegments(edges, new THREE.LineBasicMaterial( { color: 0xff4afa } ) ); 	
@@ -95,7 +95,7 @@ function makeTable(scene)
 function calculateYposition(ball_pos_z)
 {
     const coefficient = -50;
-    const max_height_offset = (table_geom.getZ() ** 2) / 4 / coefficient;
+    const max_height_offset = (tableGeom.getZ() ** 2) / 4 / coefficient;
 
     let calculated_y_position = (ball_pos_z ** 2) / coefficient - max_height_offset;
 
@@ -104,12 +104,12 @@ function calculateYposition(ball_pos_z)
 
 function checkCollisionPad(ball, pad1, pad2)
 {
-	const pad1_right = pad1.position.x - pad_geom.getX()/2; 
-	const pad1_left = pad1.position.x + pad_geom.getX()/2; 
-	const pad2_right = pad2.position.x - pad_geom.getX()/2; 
-	const pad2_left = pad2.position.x + pad_geom.getX()/2;
-	const ball_right = ball.position.x - ball_geom.getX();
-	const ball_left = ball.position.x + ball_geom.getX();
+	const pad1_right = pad1.position.x - padGeom.getX()/2; 
+	const pad1_left = pad1.position.x + padGeom.getX()/2; 
+	const pad2_right = pad2.position.x - padGeom.getX()/2; 
+	const pad2_left = pad2.position.x + padGeom.getX()/2;
+	const ball_right = ball.position.x - ballGeom.getX();
+	const ball_left = ball.position.x + ballGeom.getX();
 
 	if (ball.position.z <= 0)
 	{
@@ -137,20 +137,20 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 	let col_z = 0;
 
 	// check if wall hit
-	if (Math.abs(ball.position.x) >= table_geom.getX() / 2 - ball_geom.getX())
+	if (Math.abs(ball.position.x) >= tableGeom.getX() / 2 - ballGeom.getX())
 	{
 		ball_dir.setX(-(ball_dir.getX()));
 		gridCollision.position.y = ball.position.y;
 		gridCollision.position.z = ball.position.z;
 		if (ball.position.x > 0)
-			gridCollision.position.x = table_geom.getX() / 2;
+			gridCollision.position.x = tableGeom.getX() / 2;
 		else if (ball.position.x <= 0)
-			gridCollision.position.x = - table_geom.getX() / 2;
+			gridCollision.position.x = - tableGeom.getX() / 2;
 		gridCollision.visible = true;
 	}
 
 	// check if pad hit or ball out
-	if (Math.abs(ball.position.z) >= table_geom.getZ() / 2 - pad_geom.getZ() / 1.5)
+	if (Math.abs(ball.position.z) >= tableGeom.getZ() / 2 - padGeom.getZ() / 1.5)
 	{
 		col_z = checkCollisionPad(ball, pad1, pad2);
 
@@ -236,7 +236,7 @@ function makeGridCollision(spacing)
 
 function isGameWon(score)
 {
-	if (score[0] >= 10 || score[1] >= 10)
+	if (score[0] >= scoreToWin || score[1] >= scoreToWin)
 		return true;
 	else
 		return false;
@@ -276,14 +276,14 @@ export async function  startGame3D()
 	renderer2.setSize(width_3d,height_3d);
 	container2.appendChild(renderer2.domElement);
 
-	let ball_dir = ball_start_dir;
+	let ball_dir = ballStartDir;
 
 	// Adding objects
-	const pad1 = makeObjectInstance("box", pad_geom,0xff0000,pad1_z, scene);
-	const pad2 = makeObjectInstance("box", pad_geom,0x0000ff,pad2_z, scene);
-	const ball = makeObjectInstance("sphere", ball_geom,0xffffff,0, scene);
+	const pad1 = makeObjectInstance("box", padGeom,0xff0000,pad1Z, scene);
+	const pad2 = makeObjectInstance("box", padGeom,0x0000ff,pad2Z, scene);
+	const ball = makeObjectInstance("sphere", ballGeom,0xffffff,0, scene);
 	const table = makeTable(scene);
-	const geom = new THREE.BoxGeometry(pad_geom.getX(), pad_geom.getY(), pad_geom.getZ());
+	const geom = new THREE.BoxGeometry(padGeom.getX(), padGeom.getY(), padGeom.getZ());
 	const linesEdgesPad1 = makeEdges(geom,0x4afff4);
 	const linesEdgesPad2 = makeEdges(geom,0xff7fa8);
 	linesEdgesPad1.position.z = pad1.position.z;
@@ -298,9 +298,9 @@ export async function  startGame3D()
 	// Adding light
 	const color = 0xFFFF00;
 	const intensity = 3;
-	// const light = new THREE.DirectionalLight(color, intensity);
-	// light.position.set(50, 50, 0);
-	// scene.add(light);
+	const light = new THREE.DirectionalLight(color, intensity);
+	light.position.set(50, 50, 0);
+	scene.add(light);
 
 	const spotLight = new THREE.SpotLight(color);
 	spotLight.position.set(0, 10, 0);
