@@ -8,15 +8,15 @@ services:
       - ./requirements/web/volume:/website
     ports:
       - '8000'
-    depends_on:
-      - vault
-      - postgres
     environment:
       - DEBUG=True
     env_file : 
       - ./secrets/.django_token
     networks:
       - transcendance
+    depends_on:
+      - vault
+      - postgres
 
   postgres:
     build: requirements/postgres/.
@@ -53,6 +53,8 @@ services:
       - 8080:8080
     networks:
       - transcendance
+    depends_on: 
+      - vault
 
   vault :
       container_name : 'vault'
