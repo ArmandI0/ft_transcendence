@@ -3,7 +3,6 @@
 	<div id = "navbar"></div>
 	<div id ="grid-charts">
 		<div id = "choice_graph_buttons">
-			<p></p>
 			<button class="btn-custom-pong" id="button-stats-pong" type="button">RollandGapong</button>
 			<button class="btn-custom-pong" id="button-stats-cyberpong" type="button">Cyberpong</button>
 			<button class="btn-custom-pong" id="button-stats-cards" type="button">Cards</button>
@@ -13,21 +12,24 @@
 				<button class="btn-custom-pong" id="button-stats-groups" type="button">Ok</button>
 
 		</div>
-		<div id = "graphs_above">
-			<div id="bars-score-by-game"><canvas></canvas></div>
-			<div id="pie-win-defeat">
-				<p class = 'pie-title'></p>
-				<div>
-					<canvas></canvas>
-					<div class="legend">
-						<div class = "legend-box-title"></div>
-						<div class = "legend-box-title"></div>
+		<div id="title_charts"></div>
+		<div id="graphs_charts">
+			<div id = "graphs_above">
+				<div id="bars-score-by-game"><canvas></canvas></div>
+				<div id="pie-win-defeat">
+					<p class = 'pie-title'></p>
+					<div>
+						<canvas></canvas>
+						<div class="legend">
+							<div class = "legend-box-title"></div>
+							<div class = "legend-box-title"></div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div id = "graphs_below">
-			<div id="time-graph"><canvas></canvas></div>
+			<div id = "graphs_below">
+				<div id="time-graph"><canvas></canvas></div>
+			</div>
 		</div>
 	</div>
 </div>

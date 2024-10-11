@@ -16,6 +16,22 @@ body, html
 	height: 100vh;
 }
 
+#title_charts
+{
+	width:100%;
+	margin-top:50px; 
+	display:flex;
+	align-items: center;
+	justify-content: center;
+
+
+}
+
+#graphs_charts
+{
+	flex-direction: column;
+}
+
 #grid-charts
 {
 	position : absolute;
@@ -25,6 +41,7 @@ body, html
     height:85%;
     width:95%;
     border:none;
+	
 
 }
 
@@ -136,9 +153,9 @@ body, html
 
 .btn-custom-pong
 {
-    background-color: #ffe387;
-    border: 4px solid rgb(180, 114, 39);
-    color: rgb(97, 47, 0);
+    background-color: #ffb764;
+    border: 4px solid rgb(255, 136, 0);
+    color: rgb(255, 102, 0);
     border-radius: 50px;
     font-size: 16px;
     font-family: "Arial", serif;

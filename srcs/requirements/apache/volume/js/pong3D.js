@@ -2,6 +2,7 @@ import {padsWidth, padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir, clo
 import * as gameStatus from './utils/gameStatus.js' ;
 import { iaPlayer, preventKeys } from './utils/pong_ia_3d.js';
 import { loadPage } from './htmlRequest.js';
+// import { OBJLoader, MTLLoader } from 'three-object-mtl-loader';
 
 async function putScoreToDb()
 {
@@ -275,6 +276,23 @@ export async function  startGame3D()
 
 	renderer2.setSize(width_3d,height_3d);
 	container2.appendChild(renderer2.domElement);
+
+	const MTLLoader = new THREE.MTLLoader();
+
+	// Chargez le fichier MTL
+	MTLLoader.load('../obj3d/ImageToStl.com_devil.mtl', function (materials) {
+		materials.preload();  // Préchargez les matériaux
+	
+		// Créez un chargeur pour l'OBJ et appliquez les matériaux
+		const OBJLoader = new THREE.OBJLoader();
+		OBJLoader.setMaterials(materials);  // Applique les matériaux chargés à l'OBJ
+	
+		// Chargez le fichier OBJ
+		OBJLoader.load('../obj3d/ImageToStl.com_devil.obj', function (character) {
+			character.name = "character";  // Nom du modèle
+			scene.add(character);  // Ajoutez le modèle à la scène
+		});
+	});
 
 	let ball_dir = ballStartDir;
 

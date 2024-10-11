@@ -219,7 +219,7 @@ export async function loadEventListeners(page)
 	else if (page == 'charts')
 	{
 		document.getElementById('button-stats-pong').addEventListener('click', function() {
-			setGameTypeData("RollangGapong");
+			setGameTypeData("RollandGapong");
 			generateCharts();
 		});
 		document.getElementById('button-stats-cyberpong').addEventListener('click', function() {
@@ -244,16 +244,7 @@ export async function loadEventListeners(page)
 			setSetSize(groupSize);
 			generateCharts();
 		});
-		// document.getElementById('button-stats-groups').addEventListener('keydown', function(event) {
-		// 	if (event.key === 'Enter') {
-		// 		event.preventDefault();
-		// 	}
-		// });	
-		// document.getElementById('button-stats-groups').addEventListener('keypress', function(event) {
-		// 	if (event.key === 'Enter') {
-		// 		event.preventDefault();
-		// 	}
-		// });		
+	
 	}
 }
 
