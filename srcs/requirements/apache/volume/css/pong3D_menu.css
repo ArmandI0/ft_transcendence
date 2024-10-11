@@ -36,3 +36,13 @@ body
     transition: background-color 0.3s ease;
     margin-right : 100px;
 }
+
+#button-start-pong-3D-1p
+{
+    margin-bottom : 50px;
+}
+
+#pong3d-customization
+{
+    margint-top : 50 px;
+}

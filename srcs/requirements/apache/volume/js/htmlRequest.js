@@ -43,7 +43,7 @@ async function is_auth()
 	}
 }
 
-async function loadPage(page, div) 
+export async function loadPage(page, div) 
 {
 	let ret = true;
 
@@ -52,6 +52,7 @@ async function loadPage(page, div)
 	{
 		const isAuthenticated = await is_auth();
 		if (!isAuthenticated){
+			alert("Please log in with the 42 api connector");
 			return;
 		}
 	}

@@ -63,3 +63,13 @@ body
     margin-right : 100px;
 }
 
+#score-pong3d p
+{
+    margin-top : 2vh;
+    display:flex;
+    text-align: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+    color : white;
+}

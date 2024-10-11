@@ -1,6 +1,7 @@
 import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock, clockIA} from './globals/pong3D_const.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 import { iaPlayer, preventKeys } from './utils/pong_ia_3d.js';
+import { loadPage } from './htmlRequest.js';
 
 async function putScoreToDb()
 {
@@ -126,7 +127,7 @@ function checkCollisionPad(ball, pad1, pad2)
 	}
 }
 
-function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause)
+function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause, score)
 {
 	gridCollision.visible = false;
 	ball.position.x += ball_dir.getX();
@@ -156,6 +157,11 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 		// reset if out
 		if (col_z === -1000)
 		{
+			if (ball.position.z < 0)
+				score[0] += 1;
+			else
+				score[1] += 1;
+			updateScore(score);
 			ball.position.z = 0;
 			ball.position.x = 0;
 			ball.position.y = calculateYposition(ball.position.z);
@@ -164,6 +170,7 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 			clock.start();
 			pad1.position.x = 0;
 			pad2.position.x = 0;
+			
 		}
 		else
 		{
@@ -227,10 +234,25 @@ function makeGridCollision(spacing)
     return grid;
 }
 
+function isGameWon(score)
+{
+	if (score[0] >= 10 || score[1] >= 10)
+		return true;
+	else
+		return false;
+}
+
+function updateScore(score)
+{
+	const divScore = document.querySelector('#score-pong3d p');
+	const text = `${score[0]} - ${score[1]}`;
+	divScore.innerHTML = text;
+}
 export async function  startGame3D()
 {
     gameStatus.setStatus('game_run', true);
 	let pause = false;
+	let score = [0,0];
 	const container1 = document.getElementById('view-player1');
 	const container2 = document.getElementById('view-player2');
 
@@ -318,17 +340,23 @@ export async function  startGame3D()
 	{
 		if (gameStatus.getStatus('game_run') === false)
 		{
-			console.log("stop");
-			putScoreToDb();
-			return;		
+			console.log("game interrupted");
+			return;
 		}
-
+		if (isGameWon(score))
+		{
+			console.log("game finished");
+			putScoreToDb();
+			loadPage('pong3D_menu', 'app');
+			return;
+		}
+		
 		requestAnimationFrame(pong3DAnimate);
 		if(!pause)
-			[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause);
+			[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause, score);
 		else if(clock.getElapsedTime() > 1.5)
 			pause = false;
-
+		
 		linesEdgesPad1.position.x = pad1.position.x;
 		linesEdgesPad2.position.x = pad2.position.x;
 
