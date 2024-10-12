@@ -35,6 +35,15 @@ export async function loadEventListeners(page)
 		{
 			gameStatus.setStatus('ia', true);
 		});
+		document.getElementById('customization-pong-1').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('avatar3DPlayer1', 0);
+		});
+		document.getElementById('customization-pong-2').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('avatar3DPlayer1', 1);
+		});		
+		
 	}
 	else if (page === 'home')
 	{

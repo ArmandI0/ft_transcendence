@@ -6,6 +6,5 @@ export const pad1Z = -40;
 export const pad2Z = 40;
 export const tableGeom = new XYZ(40, 1, 80);
 export const ballStartDir = new XYZ(0, 0, 0.5);
-export const clock = new THREE.Clock();
-export const clockIA = new THREE.Clock();
+
 export const scoreToWin = 5;

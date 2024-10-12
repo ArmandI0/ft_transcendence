@@ -1,8 +1,12 @@
-import {padsWidth, padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir, clock, clockIA, scoreToWin} from './globals/pong3D_const.js';
+import {padsWidth, padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir, scoreToWin} from './globals/pong3D_const.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 import { iaPlayer, preventKeys } from './utils/pong_ia_3d.js';
 import { loadPage } from './htmlRequest.js';
-// import { OBJLoader, MTLLoader } from 'three-object-mtl-loader';
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js';
+import  {MTLLoader}  from './utils/MTLLoader.js';
+import  {OBJLoader}  from './utils/OBJLoader.js';
+const clock = new THREE.Clock();
+export const clockIA = new THREE.Clock();
 
 async function putScoreToDb()
 {
@@ -36,7 +40,7 @@ async function putScoreToDb()
 	// }
 }
 
-function makeObjectInstance(geomType, geom, color, pos_z, scene) 
+function makeObjectInstance(geomType, geom, color, pos_z) 
 {
 	let geometry;
 	switch (geomType)
@@ -65,7 +69,6 @@ function makeObjectInstance(geomType, geom, color, pos_z, scene)
 
 	const obj = new THREE.Mesh(geometry, material);
 	obj.position.z = pos_z;
-	scene.add(obj);
 	return obj;	
 }
 
@@ -249,6 +252,41 @@ function updateScore(score)
 	const text = `${score[0]} - ${score[1]}`;
 	divScore.innerHTML = text;
 }
+
+async function setAvatarPad(type, z) {
+    return new Promise((resolve, reject) => {
+        let pad;
+        console.log(`le type est : ${type}`);
+        if (type === 1) {
+            const mtlLoader = new MTLLoader();
+            mtlLoader.load('./obj3d/devil.mtl', function (materials) {
+                materials.preload();
+                const objLoader = new OBJLoader();
+                objLoader.setMaterials(materials);
+
+                objLoader.load('./obj3d/devil.obj', function (obj) {
+                    pad = obj; 
+                    pad.name = "pad";
+                    pad.rotation.x -= Math.PI / 2;  // Appliquer la rotation
+                    pad.position.y += 0;
+                    pad.position.z = z;
+
+                    resolve(pad); // Résoudre la promesse avec l'objet pad
+                }, (error) => {
+                    console.error('Erreur lors du chargement de l\'objet:', error);
+                    reject(error); // Rejeter la promesse en cas d'erreur
+                });
+            }, (error) => {
+                console.error('Erreur lors du chargement des matériaux:', error);
+                reject(error); // Rejeter la promesse en cas d'erreur
+            });
+        } else {
+            pad = makeObjectInstance("box", padGeom, 0xff0000, z);
+            resolve(pad); // Résoudre immédiatement pour le type différent
+        }
+    });
+}
+
 export async function  startGame3D()
 {
     gameStatus.setStatus('game_run', true);
@@ -277,28 +315,13 @@ export async function  startGame3D()
 	renderer2.setSize(width_3d,height_3d);
 	container2.appendChild(renderer2.domElement);
 
-	const MTLLoader = new THREE.MTLLoader();
-
-	// Chargez le fichier MTL
-	MTLLoader.load('../obj3d/ImageToStl.com_devil.mtl', function (materials) {
-		materials.preload();  // Préchargez les matériaux
-	
-		// Créez un chargeur pour l'OBJ et appliquez les matériaux
-		const OBJLoader = new THREE.OBJLoader();
-		OBJLoader.setMaterials(materials);  // Applique les matériaux chargés à l'OBJ
-	
-		// Chargez le fichier OBJ
-		OBJLoader.load('../obj3d/ImageToStl.com_devil.obj', function (character) {
-			character.name = "character";  // Nom du modèle
-			scene.add(character);  // Ajoutez le modèle à la scène
-		});
-	});
-
 	let ball_dir = ballStartDir;
 
 	// Adding objects
-	const pad1 = makeObjectInstance("box", padGeom,0xff0000,pad1Z, scene);
-	const pad2 = makeObjectInstance("box", padGeom,0x0000ff,pad2Z, scene);
+	// const pad1 = makeObjectInstance("box", padGeom,0xff0000,pad1Z, scene);
+	const pad1 = await setAvatarPad(gameStatus.getStatus('avatar3DPlayer1'), pad1Z);
+	const pad2 = await setAvatarPad(gameStatus.getStatus('avatar3DPlayer2'), pad2Z);
+	// const pad2 = makeObjectInstance("box", padGeom,0x0000ff,pad2Z, scene);
 	const ball = makeObjectInstance("sphere", ballGeom,0xffffff,0, scene);
 	const table = makeTable(scene);
 	const geom = new THREE.BoxGeometry(padGeom.getX(), padGeom.getY(), padGeom.getZ());
@@ -354,6 +377,9 @@ export async function  startGame3D()
 		// 	console.log("Le jeu s'arrête.");
 		// });
 		
+	scene.add(pad1);
+	scene.add(pad2);
+	scene.add(ball);
 	function pong3DAnimate() 
 	{
 		if (gameStatus.getStatus('game_run') === false)

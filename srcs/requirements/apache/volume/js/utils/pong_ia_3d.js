@@ -1,4 +1,4 @@
-import {padsWidth, padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir, clock, clockIA} from '../globals/pong3D_const.js';
+import {padsWidth, padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir} from '../globals/pong3D_const.js';
 
 /////////// IA /////////////////
 

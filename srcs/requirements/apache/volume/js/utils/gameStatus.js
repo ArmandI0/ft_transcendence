@@ -10,7 +10,8 @@ let isAnimating = false;
 let player1Power = false;
 let player2Power = false;
 let isCardClickable = true;
-let score = [];
+let avatar3DPlayer1 = 0;
+let avatar3DPlayer2 = 0;
 
 export function getStatus(name_var)
 {
@@ -38,8 +39,10 @@ export function getStatus(name_var)
 		return player2Power;
 	if (name_var === 'isCardClickable')
 		return isCardClickable;
-	if (name_var === 'score')
-		return score;
+	if (name_var === 'avatar3DPlayer1')
+		return avatar3DPlayer1;
+	if (name_var === 'avatar3DPlayer2')
+		return avatar3DPlayer2;
 }
 
 export function setStatus(name_var, status)
@@ -68,7 +71,9 @@ export function setStatus(name_var, status)
 		player2Power = status;
 	else if (name_var === 'isCardClickable')
 		isCardClickable = status;
-	else if (name_var === 'score')
-		score = status;
+	else if (name_var === 'avatar3DPlayer1')
+		avatar3DPlayer1 = status;
+	else if (name_var === 'avatar3DPlayer2')
+		avatar3DPlayer2 = status;
 }
 
