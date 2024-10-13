@@ -11,6 +11,10 @@ let player1Power = false;
 let player2Power = false;
 let isCardClickable = true;
 
+let tournamentCard = false;
+let flippedCards = [];
+const PlayersCard = [4];
+
 export function getStatus(name_var)
 {
 	if (name_var === 'game_run')
@@ -37,6 +41,8 @@ export function getStatus(name_var)
 		return player2Power;
 	if (name_var === 'isCardClickable')
 		return isCardClickable;
+	if (name_var === 'tournamentCard')
+		return tournamentCard;
 }
 
 export function setStatus(name_var, status)
@@ -65,4 +71,6 @@ export function setStatus(name_var, status)
 		player2Power = status;
 	else if (name_var === 'isCardClickable')
 		isCardClickable = status;
+	if (name_var === 'tournamentCard')
+		tournamentCard = status;
 }
