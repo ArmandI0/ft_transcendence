@@ -340,6 +340,12 @@
     transition: background-color 0.3s ease;
 }
 
+#button-coop{
+    position: absolute;
+    left: 46.5%;
+    bottom: 300px;
+}
+
 .btn-custom-pong {
     padding: 20px 40px;
 }
@@ -528,13 +534,20 @@
     width: 200px;
 }
 
-#player1, #player2 {
+#player1, #player2, #player3{
     width: 20px;
     height: 100px;
     border-radius: 50px;
     background-color: grey;
     position: absolute;
-    border: 2px solid darkgray; /* Gris foncé */
+    border: 2px solid darkgray;
+}
+
+#player3 {
+    display: none;
+    left: 48.7%;
+    top: 50%;
+    z-index: 2;
 }
 
 #player1 {

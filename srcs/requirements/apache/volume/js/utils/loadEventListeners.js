@@ -116,6 +116,17 @@ export async function loadEventListeners(page)
 			});
 		});
 
+		document.getElementById('button-coop').addEventListener('click', function()
+		{
+			showSection('Home-pong');
+			showSection('player3');
+			hideSection('main-menu-buttons-pong');
+			showSection('game-container-pong');
+			document.getElementById('play-pong').style.display = 'flex';
+			gameStatus.setStatus('isCoop', true);
+			slideInRodgerLogo();
+		});
+
 		document.getElementById('button-1v1').addEventListener('click', function()
 		{
 			showSection('Home-pong');
@@ -180,6 +191,7 @@ export async function loadEventListeners(page)
 
 		document.getElementById('Home-pong').addEventListener('click', function()
 		{
+			gameStatus.setStatus('isCoop', false);
 			gameStatus.setStatus('ia', false);
 			gameStatus.setStatus('tournamentInProgress', false);
 			gameStatus.setStatus('isPaused', true);

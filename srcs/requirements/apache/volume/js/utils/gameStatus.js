@@ -10,10 +10,10 @@ let isAnimating = false;
 let player1Power = false;
 let player2Power = false;
 let isCardClickable = true;
-
 let tournamentCard = false;
-let flippedCards = [];
-const PlayersCard = [4];
+let isCoop = false;
+
+// utiliser fonction match
 
 export function getStatus(name_var)
 {
@@ -43,6 +43,8 @@ export function getStatus(name_var)
 		return isCardClickable;
 	if (name_var === 'tournamentCard')
 		return tournamentCard;
+	if (name_var === 'isCoop')
+		return isCoop;
 }
 
 export function setStatus(name_var, status)
@@ -71,6 +73,8 @@ export function setStatus(name_var, status)
 		player2Power = status;
 	else if (name_var === 'isCardClickable')
 		isCardClickable = status;
-	if (name_var === 'tournamentCard')
+	else if (name_var === 'tournamentCard')
 		tournamentCard = status;
+	else if (name_var === 'isCoop')
+		isCoop = status;
 }
