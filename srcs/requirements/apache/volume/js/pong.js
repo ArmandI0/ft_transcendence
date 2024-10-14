@@ -109,6 +109,7 @@ function setupKeyboardEvents()
 
 export function startPong()
 {
+    gameStatus.setStatus('firstCall', true);
     gameStatus.setStatus('isPaused', false);;
 
     let player1 = new Player('player1');
@@ -319,12 +320,11 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
             ball.y = 410;
 
         // 'Collision' avec le joueur central
-        console.log(previousDirection);
         if (gameStatus.getStatus('isCoop') && ball.x >= 390 && ball.x <= 410)
         {
             if ((ball.y + 10) >= (player3.y + 10) && (ball.y + 10) <= (player3.y + 90))
             {
-                if (previousDirectionCoop != direction)
+                if (previousDirectionCoop != direction && !gameStatus.getStatus('FirstCall'))
                 {   
                     player1.score += 1;
                     player2.score += 1;
@@ -342,6 +342,8 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
                 ok = false;
             }
         }
+        if (ball.x >= 420 && ball.x <= 380)
+            gameStatus.setStatus('FirstCall', false);
 
         // Collision avec joueur 1 (joueur gauche)
         if (ball.x - ball.rad <= 20 && ball.x - ball.rad >= 0)
