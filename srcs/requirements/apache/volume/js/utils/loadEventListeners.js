@@ -6,6 +6,7 @@ import * as gameStatus from './gameStatus.js' ;
 import { setGameTypeData, setSetSize } from './utils_charts.js';
 import { generateCharts } from '../charts.js';
 import { slideInRodgerLogo, slideInRolandLogo } from './pongAnim.js';
+import { setBordersAvatar} from './avatars.js';
 
 export async function loadEventListeners(page)
 {
@@ -30,19 +31,53 @@ export async function loadEventListeners(page)
 		document.getElementById('button-start-pong-3D-2p').addEventListener('click', function() 
 		{
 			gameStatus.setStatus('ia', false);
+			setBordersAvatar(this, 0);
 		});
 		document.getElementById('button-start-pong-3D-1p').addEventListener('click', function() 
 		{
 			gameStatus.setStatus('ia', true);
+			setBordersAvatar(this, 0);
 		});
-		document.getElementById('customization-pong-1').addEventListener('click', function() 
+		document.getElementById('customization-pong-1-player-1').addEventListener('click', function() 
 		{
 			gameStatus.setStatus('avatar3DPlayer1', 0);
+			setBordersAvatar(this, 1);
 		});
-		document.getElementById('customization-pong-2').addEventListener('click', function() 
+		document.getElementById('customization-pong-2-player-1').addEventListener('click', function() 
 		{
 			gameStatus.setStatus('avatar3DPlayer1', 1);
-		});		
+			setBordersAvatar(this, 1);
+		});
+		document.getElementById('customization-pong-3-player-1').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('avatar3DPlayer1', 2);
+			setBordersAvatar(this, 1);
+		});
+		document.getElementById('customization-pong-4-player-1').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('avatar3DPlayer1', 3);
+			setBordersAvatar(this, 1);
+		});
+		document.getElementById('customization-pong-1-player-2').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('avatar3DPlayer2', 0);
+			setBordersAvatar(this, 2);
+		});
+		document.getElementById('customization-pong-2-player-2').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('avatar3DPlayer2', 1);
+			setBordersAvatar(this, 2);
+		});
+		document.getElementById('customization-pong-3-player-2').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('avatar3DPlayer2', 2);
+			setBordersAvatar(this, 2);
+		});
+		document.getElementById('customization-pong-4-player-2').addEventListener('click', function() 
+		{
+			gameStatus.setStatus('avatar3DPlayer2', 3);
+			setBordersAvatar(this, 2);
+		});				
 		
 	}
 	else if (page === 'home')

@@ -7,7 +7,7 @@ function handleCode(code)
 		.then(response => response.json())
 		.then(data => {
 			console.log('Réponse du backend:', data.login);
-			sessionStorage.setItem("username", data.login)
+			sessionStorage.setItem("username", data.login);
 		})
 		.catch((error) => {
 			console.error('Erreur:', error);

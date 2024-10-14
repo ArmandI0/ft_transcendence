@@ -5,10 +5,11 @@ import { loadPage } from './htmlRequest.js';
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js';
 import  {MTLLoader}  from './utils/MTLLoader.js';
 import  {OBJLoader}  from './utils/OBJLoader.js';
+import { hideSection, showSection } from './utils/showAndHideSections.js';
 const clock = new THREE.Clock();
 export const clockIA = new THREE.Clock();
 
-async function putScoreToDb()
+async function putScoreToDb(score)
 {
 	// const url = '/api/setPongResult/';
 
@@ -253,42 +254,68 @@ function updateScore(score)
 	divScore.innerHTML = text;
 }
 
-async function setAvatarPad(type, z) {
-    return new Promise((resolve, reject) => {
-        let pad;
-        console.log(`le type est : ${type}`);
-        if (type === 1) {
-            const mtlLoader = new MTLLoader();
-            mtlLoader.load('./obj3d/devil.mtl', function (materials) {
-                materials.preload();
-                const objLoader = new OBJLoader();
-                objLoader.setMaterials(materials);
+function loadAvatar(type, zDist, color) 
+{
+	var scale = 0.005;
+	if (type === 1)
+		var path = "./obj3d/Deathstroke-obj"
+	else if (type === 2)
+		var path = "./obj3d/Borderlands cosplay-obj"
+	else
+		var path = "./obj3d/Harley Quinn"
 
-                objLoader.load('./obj3d/devil.obj', function (obj) {
-                    pad = obj; 
-                    pad.name = "pad";
-                    pad.rotation.x -= Math.PI / 2;  // Appliquer la rotation
-                    pad.position.y += 0;
-                    pad.position.z = z;
+	return new Promise((resolve, reject) => {
+		console.log(`le type est : ${type}`);
+		if (type != 0) {
+			const mtlLoader = new MTLLoader();
+			mtlLoader.load(path + '.mtl', function (materials) {
+				materials.preload();
+				const objLoader = new OBJLoader();
+				objLoader.setMaterials(materials);
 
-                    resolve(pad); // Résoudre la promesse avec l'objet pad
-                }, (error) => {
-                    console.error('Erreur lors du chargement de l\'objet:', error);
-                    reject(error); // Rejeter la promesse en cas d'erreur
-                });
-            }, (error) => {
-                console.error('Erreur lors du chargement des matériaux:', error);
-                reject(error); // Rejeter la promesse en cas d'erreur
-            });
-        } else {
-            pad = makeObjectInstance("box", padGeom, 0xff0000, z);
-            resolve(pad); // Résoudre immédiatement pour le type différent
-        }
-    });
+				objLoader.load(path + '.obj', function (pad) {
+					pad.name = "pad";
+					pad.traverse(function (child) {
+						if (child.isMesh) 
+						{
+							child.material.transparent = true;
+							child.material.opacity = 0.75;
+						}
+					});
+					if (path != './obj3d/Harley Quinn')
+					{
+						pad.rotation.x -= Math.PI / 2; 
+						if (zDist > 0)
+							pad.rotation.z -= Math.PI; 
+					}
+					else 
+					{
+						pad.position.y += 5;
+						if (zDist > 0)
+							pad.rotation.y -= Math.PI; 
+					}
+					pad.position.z = zDist;
+					pad.scale.set(scale,scale,scale);
+
+					resolve(pad);
+				}, undefined, function (error) {
+					reject(error);
+				});
+			}, undefined, function (error) {
+				reject(error);
+			});
+		}
+		else 
+		{
+			const pad = makeObjectInstance("box", padGeom, color, zDist);
+			resolve(pad);
+		}
+	});
 }
 
 export async function  startGame3D()
 {
+	showSection('loading-screen');
     gameStatus.setStatus('game_run', true);
 	let pause = false;
 	let score = [0,0];
@@ -318,10 +345,9 @@ export async function  startGame3D()
 	let ball_dir = ballStartDir;
 
 	// Adding objects
-	// const pad1 = makeObjectInstance("box", padGeom,0xff0000,pad1Z, scene);
-	const pad1 = await setAvatarPad(gameStatus.getStatus('avatar3DPlayer1'), pad1Z);
-	const pad2 = await setAvatarPad(gameStatus.getStatus('avatar3DPlayer2'), pad2Z);
-	// const pad2 = makeObjectInstance("box", padGeom,0x0000ff,pad2Z, scene);
+	const pad1 = await loadAvatar(gameStatus.getStatus('avatar3DPlayer1'), pad1Z, 0xFF0000);
+	const pad2 = await loadAvatar(gameStatus.getStatus('avatar3DPlayer2'), pad2Z, 0x0000FF);
+	
 	const ball = makeObjectInstance("sphere", ballGeom,0xffffff,0, scene);
 	const table = makeTable(scene);
 	const geom = new THREE.BoxGeometry(padGeom.getX(), padGeom.getY(), padGeom.getZ());
@@ -337,22 +363,22 @@ export async function  startGame3D()
 	scene.add(gridCollision);
 
 	// Adding light
-	const color = 0xFFFF00;
+	const color = 0xFFFFFF;
 	const intensity = 3;
 	const light = new THREE.DirectionalLight(color, intensity);
 	light.position.set(50, 50, 0);
 	scene.add(light);
 
-	const spotLight = new THREE.SpotLight(color);
-	spotLight.position.set(0, 10, 0);
-	spotLight.angle = Math.PI / 6;
-	spotLight.penumbra = 0.1;
-	spotLight.target = table;
-	scene.add(spotLight);
+	// const spotLight = new THREE.SpotLight(color);
+	// spotLight.position.set(0, 10, 0);
+	// spotLight.angle = Math.PI / 6;
+	// spotLight.penumbra = 0.1;
+	// spotLight.target = table;
+	// scene.add(spotLight);
 
-	camera1.position.z = 62;
+	camera1.position.z = -60;
 	camera1.position.y = 15;
-	camera2.position.z = -62;
+	camera2.position.z = 60;
 	camera2.position.y = 15;
 
 	camera1.lookAt(0,0,0);
@@ -371,15 +397,11 @@ export async function  startGame3D()
 	clock.start();
 	if (gameStatus.getStatus('ia') === true)
 		clockIA.start();
-		// window.addEventListener('popstate', function(event)
-		// {
-		// 	pong3D_run = false;
-		// 	console.log("Le jeu s'arrête.");
-		// });
 		
 	scene.add(pad1);
 	scene.add(pad2);
 	scene.add(ball);
+	hideSection('loading-screen');
 	function pong3DAnimate() 
 	{
 		if (gameStatus.getStatus('game_run') === false)
@@ -390,7 +412,7 @@ export async function  startGame3D()
 		if (isGameWon(score))
 		{
 			console.log("game finished");
-			putScoreToDb();
+			putScoreToDb(score);
 			loadPage('pong3D_menu', 'app');
 			return;
 		}
@@ -404,22 +426,17 @@ export async function  startGame3D()
 		linesEdgesPad1.position.x = pad1.position.x;
 		linesEdgesPad2.position.x = pad2.position.x;
 
-		// if (gameStatus.getStatus('ia') === true)
-		// {
-		// 	preventKeys('ArrowLeft');
-		// 	preventKeys('ArrowRight');
-		// }
 		if (keysPressed['ArrowLeft']) {
-			pad1.position.x += 0.75; 
+			pad2.position.x -= 0.75; 
 		}
 		if (keysPressed['ArrowRight']) {
-			pad1.position.x -= 0.75;
+			pad2.position.x += 0.75;
 		}
 		if (keysPressed['KeyA']) {
-			pad2.position.x -= 0.75;
+			pad1.position.x += 0.75;
 		}
 		if (keysPressed['KeyD']) {
-			pad2.position.x += 0.75;
+			pad1.position.x -= 0.75;
 		}
 
 		if (clockIA.getElapsedTime() > 0.5 && gameStatus.getStatus('ia') === true) 
