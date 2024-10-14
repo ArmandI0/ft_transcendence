@@ -157,5 +157,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 # ]
 AUTH_USER_MODEL = 'accounts.Api42User'
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'https://localhost',
+]
+
+
 DJANGO_VAULT_TOKEN = os.environ.get('DJANGO_VAULT_TOKEN', ' ')
 VAULT_URL = os.environ.get('VAULT_URL', 'http://vault:8200')

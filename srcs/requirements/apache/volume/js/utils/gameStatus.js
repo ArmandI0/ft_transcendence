@@ -14,6 +14,7 @@ let tournamentCard = false;
 let isCoop = false;
 
 // utiliser fonction match
+let score = [];
 
 export function getStatus(name_var)
 {
@@ -45,6 +46,8 @@ export function getStatus(name_var)
 		return tournamentCard;
 	if (name_var === 'isCoop')
 		return isCoop;
+	if (name_var === 'score')
+		return score;
 }
 
 export function setStatus(name_var, status)
@@ -77,4 +80,7 @@ export function setStatus(name_var, status)
 		tournamentCard = status;
 	else if (name_var === 'isCoop')
 		isCoop = status;
+	else if (name_var === 'score')
+		score = status;
 }
+

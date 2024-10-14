@@ -8,24 +8,24 @@ services:
       - ./requirements/web/volume:/website
     ports:
       - '8000'
-    depends_on:
-      - vault
-      - postgres
     environment:
       - DEBUG=True
     env_file : 
-      - ./secrets/.env
       - ./secrets/.django_token
     networks:
       - transcendance
+    depends_on:
+      - vault
+      - postgres
 
   postgres:
-    image: postgres:13
+    build: requirements/postgres/.
+    image: postgres
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file : 
-      - ./secrets/.env 
+      - ./secrets/.postgres_token
     ports:
       - '5432'
     networks:
@@ -53,6 +53,8 @@ services:
       - 8080:8080
     networks:
       - transcendance
+    depends_on: 
+      - vault
 
   vault :
       container_name : 'vault'
@@ -67,7 +69,6 @@ services:
       restart: on-failure:10
       env_file : 
           - ./secrets/.vault_tokens
-          - ./secrets/.env
       volumes:
         - vault_data:/vault/data
 

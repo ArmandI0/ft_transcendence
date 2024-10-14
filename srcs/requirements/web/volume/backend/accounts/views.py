@@ -25,8 +25,10 @@ def get42UserData(request, response):
 			print("ADD_USER")
 			user = addUser(user_data)
 		login(request ,user)
+		print('user_created')
 		return JsonResponse(user_data)
 	except ValueError:
+		print(f"Ca bug la: {response.status_code}, Détails: {response.text}")
 		return JsonResponse({'error': 'Failed to retrieve token', 'details': response.json()}, status=response.status_code)
 
 
@@ -37,8 +39,8 @@ def api42_request(request) :
 		url = 'https://api.intra.42.fr/oauth/token'
 
 		secret_data, status = get_api42_cred_vault()
-		uid = secret_data['data']['client_id']
-		passwd = secret_data['data']['client_secret']
+		uid = secret_data['data']['API42_UID']
+		passwd = secret_data['data']['API42_PASS']
 
 		data = {
 			"grant_type": "authorization_code",
@@ -50,6 +52,7 @@ def api42_request(request) :
 		headers = {"Content-Type": "application/json; charset=utf-8"}
 		response = requests.post(url, headers=headers, json=data)
 		if response.status_code != 200:
+			print(f"Erreur lors de la récupération des données utilisateur: {response.status_code}, Détails: {response.text}")
 			return HttpResponseBadRequest("Error : code status not 200")
 		else:
 			return get42UserData(request ,response)
