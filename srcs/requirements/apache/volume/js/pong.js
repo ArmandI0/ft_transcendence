@@ -46,6 +46,7 @@ class Ball{
             this.height = parseFloat(window.getComputedStyle(this.element).height);
             this.width = parseFloat(window.getComputedStyle(this.element).width);
             this.rad = this.height / 2;
+            this.baseSpeed = 3.5;
             this.speedX = 3 * (Math.random() > 0.5 ? 1 : -1);
             this.speedY = 3 * (Math.random() > 0.5 ? 1 : -1);
             this.y = 400 / 2;
@@ -345,14 +346,15 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         // Collision avec joueur 1 (joueur gauche)
         if (ball.x - ball.rad <= 20 && ball.x - ball.rad >= 0)
         {
-            console.log(ok);
-            checkCoop(player1, player2, player3, ball, ok);
+            if (gameStatus.getStatus('isCoop'))
+                checkCoop(player1, player2, player3, ball, ok);
             if (ball.y >= player1.y - player1.height2 && ball.y <= player1.y + player1.height2)
             {
                 if (gameStatus.getStatus('player1Power') === true)
                 {
                     console.log('BOOOOM');
                     ball.speedX = -ball.speedX * 4;
+                    ball.speedX = Math.min(ball.speedX, 9);
                     ball.speedY = 0;
                     greenPlayer1.style.backgroundColor = 'grey';
                 }
@@ -375,13 +377,15 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         // Collision avec joueur 2 (joueur droite)
         else if (ball.x + ball.rad >= 780)
         {
-            checkCoop(player1, player2, player3, ball, ok);
+            if (gameStatus.getStatus('isCoop'))
+                checkCoop(player1, player2, player3, ball, ok);
             if (ball.y >= player2.y - player2.height2 && ball.y <= player2.y + player2.height2)
             {
                 if (gameStatus.getStatus('player2Power') === true)
                 {
                     console.log('BOOOOM');
                     ball.speedX = -ball.speedX * 4;
+                    ball.speedX = Math.min(ball.speedX, 9);
                     ball.speedY = 0;
                     greenPlayer2.style.backgroundColor = 'grey';
                 }
