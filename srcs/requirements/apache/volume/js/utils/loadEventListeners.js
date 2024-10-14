@@ -6,6 +6,9 @@ import * as gameStatus from './gameStatus.js' ;
 import { setGameTypeData, setSetSize } from './utils_charts.js';
 import { generateCharts } from '../charts.js';
 import { slideInRodgerLogo, slideInRolandLogo } from './pongAnim.js';
+import { startGame, validatePlayers, setNames, resetCardGame, checkWin, compareValue, returnFlippedCards} from '../card.js'
+import { cardData } from '../card.js';
+
 
 export async function loadEventListeners(page)
 {
@@ -118,6 +121,17 @@ export async function loadEventListeners(page)
 			});
 		});
 
+		document.getElementById('button-coop').addEventListener('click', function()
+		{
+			showSection('Home-pong');
+			showSection('player3');
+			hideSection('main-menu-buttons-pong');
+			showSection('game-container-pong');
+			document.getElementById('play-pong').style.display = 'flex';
+			gameStatus.setStatus('isCoop', true);
+			slideInRodgerLogo();
+		});
+
 		document.getElementById('button-1v1').addEventListener('click', function()
 		{
 			showSection('Home-pong');
@@ -182,6 +196,8 @@ export async function loadEventListeners(page)
 
 		document.getElementById('Home-pong').addEventListener('click', function()
 		{
+			gameStatus.setStatus('isCoop', false);
+			hideSection('player3');
 			gameStatus.setStatus('ia', false);
 			gameStatus.setStatus('tournamentInProgress', false);
 			gameStatus.setStatus('isPaused', true);
@@ -254,6 +270,196 @@ export async function loadEventListeners(page)
 		// 		event.preventDefault();
 		// 	}
 		// });		
+	}
+	else if (page === 'card')
+	{
+		
+		['card1', 'card2', 'card3', 'card4', 'card5', 'card6', 'card7', 'card8', 'card9', 'card10', 'card11', 'card12', 'card13', 'card14', 'card15', 'card16', 'card17', 'card18'].forEach(cardId => {
+			const cardElement = document.getElementById(cardId);
+			
+			if (cardElement) {
+				cardElement.addEventListener('click', function() {
+					if (cardData.flippedCards.length < 2 && gameStatus.getStatus('isCardClickable')) {
+						this.classList.toggle('card-front');
+						this.classList.toggle('card-back');
+						cardData.flippedCards.push(this);
+		
+						if (cardData.flippedCards.length === 2) {
+							if (compareValue() === 0) {
+								setTimeout(returnFlippedCards, 500);
+							} else {
+								cardData.flippedCards.forEach(card => {
+									card.classList.add('hidden');
+								});
+								checkWin();
+								cardData.flippedCards = [];
+							}
+						}
+					}
+				});
+			}
+		});
+
+		document.getElementById('button-1player').addEventListener('click', function() 
+		{
+			hideSection('main-menu-buttons-card');
+			showSection('hide-game-container');
+			showSection('Home');
+			document.getElementById('start').style.display = 'flex';
+		});
+
+		document.getElementById('button-tournament-card').addEventListener('click', function() 
+		{
+			hideSection('main-menu-buttons-card');
+			showSection('tournament-container-card');
+			showSection('Home');
+		});
+
+		document.getElementById('start').addEventListener('click', function() 
+		{
+			resetCardGame();
+			startGame();
+			document.getElementById('start').style.display = 'none';
+		});
+
+		document.getElementById('Parameters').addEventListener('click', function() {
+			const isSectionVisible = gameStatus.getStatus('paramSectionVisible');
+			
+			const section = document.getElementById('select-param');
+
+			if (isSectionVisible) 
+			{
+				section.classList.remove('show');
+				setTimeout(() => {
+					section.style.display = 'none';
+				}, 500);
+			}
+			else
+			{
+				section.style.display = 'flex'; 
+				setTimeout(() => {
+					section.classList.add('show');
+				}, 10);
+			}
+			
+			gameStatus.setStatus('paramSectionVisible', !isSectionVisible);
+		});
+
+		document.querySelectorAll('.btn-custom4-card').forEach(button => {
+			button.addEventListener('click', function() {
+				document.querySelectorAll('.btn-custom4-card').forEach(btn => {
+					btn.classList.remove('selected');
+					btn.classList.add('not-selected');
+				});
+				
+				this.classList.add('selected');
+				this.classList.remove('not-selected');
+			});
+		});
+
+		document.querySelectorAll('.btn-custom5-card').forEach(button => {
+			button.addEventListener('click', function() {
+
+				if (this.classList.contains('selected')) {
+					gameStatus.setStatus('isPower', false);
+					this.classList.remove('selected');
+					this.classList.add('not-selected');
+				} else {
+					gameStatus.setStatus('isPower', true);
+					document.querySelectorAll('.btn-custom5-card').forEach(btn => {
+						btn.classList.remove('selected');
+						btn.classList.add('not-selected');
+					});
+
+					this.classList.add('selected');
+					this.classList.remove('not-selected');
+				}
+			});
+		});
+
+		document.getElementById('white').addEventListener('click', function() {
+			const cardBacks = document.getElementsByClassName('card-back');
+			const cardFronts = document.getElementsByClassName('card-front');
+
+			for (let i = 0; i < cardFronts.length; i++) {
+				cardFronts[i].style.backgroundColor = 'white';
+			}
+			for (let i = 0; i < cardBacks.length; i++) {
+				cardBacks[i].style.backgroundColor = 'white';
+			}
+		});
+
+		document.getElementById('grey').addEventListener('click', function() {
+			const cardBacks = document.getElementsByClassName('card-back');
+			const cardFronts = document.getElementsByClassName('card-front');
+
+			for (let i = 0; i < cardFronts.length; i++) {
+				cardFronts[i].style.backgroundColor = 'grey';
+			}
+			for (let i = 0; i < cardBacks.length; i++) {
+				cardBacks[i].style.backgroundColor = 'grey';
+			}
+		});
+
+		document.getElementById('blue').addEventListener('click', function() {
+			const cardBacks = document.getElementsByClassName('card-back');
+			const cardFronts = document.getElementsByClassName('card-front');
+
+			for (let i = 0; i < cardBacks.length; i++) {
+				cardBacks[i].style.backgroundColor = 'lightblue';
+			}
+			for (let i = 0; i < cardFronts.length; i++) {
+				cardFronts[i].style.backgroundColor = 'lightblue';
+			}
+		});
+
+		document.getElementById('yellow').addEventListener('click', function() {
+			const cardBacks = document.getElementsByClassName('card-back');
+			const cardFronts = document.getElementsByClassName('card-front');
+			
+			for (let i = 0; i < cardFronts.length; i++) {
+				cardFronts[i].style.backgroundColor = '#FFFFE0';
+			}
+			for (let i = 0; i < cardBacks.length; i++) {
+				cardBacks[i].style.backgroundColor = '#FFFFE0';
+			}
+		});
+
+		document.getElementById('Home').addEventListener('click', function()
+		{
+			resetCardGame();
+			gameStatus.setStatus('isPower', false);
+			hideSection('tournament-visualizer-card-final');
+			hideSection('hide-game-container');
+			hideSection('tournament-container-card');
+			hideSection('tournament-visualizer-card');
+			hideSection('Home');
+			showSection('main-menu-buttons-card');
+		});
+
+		document.getElementById('play-tournament').addEventListener('click', function() 
+		{
+			const inputElements = document.querySelectorAll('.form-control');
+			cardData.PlayersCard.length = 0;
+			for (let i = 0; i < inputElements.length && i < 4; i++)
+				cardData.PlayersCard.push(inputElements[i].value);
+
+			if (validatePlayers(cardData.PlayersCard)) 
+			{
+				hideSection('tournament-container-card');
+				showSection('hide-game-container');
+				showSection('tournament-visualizer-card');
+				setNames();
+
+				// lancement du tournoi
+				gameStatus.setStatus('tournamentCard', true);
+			} 
+			else 
+			{
+				alert('Please enter 4 unique player (3-10 caracters)');
+			}
+			document.getElementById('start').style.display = 'flex';
+		});
 	}
 }
 

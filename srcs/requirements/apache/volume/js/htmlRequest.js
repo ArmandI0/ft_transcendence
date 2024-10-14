@@ -47,7 +47,6 @@ export async function loadPage(page, div)
 {
 	let ret = true;
 
-	
 	if (page != 'home')
 	{
 		const isAuthenticated = await is_auth();
