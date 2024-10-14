@@ -1,6 +1,8 @@
 import { iaPlayer } from "./utils/pong_ia.js";
 import { hideSection, showSection } from './utils/showAndHideSections.js';
 import * as gameStatus from './utils/gameStatus.js' ;
+import { SendDataPong } from "./SendPongDataHandle.js";
+
 
 let Players = [];
 let tournament;
@@ -22,6 +24,7 @@ class Player {
             this.step = 8; // vitesse de deplacement du joueur
             this.y = 0; // Position initiale
             this.score = 0;
+            this.startTime = Date.now();
         }
     }
 
@@ -215,7 +218,11 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
                 tournamentFct(1, player1, player2, ball, tournament, court);
             }
             else
+            {
+                SendDataPong(player1, player2);
                 document.getElementById('play-pong').style.display = 'block';
+                
+            }
         } 
         else
         {
@@ -227,7 +234,10 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
                 tournamentFct(2, player1, player2, ball, tournament, court);
             }
             else
+            {
+                SendDataPong(player1, player2);
                 document.getElementById('play-pong').style.display = 'block';
+            }
         }
 
         player1 = null;

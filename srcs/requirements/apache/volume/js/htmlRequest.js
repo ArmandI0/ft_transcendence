@@ -49,11 +49,11 @@ export async function loadPage(page, div)
 
 	if (page != 'home')
 	{
-		// const isAuthenticated = await is_auth();
-		// if (!isAuthenticated){
-		// 	alert("Please log in with the 42 api connector");
-		// 	return;
-		// }
+		const isAuthenticated = await is_auth();
+		if (!isAuthenticated){
+			alert("Please log in with the 42 api connector");
+			return;
+		}
 	}
 	const existingStyles = document.querySelectorAll('link[data-page]');
 	existingStyles.forEach(link => link.remove());
