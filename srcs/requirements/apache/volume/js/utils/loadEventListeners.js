@@ -192,6 +192,7 @@ export async function loadEventListeners(page)
 		document.getElementById('Home-pong').addEventListener('click', function()
 		{
 			gameStatus.setStatus('isCoop', false);
+			hideSection('player3');
 			gameStatus.setStatus('ia', false);
 			gameStatus.setStatus('tournamentInProgress', false);
 			gameStatus.setStatus('isPaused', true);
