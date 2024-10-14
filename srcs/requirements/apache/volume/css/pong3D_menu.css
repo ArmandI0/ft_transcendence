@@ -33,6 +33,10 @@ body
 #header-save-choices-pong3d
 {
     width:50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-custom-pong
@@ -96,7 +100,7 @@ body
 
 #pong3d-customization-mode .item-avatar-3d
 {
-    background-color: rgba(231, 94, 35, 0.565);
+    background-color: rgba(231, 94, 35, 0.815);
     width: 15%;
     color : white;
     font-weight: bold;
