@@ -42,14 +42,14 @@ def setPongResult(request):
         tournament_id = request.data.get('tournament_id')
         if (tournament_id != None and result.mode == 'TOURNAMENT'):
             try:
-                result.tournament_id = Tournament.objects.get(id=tournament_id)
+                result.tournament_id = Tournament.objects.get(tournament_id=tournament_id)
             except:
-                return JsonResponse({'error': 'Tournament not found'}, status=404)
+                return JsonResponse({'error': 'Tournament not found'}, status=200)
         else:
             result.tournament_id
         result.full_clean()
         result.save()
-        return JsonResponse({'success': result.game_id}, status=200)
+        return JsonResponse({'id': result.game_id}, status=200)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400) 
 
@@ -78,15 +78,15 @@ def setCardResult(request):
         tournament_id = request.data.get('tournament_id') 
         if tournament_id != None and result.mode == 'TOURNAMENT':
             try:
-                result.tournament_id = Tournament.objects.get(id=tournament_id)
+                result.tournament_id = Tournament.objects.get(tournament_id=tournament_id)
             except Tournament.DoesNotExist:
-                return JsonResponse({'error': 'Tournament not found'}, status=404)
+                return JsonResponse({'error': 'Tournament not found'}, status=200)
         else:
             result.tournament_id = None
         result.full_clean()
         result.save()
 
-        return JsonResponse({'success': result.game_id}, status=200)
+        return JsonResponse({'id': result.game_id}, status=200)
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
@@ -108,16 +108,14 @@ def setCardResult(request):
 def setTournament(request):
     try:
         result = Tournament()
-
         result.game_type = request.data.get('game_type')
         result.date = request.data.get('date')  
         result.full_clean()
         result.save()
-        return JsonResponse({'success': result.tournament_id}, status=200)
+        return JsonResponse({'id': result.tournament_id}, status=200)
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-
 
 # https://localhost/api/get_result/
 

@@ -86,6 +86,7 @@ class Court{
 class Tournament{
     
     constructor(){
+        console.log("TOURNAMENT CREATED");
         this.firstMatch = true;
         this.secondMatch = false;
         this.finalMatch = false;
@@ -95,7 +96,10 @@ class Tournament{
         this.secondFinalist = '------';
         dataPostTournament.date = getCurrentFormattedDate();
         dataPostTournament.game_type = 'RollandGapong';
-        this.id = setTournament();
+    }
+    async init() {
+        this.id = await setTournament();
+        console.log("BLABLA " + this.id);
     }
 }
 
@@ -114,7 +118,7 @@ function setupKeyboardEvents()
 
 //// START PONG //////
 
-export function startPong()
+export async function startPong()
 {
     gameStatus.setStatus('firstCall', true);
     gameStatus.setStatus('isPaused', false);;
@@ -128,8 +132,10 @@ export function startPong()
 
     if (gameStatus.getStatus('tournamentMod') === true && gameStatus.getStatus('tournamentInProgress') === false)
     {
-        tournament = new Tournament();
         console.log('NEW TOURNAMENT');
+        tournament = new Tournament();
+        gameStatus.setStatus('tournamenetInProgress', true);
+        await tournament.init(); 
     }
     // Appliquer les positions initiales
     player1.setPosition (200);
@@ -639,6 +645,7 @@ async function tournamentFct(winner, player1, player2, ball, tournament, court)
                 displayWinner(tournament.secondFinalist);
             await waitForButtonClickBack('Home-pong')
             gameStatus.setStatus('tournamentMod', false);
+            gameStatus.setStatus('tournamenetInProgress', false);
         }
     }
 }

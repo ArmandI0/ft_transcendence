@@ -1,4 +1,4 @@
-import { dataPostCard, dataPostPong, setPongData } from "./SendGameData.js";
+import { dataPostCard, dataPostPong, setPongData , setCardData } from "./SendGameData.js";
 import * as gameStatus from './gameStatus.js' ;
 
 export function getCurrentFormattedDate() 
@@ -109,6 +109,7 @@ export function SendDataCard(elapsedTime, id)
         dataPostCard.game_duration = elapsedTime;
         dataPostCard.date = getCurrentFormattedDate();
         dataPostCard.tournament_id = id;
+        setCardData();
     }
     else
     {
@@ -117,5 +118,6 @@ export function SendDataCard(elapsedTime, id)
         dataPostCard.game_duration = elapsedTime;
         dataPostCard.date = getCurrentFormattedDate();
         dataPostCard.tournament_id = id;
+        setCardData();
     }
 }

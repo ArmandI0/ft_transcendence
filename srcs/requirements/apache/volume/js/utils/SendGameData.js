@@ -105,7 +105,7 @@ export async function setTournament() {
 
         const dataReturn = await response.json();
         console.log('Succès :', dataReturn);
-        return dataReturn;
+        return dataReturn.id;
 
     } catch (error) {
         console.error('Erreur lors de l\'appel à l\'API :', error);
