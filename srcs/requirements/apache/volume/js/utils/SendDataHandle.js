@@ -34,7 +34,7 @@ export function SendDataPong(player1, player2, tournament)
         dataPostPong.score_player1 = player1.score;
         dataPostPong.score_player2 = player2.score;
         dataPostPong.game = 'RollandGapong';
-        // dataPostPong.tournament_id = 34;
+        dataPostPong.tournament_id = -1;
         
         let stopTime = Date.now();
         let elapsedTimeInSeconds = Math.floor((stopTime - new Date(player1.startTime).getTime()) / 1000);
@@ -52,7 +52,7 @@ export function SendDataPong(player1, player2, tournament)
         dataPostPong.score_player1 = player1.score;
         dataPostPong.score_player2 = player2.score;
         dataPostPong.game = 'RollandGapong';
-        // dataPostPong.tournament_id = -1;
+        dataPostPong.tournament_id = -1;
 
         let stopTime = Date.now();
         let elapsedTimeInSeconds = Math.floor((stopTime - new Date(player1.startTime).getTime()) / 1000);
@@ -83,7 +83,7 @@ export function SendDataPong(player1, player2, tournament)
     else
     {
         console.log('SENDING PONG 1V1 DATA....')
-        dataPostPong.mode = 'LOCAL 1V1';
+        dataPostPong.mode = 'LOCAL1V1';
         dataPostPong.player2 = 'player2';
         dataPostPong.score_player1 = player1.score;
         dataPostPong.score_player2 = player2.score;
