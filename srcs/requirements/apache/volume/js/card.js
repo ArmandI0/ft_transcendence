@@ -1,3 +1,4 @@
+import { SendDataCard } from './utils/SendDataHandle.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 
 let cardValue = [];
@@ -154,6 +155,7 @@ export function checkWin()
         {
             displayChrono(elapsedTime);
         }
+        SendDataCard(elapsedTime, gameStatus.getStatus('id'));
         document.getElementById('start').style.display = 'flex';
         
     }
