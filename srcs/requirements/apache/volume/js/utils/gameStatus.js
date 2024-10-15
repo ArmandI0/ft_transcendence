@@ -13,6 +13,7 @@ let isCardClickable = true;
 let tournamentCard = false;
 let isCoop = false;
 let FirstCall = true;
+let id = -1;
 
 // utiliser fonction match
 let score = [];
@@ -51,6 +52,8 @@ export function getStatus(name_var)
 		return score;
 	if (name_var === 'FirstCall')
 		return FirstCall;
+	if (name_var === 'id')
+		return id;
 }
 
 export function setStatus(name_var, status)
@@ -87,5 +90,7 @@ export function setStatus(name_var, status)
 		score = status;
 	else if (name_var === 'FirstCall')
 		FirstCall = status;
+	else if (name_var === 'id')
+		id = status;
 }
 

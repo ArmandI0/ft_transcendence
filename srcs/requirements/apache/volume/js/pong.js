@@ -1,8 +1,9 @@
 import { iaPlayer } from "./utils/pong_ia.js";
 import { hideSection, showSection } from './utils/showAndHideSections.js';
 import * as gameStatus from './utils/gameStatus.js' ;
-import { SendDataPong } from "./SendPongDataHandle.js";
-
+import { SendDataPong } from "./utils/SendDataHandle.js";
+import { dataPostTournament, setTournament } from "./utils/SendGameData.js";
+import { getCurrentFormattedDate } from "./utils/SendDataHandle.js";
 
 let Players = [];
 let tournament;
@@ -92,6 +93,9 @@ class Tournament{
         this.playersScore = [0, 0, 0, 0];
         this.firstFinalist = '------';
         this.secondFinalist = '------';
+        dataPostTournament.date = getCurrentFormattedDate();
+        dataPostTournament.game_type = 'RollandGapong';
+        this.id = setTournament();
     }
 }
 
@@ -182,10 +186,11 @@ function updatePlayersPosition(player1, player2, player3)
 
 
 // Fonction pour vérifier le score des joueurs et arrêter le jeu si nécessaire
-function checkCoop(player1, player2, player3, ball, ok)
+function checkCoop(player1, player2, player3, ball, ok, tournament)
 {
     if (!ok)
     {
+        SendDataPong(player1, player2, tournament);
         gameStatus.setStatus('isPaused', true);
         hideSection('ball');
         document.getElementById('play-pong').style.display = 'block';
@@ -215,11 +220,12 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
             player2_score.textContent = 'L';
             if (gameStatus.getStatus('tournamentMod') === true)
             {
+                SendDataPong(player1, player2, tournament);
                 tournamentFct(1, player1, player2, ball, tournament, court);
             }
             else
             {
-                SendDataPong(player1, player2);
+                SendDataPong(player1, player2, tournament);
                 document.getElementById('play-pong').style.display = 'block';
                 
             }
@@ -231,11 +237,12 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
             player1_score.textContent = 'L';
             if (gameStatus.getStatus('tournamentMod') === true)
             {
+                SendDataPong(player1, player2, tournament);
                 tournamentFct(2, player1, player2, ball, tournament, court);
             }
             else
             {
-                SendDataPong(player1, player2);
+                SendDataPong(player1, player2, tournament);
                 document.getElementById('play-pong').style.display = 'block';
             }
         }
@@ -359,7 +366,7 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         if (ball.x - ball.rad <= 20 && ball.x - ball.rad >= 0)
         {
             if (gameStatus.getStatus('isCoop'))
-                checkCoop(player1, player2, player3, ball, ok);
+                checkCoop(player1, player2, player3, ball, ok, tournament);
             if (ball.y >= player1.y - player1.height2 && ball.y <= player1.y + player1.height2)
             {
                 if (gameStatus.getStatus('player1Power') === true)
@@ -390,7 +397,7 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         else if (ball.x + ball.rad >= 780)
         {
             if (gameStatus.getStatus('isCoop'))
-                checkCoop(player1, player2, player3, ball, ok);
+                checkCoop(player1, player2, player3, ball, ok, tournament);
             if (ball.y >= player2.y - player2.height2 && ball.y <= player2.y + player2.height2)
             {
                 if (gameStatus.getStatus('player2Power') === true)
@@ -421,7 +428,7 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         if (gameStatus.getStatus('isCoop') && (ball.x <= 5 || ball.x >= court.width - 5))
         {
             ok = false;
-            checkCoop(player1, player2, player3, ball, ok);
+            checkCoop(player1, player2, player3, ball, ok, tournament);
         }
         // Collision avec les bords gauche et droit du conteneur (score)
         else if (ball.x <= 5 || ball.x >= court.width - 5)

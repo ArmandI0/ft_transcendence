@@ -7,19 +7,19 @@ export const dataPostPong = {
     game: "Cyberpong",         // Type de jeu voir les nom preetabli par Nico
     game_duration: "00:20:00",     // Durée du jeu
     date: "2024-10-01T14:30:00",   // Date  on verra le format si jamais
-    // tournament_id: 1,              // ID du tournoi laisse a enlever si c'est pas un tournoi
+    tournament_id: 1,              // ID du tournoi laisse a enlever si c'est pas un tournoi
     // tournament_phase: "0"    // Phase du tournoi 0=final pui 1 2 3 
 };
 
 export const dataPostCard = {
     date: "2024-10-01T15:30:00",   // Date 
     game_duration: "00:30:00",     // Durée du jeu
-    // tournament_id: 2               // ID du tournoi si necessaiere
+    tournament_id: 2               // ID du tournoi si necessaiere
 };
 
 export const dataPostTournament = {
-    "game_type": "RollandGapong",       // Type de jeu 
-    "date": "2024-10-01T15:30:00"       // Date et heure du tournoi
+    game_type: "RollandGapong",       // Type de jeu 
+    date: "2024-10-01T15:30:00"       // Date et heure du tournoi
 };
 
 export async function setPongData() {
@@ -92,7 +92,7 @@ export async function setTournament() {
                 'X-Requested-With': 'XMLHttpRequest',
                 'X-CSRFToken': csrfToken,
             },
-            body: JSON.stringify(dataPost),
+            body: JSON.stringify(dataPostTournament),
         });
         if (!response.ok) {
             const errorData = await response.text();

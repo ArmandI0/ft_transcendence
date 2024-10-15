@@ -8,7 +8,8 @@ import { generateCharts } from '../charts.js';
 import { slideInRodgerLogo, slideInRolandLogo } from './pongAnim.js';
 import { startGame, validatePlayers, setNames, resetCardGame, checkWin, compareValue, returnFlippedCards} from '../card.js'
 import { cardData } from '../card.js';
-
+import { dataPostTournament, setTournament } from "./utils/SendGameData.js";
+import { getCurrentFormattedDate } from "./SendDataHandle.js";
 
 export async function loadEventListeners(page)
 {
@@ -452,7 +453,10 @@ export async function loadEventListeners(page)
 				setNames();
 
 				// lancement du tournoi
-				gameStatus.setStatus('tournamentCard', true);
+				gameStatus.setStatus('tournamentCard', true);        
+				dataPostTournament.date = getCurrentFormattedDate();
+				dataPostTournament.game_type = 'CardGame';
+				gameStatus.setStatus('id', setTournament());
 			} 
 			else 
 			{
