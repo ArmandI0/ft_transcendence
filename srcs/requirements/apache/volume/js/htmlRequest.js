@@ -45,14 +45,13 @@ async function is_auth()
 
 export async function loadPage(page, div) 
 {
-	let ret = true;
-
 	if (page != 'home')
 	{
 		const isAuthenticated = await is_auth();
 		if (!isAuthenticated){
 			alert("Please log in with the 42 api connector");
-			return;
+			page = 'home';
+			div = 'app';
 		}
 	}
 	const existingStyles = document.querySelectorAll('link[data-page]');
@@ -78,7 +77,6 @@ export async function loadPage(page, div)
 		if (container) 
 			container.innerHTML = '<div>Error loading page. Please try again.</div>';
 	}
-	return ret;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
