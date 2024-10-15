@@ -29,12 +29,12 @@ export function SendDataPong(player1, player2, tournament)
     if (gameStatus.getStatus('ia'))
     {
         console.log('SENDING PONG IA DATA....')
-        dataPostPong.mod = 'IA';
+        dataPostPong.mode = 'IA';
         dataPostPong.player2 = 'bot';
         dataPostPong.score_player1 = player1.score;
         dataPostPong.score_player2 = player2.score;
         dataPostPong.game = 'RollandGapong';
-        dataPostPong.tournament_id = -1;
+        // dataPostPong.tournament_id = 34;
         
         let stopTime = Date.now();
         let elapsedTimeInSeconds = Math.floor((stopTime - new Date(player1.startTime).getTime()) / 1000);
@@ -47,12 +47,12 @@ export function SendDataPong(player1, player2, tournament)
     else if (gameStatus.getStatus('isCoop'))
     {
         console.log('SENDING PONG COOP DATA....')
-        dataPostPong.mod = 'COOP';
+        dataPostPong.mode = 'COOP';
         dataPostPong.player2 = 'COOP';
         dataPostPong.score_player1 = player1.score;
         dataPostPong.score_player2 = player2.score;
         dataPostPong.game = 'RollandGapong';
-        dataPostPong.tournament_id = -1;
+        // dataPostPong.tournament_id = -1;
 
         let stopTime = Date.now();
         let elapsedTimeInSeconds = Math.floor((stopTime - new Date(player1.startTime).getTime()) / 1000);
@@ -65,7 +65,7 @@ export function SendDataPong(player1, player2, tournament)
     else if (gameStatus.getStatus('tournamentMod'))
     {
         console.log('SENDING PONG TOURNAMENT DATA....')
-        dataPostPong.mod = 'TOURNAMENT';
+        dataPostPong.mode = 'TOURNAMENT';
         dataPostPong.player2 = 'player_tournament';
         dataPostPong.score_player1 = player1.score;
         dataPostPong.score_player2 = player2.score;
@@ -83,7 +83,7 @@ export function SendDataPong(player1, player2, tournament)
     else
     {
         console.log('SENDING PONG 1V1 DATA....')
-        dataPostPong.mod = 'LOCAL 1V1';
+        dataPostPong.mode = 'LOCAL 1V1';
         dataPostPong.player2 = 'player2';
         dataPostPong.score_player1 = player1.score;
         dataPostPong.score_player2 = player2.score;
@@ -105,7 +105,7 @@ export function SendDataCard(elapsedTime, id)
     if (!gameStatus.getStatus('tournamentCard'))
     {
         console.log('SENDING CARD SOLO DATA....')
-        dataPostCard.mod = 'SOLO';
+        dataPostCard.mode = 'SOLO';
         dataPostCard.game_duration = elapsedTime;
         dataPostCard.date = getCurrentFormattedDate();
         dataPostCard.tournament_id = id;
@@ -113,7 +113,7 @@ export function SendDataCard(elapsedTime, id)
     else
     {
         console.log('SENDING CARD TOURNAMENT DATA....')
-        dataPostCard.mod = 'tournament';
+        dataPostCard.mode = 'TOURNAMENT';
         dataPostCard.game_duration = elapsedTime;
         dataPostCard.date = getCurrentFormattedDate();
         dataPostCard.tournament_id = id;
