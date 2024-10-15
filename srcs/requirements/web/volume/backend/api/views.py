@@ -7,7 +7,8 @@ from rest_framework.response import Response
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import PongChartResultSerializer , CardChartResultSerializer
-
+from itertools import chain
+from operator import attrgetter
 
 # JSON RESULT PONG => https://localhost/api/set_pong_result/
 # {
@@ -145,10 +146,18 @@ def getResult(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getGameHistory(request):
     try:
         user = request.user
+        pong_results = PongGameResult.objects.filter(player=user).all()
+        card_results = CardGameResult.objects.filter(player=user).all()
+        combined_list = sorted(
+        chain(pong_results, card_results), 
+        key=attrgetter('date'),
+        reverse=True
+        )
+        return Response(combined_list)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
