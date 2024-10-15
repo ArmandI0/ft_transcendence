@@ -35,10 +35,11 @@ def setPongResult(request):
         result.score_player1 = request.data.get('score_player1')
         result.score_player2 = request.data.get('score_player2')
         result.game = request.data.get('game')
+        result.mode = request.data.get('mode')
         result.game_duration = request.data.get('game_duration')
         result.date = request.data.get('date')
         tournament_id = request.data.get('tournament_id')
-        if (tournament_id != None):
+        if (tournament_id != None and result.mode == 'TOURNAMENT'):
             try:
                 result.tournament_id = Tournament.objects.get(id=tournament_id)
             except:
@@ -71,9 +72,10 @@ def setCardResult(request):
         result.player = player
         result.score_player = request.data.get('score_player')  
         result.game_duration = request.data.get('game_duration')  
-        result.date = request.data.get('date') 
+        result.date = request.data.get('date')
+        result.mode = request.data.get('mode')
         tournament_id = request.data.get('tournament_id') 
-        if tournament_id is not None:
+        if tournament_id != None and result.mode == 'TOURNAMENT':
             try:
                 result.tournament_id = Tournament.objects.get(id=tournament_id)
             except Tournament.DoesNotExist:
@@ -140,5 +142,13 @@ def getResult(request):
             return Response(serializer.data)
         else:
             return Response({'error': 'game type not recognized'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def getGameHistory(request):
+    try:
+        user = request.user
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
