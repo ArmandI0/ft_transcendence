@@ -1,16 +1,6 @@
-async function setPongData() {
+async function setPongData(dataPost) {
     try {
         const csrfToken = getCookie('csrftoken');
-        const dataPost = {
-            player2: "Alice Johnson",      // Nom du joueur 2 -> pas besoin de mettre joueur car c'est le user connecte
-            score_player1: "8",            // Score du joueur 1
-            score_player2: "5",            // Score du joueur 2
-            game: "Cyberpong",         // Type de jeu voir les nom preetabli par Nico
-            game_duration: "00:20:00",     // Durée du jeu
-            date: "2024-10-01T14:30:00",   // Date  on verra le format si jamais
-            // tournament_id: 1,              // ID du tournoi laisse a enlever si c'est pas un tournoi
-            // tournament_phase: "0"    // Phase du tournoi 0=final pui 1 2 3 
-        };
 
         const response = await fetch('/api/set_pong_result/', {
             method: 'POST',

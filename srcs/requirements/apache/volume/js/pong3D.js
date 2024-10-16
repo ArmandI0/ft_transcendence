@@ -1,4 +1,4 @@
-import {padsWidth, padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir, scoreToWin} from './globals/pong3D_const.js';
+import {padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir, scoreToWin} from './globals/pong3D_const.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 import { iaPlayer, preventKeys } from './utils/pong_ia_3d.js';
 import { loadPage } from './htmlRequest.js';
@@ -6,39 +6,27 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.m
 import  {MTLLoader}  from './utils/MTLLoader.js';
 import  {OBJLoader}  from './utils/OBJLoader.js';
 import { hideSection, showSection } from './utils/showAndHideSections.js';
-const clock = new THREE.Clock();
+import {setPongData} from './utils/utils_database.js'
+
+
+
+const clockGame = new THREE.Clock();
+const clockPause = new THREE.Clock();
 export const clockIA = new THREE.Clock();
 
-async function putScoreToDb(score)
+async function putScoreToDb(score, )
 {
-	// const url = '/api/setPongResult/';
-
-	// const data = {
-	// 	user : 'user1',
-	// 	score: 'score1',
-	// }
-
-	// try 
-	// {
-	// 	const response = await fetch(url, {
-	// 		method: 'POST',
-	// 		headers: {
-	// 			'Content-Type': 'application/json'
-	// 		},
-	// 		body: JSON.stringify(data)
-	// 	});
-
-	// 	if (!response.ok) {
-	// 		throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
-	// 	}
-
-	// 	const responseData = await response.json();
-	// 	console.log('Réponse du serveur:', responseData);
-	// }
-	// catch (error) 
-	// {
-	// 	console.error('Erreur lors de la requête POST:', error);
-	// }
+	const dataPost = {
+	player2: "Alice Johnson",      // Nom du joueur 2 -> pas besoin de mettre joueur car c'est le user connecte
+	score_player1: score[0],            // Score du joueur 1
+	score_player2: score[1],            // Score du joueur 2
+	game: "Cyberpong",         // Type de jeu voir les nom preetabli par Nico
+	game_duration: "00:20:00",     // Durée du jeu
+	date: "2024-10-01T14:30:00",   // Date  on verra le format si jamais
+	// tournament_id: 1,              // ID du tournoi laisse a enlever si c'est pas un tournoi
+	// tournament_phase: "0"    // Phase du tournoi 0=final pui 1 2 3 
+};	
+	setPongData(datas);
 }
 
 function makeObjectInstance(geomType, geom, color, pos_z) 
@@ -172,7 +160,7 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 			ball.position.y = calculateYposition(ball.position.z);
 			ball_dir.setX(0);
 			pause = true;
-			clock.start();
+			clockPause.start();
 			pad1.position.x = 0;
 			pad2.position.x = 0;
 			
@@ -394,7 +382,8 @@ export async function  startGame3D()
 		keysPressed[event.code] = false;
 	});
 
-	clock.start();
+	clockGame.start();
+	clockPause.start();
 	if (gameStatus.getStatus('ia') === true)
 		clockIA.start();
 		
@@ -420,7 +409,7 @@ export async function  startGame3D()
 		requestAnimationFrame(pong3DAnimate);
 		if(!pause)
 			[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause, score);
-		else if(clock.getElapsedTime() > 1.5)
+		else if(clockPause.getElapsedTime() > 1.5)
 			pause = false;
 		
 		linesEdgesPad1.position.x = pad1.position.x;
