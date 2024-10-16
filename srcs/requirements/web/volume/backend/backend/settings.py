@@ -42,7 +42,12 @@ LOGGING = {
     },
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'web:8000',
+    'web',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -155,6 +160,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     "http://web:8000",
 #     'http://localhost:8000'
 # ]
+
 AUTH_USER_MODEL = 'accounts.Api42User'
 
 CSRF_TRUSTED_ORIGINS = [

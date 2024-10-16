@@ -42,7 +42,7 @@ start:
 	@echo " \\/   |_|  \\__,_|_| |_|___/\\___\\___|_| |_|\\__,_|\\__,_|_| |_|\\___\\___|"
 	@echo "${NC}"
 	@echo "${BLUE}-> Transcendance website :${NC} https://localhost"
-	@echo "${BLUE}-> Prometheus :${NC} http://localhost:9090"
+	@echo "${BLUE}-> Prometheus :${NC} https://localhost:9090"
 
 debug:
 	@echo "${YELLOW}Lancement des containers...${NC}"

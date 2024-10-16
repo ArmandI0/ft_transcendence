@@ -10,8 +10,15 @@ let isAnimating = false;
 let player1Power = false;
 let player2Power = false;
 let isCardClickable = true;
+let tournamentCard = false;
+let isCoop = false;
+let FirstCall = true;
+let id = -1;
+
+// utiliser fonction match
 let avatar3DPlayer1 = 0;
 let avatar3DPlayer2 = 0;
+
 
 export function getStatus(name_var)
 {
@@ -39,16 +46,17 @@ export function getStatus(name_var)
 		return player2Power;
 	if (name_var === 'isCardClickable')
 		return isCardClickable;
-	if (name_var === 'avatar3DPlayer1')
-		return avatar3DPlayer1;
-	if (name_var === 'avatar3DPlayer2')
-		return avatar3DPlayer2;
+	if (name_var === 'score')
+		return score;
 }
 
 export function setStatus(name_var, status)
 {
 	if (name_var === 'game_run')
+	{
+		console.log(`game_run variable : ${status}`);
 		game_run = status;
+	}
 	else if (name_var === 'ia')
 		ia = status;
 	else if (name_var === 'isPaused')
@@ -71,9 +79,7 @@ export function setStatus(name_var, status)
 		player2Power = status;
 	else if (name_var === 'isCardClickable')
 		isCardClickable = status;
-	else if (name_var === 'avatar3DPlayer1')
-		avatar3DPlayer1 = status;
-	else if (name_var === 'avatar3DPlayer2')
-		avatar3DPlayer2 = status;
+	else if (name_var === 'score')
+		score = status;
 }
 

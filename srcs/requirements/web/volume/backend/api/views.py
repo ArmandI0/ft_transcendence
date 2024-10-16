@@ -7,7 +7,8 @@ from rest_framework.response import Response
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import PongChartResultSerializer , CardChartResultSerializer
-
+from itertools import chain
+from operator import attrgetter
 
 # JSON RESULT PONG => https://localhost/api/set_pong_result/
 # {
@@ -35,19 +36,20 @@ def setPongResult(request):
         result.score_player1 = request.data.get('score_player1')
         result.score_player2 = request.data.get('score_player2')
         result.game = request.data.get('game')
+        result.mode = request.data.get('mode')
         result.game_duration = request.data.get('game_duration')
         result.date = request.data.get('date')
         tournament_id = request.data.get('tournament_id')
-        if (tournament_id != None):
+        if (tournament_id != None and result.mode == 'TOURNAMENT'):
             try:
-                result.tournament_id = Tournament.objects.get(id=tournament_id)
+                result.tournament_id = Tournament.objects.get(tournament_id=tournament_id)
             except:
-                return JsonResponse({'error': 'Tournament not found'}, status=404)
+                return JsonResponse({'error': 'Tournament not found'}, status=200)
         else:
             result.tournament_id
         result.full_clean()
         result.save()
-        return JsonResponse({'success': result.game_id}, status=200)
+        return JsonResponse({'id': result.game_id}, status=200)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400) 
 
@@ -71,19 +73,20 @@ def setCardResult(request):
         result.player = player
         result.score_player = request.data.get('score_player')  
         result.game_duration = request.data.get('game_duration')  
-        result.date = request.data.get('date') 
+        result.date = request.data.get('date')
+        result.mode = request.data.get('mode')
         tournament_id = request.data.get('tournament_id') 
-        if tournament_id is not None:
+        if tournament_id != None and result.mode == 'TOURNAMENT':
             try:
-                result.tournament_id = Tournament.objects.get(id=tournament_id)
+                result.tournament_id = Tournament.objects.get(tournament_id=tournament_id)
             except Tournament.DoesNotExist:
-                return JsonResponse({'error': 'Tournament not found'}, status=404)
+                return JsonResponse({'error': 'Tournament not found'}, status=200)
         else:
             result.tournament_id = None
         result.full_clean()
         result.save()
 
-        return JsonResponse({'success': result.game_id}, status=200)
+        return JsonResponse({'id': result.game_id}, status=200)
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
@@ -105,16 +108,14 @@ def setCardResult(request):
 def setTournament(request):
     try:
         result = Tournament()
-
         result.game_type = request.data.get('game_type')
         result.date = request.data.get('date')  
         result.full_clean()
         result.save()
-        return JsonResponse({'success': result.tournament_id}, status=200)
+        return JsonResponse({'id': result.tournament_id}, status=200)
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-
 
 # https://localhost/api/get_result/
 
@@ -140,5 +141,21 @@ def getResult(request):
             return Response(serializer.data)
         else:
             return Response({'error': 'game type not recognized'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getGameHistory(request):
+    try:
+        user = request.user
+        pong_results = PongGameResult.objects.filter(player=user).all()
+        card_results = CardGameResult.objects.filter(player=user).all()
+        combined_list = sorted(
+        chain(pong_results, card_results), 
+        key=attrgetter('date'),
+        reverse=True
+        )
+        return Response(combined_list)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)

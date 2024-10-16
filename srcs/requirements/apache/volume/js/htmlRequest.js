@@ -47,13 +47,13 @@ export async function loadPage(page, div)
 {
 	let ret = true;
 
-	
 	if (page != 'home')
 	{
 		const isAuthenticated = await is_auth();
 		if (!isAuthenticated){
 			alert("Please log in with the 42 api connector");
-			return;
+			page = 'home';
+			div = 'app';
 		}
 	}
 	const existingStyles = document.querySelectorAll('link[data-page]');

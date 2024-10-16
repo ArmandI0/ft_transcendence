@@ -132,7 +132,7 @@
 /* Params */
 
 #select-param {
-    display: none; /* Masqué par défaut */
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 10px;
@@ -149,9 +149,9 @@
 }
 
 #select-param.show {
-    display: flex; /* Affiche le conteneur */
-    top: 0; /* Remet à la position d'origine */
-    opacity: 1; /* Rend visible */
+    display: flex;
+    top: 0;
+    opacity: 1;
 }
 
 .btn-custom4-card {
@@ -302,6 +302,7 @@
     color: transparent;
     transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
     perspective: 1000px;
+    user-select: none;
 }
 
 .card-front {

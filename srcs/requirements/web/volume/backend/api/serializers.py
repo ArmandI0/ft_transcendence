@@ -16,8 +16,10 @@ class PongChartResultSerializer(serializers.ModelSerializer):
         return obj.game_duration
 
 class CardChartResultSerializer(serializers.ModelSerializer):
+    time = serializers.SerializerMethodField()
     class Meta:
         model = PongGameResult
         fields = ['game_id' , 'time']
     def get_time(self, obj):
-        return obj.game_duration
+        total_seconds = obj.game_duration.hour * 3600 + obj.game_duration.minute * 60 + obj.game_duration.second
+        return total_seconds
