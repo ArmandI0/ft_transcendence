@@ -6,28 +6,16 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.m
 import  {MTLLoader}  from './utils/MTLLoader.js';
 import  {OBJLoader}  from './utils/OBJLoader.js';
 import { hideSection, showSection } from './utils/showAndHideSections.js';
-import {setPongData} from './utils/utils_database.js'
+// import {setPongData} from './utils/utils_database.js';
+import {SendDataPong} from './utils/SendDataHandle.js';
 
-
-
-const clockGame = new THREE.Clock();
 const clockPause = new THREE.Clock();
 export const clockIA = new THREE.Clock();
 
-async function putScoreToDb(score, )
-{
-	const dataPost = {
-	player2: "Alice Johnson",      // Nom du joueur 2 -> pas besoin de mettre joueur car c'est le user connecte
-	score_player1: score[0],            // Score du joueur 1
-	score_player2: score[1],            // Score du joueur 2
-	game: "Cyberpong",         // Type de jeu voir les nom preetabli par Nico
-	game_duration: "00:20:00",     // Durée du jeu
-	date: "2024-10-01T14:30:00",   // Date  on verra le format si jamais
-	// tournament_id: 1,              // ID du tournoi laisse a enlever si c'est pas un tournoi
-	// tournament_phase: "0"    // Phase du tournoi 0=final pui 1 2 3 
-	};	
-	setPongData(datas);
-}
+// async function putScoreToDb(score, startTime)
+// {
+// 	SendDataPong(score[0], score[1], -1, "Cyberpong", startTime)
+// }
 
 function makeObjectInstance(geomType, geom, color, pos_z) 
 {
@@ -151,9 +139,9 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 		if (col_z === -1000)
 		{
 			if (ball.position.z < 0)
-				score[0] += 1;
-			else
 				score[1] += 1;
+			else
+				score[0] += 1;
 			updateScore(score);
 			ball.position.z = 0;
 			ball.position.x = 0;
@@ -245,12 +233,13 @@ function updateScore(score)
 function loadAvatar(type, zDist, color) 
 {
 	var scale = 0.005;
+	var path = "";
 	if (type === 1)
-		var path = "./obj3d/Deathstroke-obj"
+		path = "./obj3d/Deathstroke-obj"
 	else if (type === 2)
-		var path = "./obj3d/Borderlands cosplay-obj"
-	else
-		var path = "./obj3d/Harley Quinn"
+		path = "./obj3d/Borderlands cosplay-obj"
+	else if (type === 3)
+		path = "./obj3d/Harley Quinn"
 
 	return new Promise((resolve, reject) => {
 		console.log(`le type est : ${type}`);
@@ -301,6 +290,19 @@ function loadAvatar(type, zDist, color)
 	});
 }
 
+function displayWinner(score)
+{
+	hideSection("panel-3d-render");
+	showSection("loading-screen");
+	let text;
+	if (score[0] > score[1])
+		text = "Player 1 won !";
+	else
+		text = `${gameStatus.getStatus("namePlayer2")} won !`;
+	alert(text);
+
+}
+
 export async function  startGame3D()
 {
 	showSection('loading-screen');
@@ -333,8 +335,8 @@ export async function  startGame3D()
 	let ball_dir = ballStartDir;
 
 	// Adding objects
-	const pad1 = await loadAvatar(gameStatus.getStatus('avatar3DPlayer1'), pad1Z, 0xFF0000);
-	const pad2 = await loadAvatar(gameStatus.getStatus('avatar3DPlayer2'), pad2Z, 0x0000FF);
+	const pad1 = await loadAvatar(gameStatus.getAvatarType(1), pad1Z, 0xFF0000);
+	const pad2 = await loadAvatar(gameStatus.getAvatarType(2), pad2Z, 0x0000FF);
 	
 	const ball = makeObjectInstance("sphere", ballGeom,0xffffff,0, scene);
 	const table = makeTable(scene);
@@ -364,9 +366,9 @@ export async function  startGame3D()
 	// spotLight.target = table;
 	// scene.add(spotLight);
 
-	camera1.position.z = -60;
+	camera1.position.z = -52;
 	camera1.position.y = 15;
-	camera2.position.z = 60;
+	camera2.position.z = 52;
 	camera2.position.y = 15;
 
 	camera1.lookAt(0,0,0);
@@ -382,7 +384,6 @@ export async function  startGame3D()
 		keysPressed[event.code] = false;
 	});
 
-	clockGame.start();
 	clockPause.start();
 	if (gameStatus.getStatus('ia') === true)
 		clockIA.start();
@@ -391,6 +392,7 @@ export async function  startGame3D()
 	scene.add(pad2);
 	scene.add(ball);
 	hideSection('loading-screen');
+	let startTime = Date.now();
 	function pong3DAnimate() 
 	{
 		if (gameStatus.getStatus('game_run') === false)
@@ -400,8 +402,9 @@ export async function  startGame3D()
 		}
 		if (isGameWon(score))
 		{
+			displayWinner(score);
 			console.log("game finished");
-			putScoreToDb(score);
+			SendDataPong(score[0], score[1], -1, "Cyberpong", startTime);
 			loadPage('pong3D_menu', 'app');
 			return;
 		}
@@ -409,7 +412,7 @@ export async function  startGame3D()
 		requestAnimationFrame(pong3DAnimate);
 		if(!pause)
 			[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause, score);
-		else if(clockPause.getElapsedTime() > 1.5)
+		else if(clockPause.getElapsedTime() > 1)
 			pause = false;
 		
 		linesEdgesPad1.position.x = pad1.position.x;
@@ -428,12 +431,12 @@ export async function  startGame3D()
 			pad1.position.x -= 0.75;
 		}
 
-		if (clockIA.getElapsedTime() > 0.5 && gameStatus.getStatus('ia') === true) 
+		if (clockIA.getElapsedTime() > 0.2 && gameStatus.getStatus('ia') === true) 
 		{
 			if (ball_dir.getZ() < 0)
-				iaPlayer(ball_dir, ball, pad1,1);
+				iaPlayer(ball_dir, ball, pad2,1);
 			else
-				iaPlayer(ball_dir, ball, pad1,0);
+				iaPlayer(ball_dir, ball, pad2,0);
 			clockIA.start();
 		}
 

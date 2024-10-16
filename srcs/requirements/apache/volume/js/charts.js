@@ -141,9 +141,12 @@ export async function generateCharts()
     }
     else
     {
-        title_div.innerHTML = `<h3>Statistics for User : ${getCookie("login")} - Game : ${getGameTypeData()}</h3>`;       
-        generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Sets of games played (by ${groupSize})`, groupSize);
+        title_div.innerHTML = `<h3>Statistics for User : ${getCookie("login")} - Game : ${getGameTypeData()} - Number of Games : ${datas.length}</h3>`;       
+        generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Games played (by game id)`, groupSize);
         generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
-        generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Sets of games won in less than 10 min (by ${groupSize})`, groupSize);
-    }
+		if (getGameTypeData() === 'Cards')
+        	generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Games won in less than 5 min (by sets of ${groupSize})`, groupSize);
+		else
+			generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Games won (by sets of ${groupSize})`, groupSize);
+	}
 }
