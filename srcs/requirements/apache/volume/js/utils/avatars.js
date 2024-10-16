@@ -25,7 +25,10 @@ export function setBordersAvatar(element, player)
 export function setBordersAvatarDefault()
 {
 	if (getStatus('ia'))
+	{
 		document.getElementById('button-start-pong-3D-1p').style.border = "solid 4px rgb(255, 128, 65)";
+		document.getElementById('player2-field-name').style.display = "none";
+	}
 	else
 		document.getElementById('button-start-pong-3D-2p').style.border = "solid 4px rgb(255, 128, 65)";
 	const type1 = 1 + getAvatarType(1);

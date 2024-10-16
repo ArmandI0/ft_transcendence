@@ -56,14 +56,22 @@ export default class ChartBar
 
 	calculateLabelX(wonGames, groupSize)
 	{
-		const nb_el = roundUpUnlessInt(wonGames / groupSize);
 		let listLabels = [];
 		var i = 0;
 		for (i = 1; i <= wonGames; i++)
 		{
-			if (i % groupSize === 0 || i === wonGames)
+			if (i % groupSize === 0)
 			{
-				let x = `${roundUpUnlessInt(i / groupSize)}`;
+				const x2 = i;
+				const x1 = x2 - groupSize + 1;
+				let x = `${x1} - ${x2}`;
+				listLabels.push(x);
+			}
+			else if (i === wonGames)
+			{
+				const x2 = wonGames;		
+				const x1 = x2 - wonGames % groupSize + 1;
+				let x = `${x1} - ${x2}`;
 				listLabels.push(x);
 			}
 		}

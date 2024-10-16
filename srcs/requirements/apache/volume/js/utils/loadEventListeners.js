@@ -20,8 +20,7 @@ export async function loadEventListeners(page)
 		{
 			if (gameStatus.getStatus('ia') ===  true)
 				{
-					document.getElementById('grid-3d-render').style.display = 'flex';
-					hideSection('pong3d-separator');
+					document.getElementById('panel-3d-render').style.display = 'flex';
 					hideSection('view-player2');
 				}
 			else

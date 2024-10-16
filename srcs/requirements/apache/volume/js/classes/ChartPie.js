@@ -32,7 +32,7 @@ export default class ChartPie
 
 	generate()
 	{
-		this.radius = Math.min(this.canvas.width / 2, this.canvas.height / 2) - this.options.padding;
+		this.radius = Math.max(0, Math.min(this.canvas.width / 2, this.canvas.height / 2) - this.options.padding);
 		this.canvas.width = this.canvas.offsetWidth;
 		this.canvas.height = this.canvas.offsetHeight;			
 		const slice_angle_won = (Math.PI * 2) * this.won_games_count / this.total_value;
@@ -65,15 +65,3 @@ export default class ChartPie
 	}
 };
 
-
-
-		// const ratio = 1 / 3 * 100;
-		// var div_chart_pie = document.createElement("div");
-		// div_chart_pie.setAttribute('id', 'pie-chart');
-		
-		// div_chart_pie.style.background = `conic-gradient(
-		// #2196f3 0% ${ratio}%, 
-		// #f44336 ${ratio}% 100% 
-		// )`;
-		
-		// this.html_container.appendChild(div_chart_pie);
