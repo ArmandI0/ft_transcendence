@@ -156,6 +156,7 @@ def getGameHistory(request):
         key=attrgetter('date'),
         reverse=True
         )
+        latest_25_results = combined_list[:25]
         return Response(combined_list)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)

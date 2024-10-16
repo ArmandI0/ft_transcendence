@@ -22,13 +22,11 @@ def get42UserData(request, response):
 		if Api42User.objects.filter(login42=log).exists():
 			user = Api42User.objects.get(login42=log)
 		else:
-			print("ADD_USER")
 			user = addUser(user_data)
 		login(request ,user)
 		print('user_created')
 		return JsonResponse(user_data)
 	except ValueError:
-		print(f"Ca bug la: {response.status_code}, Détails: {response.text}")
 		return JsonResponse({'error': 'Failed to retrieve token', 'details': response.json()}, status=response.status_code)
 
 
