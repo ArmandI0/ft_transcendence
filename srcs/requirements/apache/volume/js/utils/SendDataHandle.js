@@ -24,20 +24,20 @@ function formatGameDuration(durationInSeconds)
     return `${hours}:${minutes}:${seconds}`;
 }
 
-export function SendDataPong(player1, player2, tournament)
+export function SendDataPong(player1_score, player2_score, tournament_id, game, startTime)
 {
     if (gameStatus.getStatus('ia'))
     {
         console.log('SENDING PONG IA DATA....')
         dataPostPong.mode = 'IA';
         dataPostPong.player2 = 'bot';
-        dataPostPong.score_player1 = player1.score;
-        dataPostPong.score_player2 = player2.score;
-        dataPostPong.game = 'RollandGapong';
-        dataPostPong.tournament_id = -1;
+        dataPostPong.score_player1 = player1_score;
+        dataPostPong.score_player2 = player2_score;
+        dataPostPong.game = game;
+        dataPostPong.tournament_id = tournament_id;
         
         let stopTime = Date.now();
-        let elapsedTimeInSeconds = Math.floor((stopTime - new Date(player1.startTime).getTime()) / 1000);
+        let elapsedTimeInSeconds = Math.floor((stopTime - new Date(startTime).getTime()) / 1000);
 
         dataPostPong.game_duration = formatGameDuration(elapsedTimeInSeconds);
         dataPostPong.date = getCurrentFormattedDate();
@@ -49,13 +49,13 @@ export function SendDataPong(player1, player2, tournament)
         console.log('SENDING PONG COOP DATA....')
         dataPostPong.mode = 'COOP';
         dataPostPong.player2 = 'COOP';
-        dataPostPong.score_player1 = player1.score;
-        dataPostPong.score_player2 = player2.score;
-        dataPostPong.game = 'RollandGapong';
-        dataPostPong.tournament_id = -1;
+        dataPostPong.score_player1 = player1_score;
+        dataPostPong.score_player2 = player2_score;
+        dataPostPong.game = game;
+        dataPostPong.tournament_id = tournament_id;
 
         let stopTime = Date.now();
-        let elapsedTimeInSeconds = Math.floor((stopTime - new Date(player1.startTime).getTime()) / 1000);
+        let elapsedTimeInSeconds = Math.floor((stopTime - new Date(startTime).getTime()) / 1000);
 
         dataPostPong.game_duration = formatGameDuration(elapsedTimeInSeconds);
         dataPostPong.date = getCurrentFormattedDate();
@@ -67,13 +67,13 @@ export function SendDataPong(player1, player2, tournament)
         console.log('SENDING PONG TOURNAMENT DATA....')
         dataPostPong.mode = 'TOURNAMENT';
         dataPostPong.player2 = 'player_tournament';
-        dataPostPong.score_player1 = player1.score;
-        dataPostPong.score_player2 = player2.score;
-        dataPostPong.game = 'RollandGapong';
-        dataPostPong.tournament_id = tournament.id;
+        dataPostPong.score_player1 = player1_score;
+        dataPostPong.score_player2 = player2_score;
+        dataPostPong.game = game;
+        dataPostPong.tournament_id = tournament_id;
         
         let stopTime = Date.now();
-        let elapsedTimeInSeconds = Math.floor((stopTime - new Date(player1.startTime).getTime()) / 1000);
+        let elapsedTimeInSeconds = Math.floor((stopTime - new Date(startTime).getTime()) / 1000);
 
         dataPostPong.game_duration = formatGameDuration(elapsedTimeInSeconds);
         dataPostPong.date = getCurrentFormattedDate();
@@ -85,13 +85,13 @@ export function SendDataPong(player1, player2, tournament)
         console.log('SENDING PONG 1V1 DATA....')
         dataPostPong.mode = 'LOCAL1V1';
         dataPostPong.player2 = 'player2';
-        dataPostPong.score_player1 = player1.score;
-        dataPostPong.score_player2 = player2.score;
-        dataPostPong.game = 'RollandGapong';
-        dataPostPong.tournament_id = -1;
+        dataPostPong.score_player1 = player1_score;
+        dataPostPong.score_player2 = player2_score;
+        dataPostPong.game = game;
+        dataPostPong.tournament_id = tournament_id;
         
         let stopTime = Date.now();
-        let elapsedTimeInSeconds = Math.floor((stopTime - new Date(player1.startTime).getTime()) / 1000);
+        let elapsedTimeInSeconds = Math.floor((stopTime - new Date(startTime).getTime()) / 1000);
 
         dataPostPong.game_duration = formatGameDuration(elapsedTimeInSeconds);
         dataPostPong.date = getCurrentFormattedDate();
