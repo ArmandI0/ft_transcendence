@@ -59,7 +59,10 @@ export function getStatus(name_var)
 export function setStatus(name_var, status)
 {
 	if (name_var === 'game_run')
+	{
+		console.log(`game_run variable : ${status}`);
 		game_run = status;
+	}
 	else if (name_var === 'ia')
 		ia = status;
 	else if (name_var === 'isPaused')
