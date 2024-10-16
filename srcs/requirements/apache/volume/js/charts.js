@@ -3,35 +3,7 @@ import ChartPie from "./classes/ChartPie.js";
 import ChartTime from "./classes/ChartTime.js";
 import { getCookie } from "./htmlRequest.js";
 import { getGameTypeData, getSetSize, destroyCanvas } from "./utils/utils_charts.js";
-
-const datasX = 
-[
-    { gameid: 1, won:0, time: 50 },
-    { gameid: 2, won:1, time: 20 },
-    { gameid: 3, won:0, time: 30 },
-    { gameid: 4, won:0, time: 50 },
-    { gameid: 5, won:0, time: 100 },
-    { gameid: 6, won:1, time: 120 },
-    { gameid: 7, won:1, time: 150 },
-    { gameid: 8, won:0, time: 50 },
-    { gameid: 9, won:1, time: 200 },
-    { gameid: 10, won:1, time: 50 },
-    { gameid: 11, won:0, time: 50 },
-    { gameid: 12, won:1, time: 50 },
-    { gameid: 13, won:1, time: 50 },
-    { gameid: 14, won:1, time: 100 },
-    { gameid: 15, won:0, time: 50 },
-    { gameid: 16, won:0, time: 20 },
-    { gameid: 17, won:1, time: 10 },
-    { gameid: 18, won:1, time: 120 },
-    { gameid: 19, won:1, time: 50 },
-    { gameid: 20, won:0, time: 10 }, 
-    { gameid: 21, won:0, time: 20 },
-    { gameid: 22, won:0, time: 50 },
-    { gameid: 23, won:1, time: 50 },
-    { gameid: 24, won:1, time: 10 },
-    { gameid: 25, won:1, time: 15 }    
-]
+import { showSection, hideSection } from "./utils/showAndHideSections.js";
 
 function updateCanvasSize(chart) 
 {
@@ -41,13 +13,6 @@ function updateCanvasSize(chart)
 	chart.generate();
 }
 
-function createTitle(title, div_parent)
-{
-	var title_div = document.createElement("h2");
-	title_div.innerHTML=title;
-	title_div.style.fontSize = "1.5vw";
-	div_parent.appendChild(title_div);
-}
 
 function generateBarsChart(div_id, data, title, legendYtext, legendXtext, groupSize)
 {
@@ -159,28 +124,26 @@ async function getGameDatas() {
 }
 export async function generateCharts()
 {
+    showSection("graphs_charts");
     destroyCanvas();
-    // const datas = datasX;
-    const page = document.getElementById("grid-charts");
     let groupSize = getSetSize();
-
     const datas = await getGameDatas();
-        if (!datas)
-        {
-            page.innerHTML = "<p>Error with loading data</p>";
-        }
-        else if ((Array.isArray(datas) && datas.length === 0) )
-        {
-            page.innerHTML = "<p>No statistics available yet : go play some games !</p>";
-        }
-        else
-        {
-            const pageTitle = document.querySelector("#choice_graph_buttons p");
-            pageTitle.innerHTML = `Statistics for User : ${getCookie("login")} - Game : ${getGameTypeData()}`
-            generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Sets of games played (by ${groupSize})`, groupSize);
-            generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
-            generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Sets of games won (by ${groupSize})`, groupSize);
-        }
+    const title_div = document.getElementById("title_charts");
+    if (!datas)
+    {
+        hideSection("graphs_charts");
+        title_div.innerHTML = '<h3>Error with loading datas</h3>';
+    }
+    else if ((Array.isArray(datas) && datas.length === 0) )
+    {
+        hideSection("graphs_charts");
+        title_div.innerHTML = '<h3>No statistics available yet : go play some games !</h3>';        
+    }
+    else
+    {
+        title_div.innerHTML = `<h3>Statistics for User : ${getCookie("login")} - Game : ${getGameTypeData()}</h3>`;       
+        generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Sets of games played (by ${groupSize})`, groupSize);
+        generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
+        generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Sets of games won in less than 10 min (by ${groupSize})`, groupSize);
+    }
 }
-
-

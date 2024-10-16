@@ -1,41 +1,35 @@
-import {pads_width, pad_geom, ball_geom, pad1_z, pad2_z, table_geom, ball_start_dir, clock, clockIA} from './globals/pong3D_const.js';
+import {padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir, scoreToWin} from './globals/pong3D_const.js';
 import * as gameStatus from './utils/gameStatus.js' ;
 import { iaPlayer, preventKeys } from './utils/pong_ia_3d.js';
 import { loadPage } from './htmlRequest.js';
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js';
+import  {MTLLoader}  from './utils/MTLLoader.js';
+import  {OBJLoader}  from './utils/OBJLoader.js';
+import { hideSection, showSection } from './utils/showAndHideSections.js';
+import {setPongData} from './utils/utils_database.js'
 
-async function putScoreToDb()
+
+
+const clockGame = new THREE.Clock();
+const clockPause = new THREE.Clock();
+export const clockIA = new THREE.Clock();
+
+async function putScoreToDb(score, )
 {
-	// const url = '/api/setPongResult/';
-
-	// const data = {
-	// 	user : 'user1',
-	// 	score: 'score1',
-	// }
-
-	// try 
-	// {
-	// 	const response = await fetch(url, {
-	// 		method: 'POST',
-	// 		headers: {
-	// 			'Content-Type': 'application/json'
-	// 		},
-	// 		body: JSON.stringify(data)
-	// 	});
-
-	// 	if (!response.ok) {
-	// 		throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
-	// 	}
-
-	// 	const responseData = await response.json();
-	// 	console.log('Réponse du serveur:', responseData);
-	// }
-	// catch (error) 
-	// {
-	// 	console.error('Erreur lors de la requête POST:', error);
-	// }
+	const dataPost = {
+	player2: "Alice Johnson",      // Nom du joueur 2 -> pas besoin de mettre joueur car c'est le user connecte
+	score_player1: score[0],            // Score du joueur 1
+	score_player2: score[1],            // Score du joueur 2
+	game: "Cyberpong",         // Type de jeu voir les nom preetabli par Nico
+	game_duration: "00:20:00",     // Durée du jeu
+	date: "2024-10-01T14:30:00",   // Date  on verra le format si jamais
+	// tournament_id: 1,              // ID du tournoi laisse a enlever si c'est pas un tournoi
+	// tournament_phase: "0"    // Phase du tournoi 0=final pui 1 2 3 
+	};	
+	setPongData(datas);
 }
 
-function makeObjectInstance(geomType, geom, color, pos_z, scene) 
+function makeObjectInstance(geomType, geom, color, pos_z) 
 {
 	let geometry;
 	switch (geomType)
@@ -64,7 +58,6 @@ function makeObjectInstance(geomType, geom, color, pos_z, scene)
 
 	const obj = new THREE.Mesh(geometry, material);
 	obj.position.z = pos_z;
-	scene.add(obj);
 	return obj;	
 }
 
@@ -81,7 +74,7 @@ function makeTable(scene)
 		transparent: true        
 	});
 	
-	const geometry = new THREE.BoxGeometry(table_geom.getX(), table_geom.getY(), table_geom.getZ());
+	const geometry = new THREE.BoxGeometry(tableGeom.getX(), tableGeom.getY(), tableGeom.getZ());
 	const table = new THREE.Mesh(geometry, glassMaterial);
 	const edges = new THREE.EdgesGeometry(geometry); 
 	const lines = new THREE.LineSegments(edges, new THREE.LineBasicMaterial( { color: 0xff4afa } ) ); 	
@@ -95,7 +88,7 @@ function makeTable(scene)
 function calculateYposition(ball_pos_z)
 {
     const coefficient = -50;
-    const max_height_offset = (table_geom.getZ() ** 2) / 4 / coefficient;
+    const max_height_offset = (tableGeom.getZ() ** 2) / 4 / coefficient;
 
     let calculated_y_position = (ball_pos_z ** 2) / coefficient - max_height_offset;
 
@@ -104,12 +97,12 @@ function calculateYposition(ball_pos_z)
 
 function checkCollisionPad(ball, pad1, pad2)
 {
-	const pad1_right = pad1.position.x - pad_geom.getX()/2; 
-	const pad1_left = pad1.position.x + pad_geom.getX()/2; 
-	const pad2_right = pad2.position.x - pad_geom.getX()/2; 
-	const pad2_left = pad2.position.x + pad_geom.getX()/2;
-	const ball_right = ball.position.x - ball_geom.getX();
-	const ball_left = ball.position.x + ball_geom.getX();
+	const pad1_right = pad1.position.x - padGeom.getX()/2; 
+	const pad1_left = pad1.position.x + padGeom.getX()/2; 
+	const pad2_right = pad2.position.x - padGeom.getX()/2; 
+	const pad2_left = pad2.position.x + padGeom.getX()/2;
+	const ball_right = ball.position.x - ballGeom.getX();
+	const ball_left = ball.position.x + ballGeom.getX();
 
 	if (ball.position.z <= 0)
 	{
@@ -137,20 +130,20 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 	let col_z = 0;
 
 	// check if wall hit
-	if (Math.abs(ball.position.x) >= table_geom.getX() / 2 - ball_geom.getX())
+	if (Math.abs(ball.position.x) >= tableGeom.getX() / 2 - ballGeom.getX())
 	{
 		ball_dir.setX(-(ball_dir.getX()));
 		gridCollision.position.y = ball.position.y;
 		gridCollision.position.z = ball.position.z;
 		if (ball.position.x > 0)
-			gridCollision.position.x = table_geom.getX() / 2;
+			gridCollision.position.x = tableGeom.getX() / 2;
 		else if (ball.position.x <= 0)
-			gridCollision.position.x = - table_geom.getX() / 2;
+			gridCollision.position.x = - tableGeom.getX() / 2;
 		gridCollision.visible = true;
 	}
 
 	// check if pad hit or ball out
-	if (Math.abs(ball.position.z) >= table_geom.getZ() / 2 - pad_geom.getZ() / 1.5)
+	if (Math.abs(ball.position.z) >= tableGeom.getZ() / 2 - padGeom.getZ() / 1.5)
 	{
 		col_z = checkCollisionPad(ball, pad1, pad2);
 
@@ -167,7 +160,7 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 			ball.position.y = calculateYposition(ball.position.z);
 			ball_dir.setX(0);
 			pause = true;
-			clock.start();
+			clockPause.start();
 			pad1.position.x = 0;
 			pad2.position.x = 0;
 			
@@ -236,7 +229,7 @@ function makeGridCollision(spacing)
 
 function isGameWon(score)
 {
-	if (score[0] >= 10 || score[1] >= 10)
+	if (score[0] >= scoreToWin || score[1] >= scoreToWin)
 		return true;
 	else
 		return false;
@@ -248,8 +241,69 @@ function updateScore(score)
 	const text = `${score[0]} - ${score[1]}`;
 	divScore.innerHTML = text;
 }
+
+function loadAvatar(type, zDist, color) 
+{
+	var scale = 0.005;
+	if (type === 1)
+		var path = "./obj3d/Deathstroke-obj"
+	else if (type === 2)
+		var path = "./obj3d/Borderlands cosplay-obj"
+	else
+		var path = "./obj3d/Harley Quinn"
+
+	return new Promise((resolve, reject) => {
+		console.log(`le type est : ${type}`);
+		if (type != 0) {
+			const mtlLoader = new MTLLoader();
+			mtlLoader.load(path + '.mtl', function (materials) {
+				materials.preload();
+				const objLoader = new OBJLoader();
+				objLoader.setMaterials(materials);
+
+				objLoader.load(path + '.obj', function (pad) {
+					pad.name = "pad";
+					pad.traverse(function (child) {
+						if (child.isMesh) 
+						{
+							child.material.transparent = true;
+							child.material.opacity = 0.75;
+						}
+					});
+					if (path != './obj3d/Harley Quinn')
+					{
+						pad.rotation.x -= Math.PI / 2; 
+						if (zDist > 0)
+							pad.rotation.z -= Math.PI; 
+					}
+					else 
+					{
+						pad.position.y += 5;
+						if (zDist > 0)
+							pad.rotation.y -= Math.PI; 
+					}
+					pad.position.z = zDist;
+					pad.scale.set(scale,scale,scale);
+
+					resolve(pad);
+				}, undefined, function (error) {
+					reject(error);
+				});
+			}, undefined, function (error) {
+				reject(error);
+			});
+		}
+		else 
+		{
+			const pad = makeObjectInstance("box", padGeom, color, zDist);
+			resolve(pad);
+		}
+	});
+}
+
 export async function  startGame3D()
 {
+	showSection('loading-screen');
     gameStatus.setStatus('game_run', true);
 	let pause = false;
 	let score = [0,0];
@@ -276,14 +330,15 @@ export async function  startGame3D()
 	renderer2.setSize(width_3d,height_3d);
 	container2.appendChild(renderer2.domElement);
 
-	let ball_dir = ball_start_dir;
+	let ball_dir = ballStartDir;
 
 	// Adding objects
-	const pad1 = makeObjectInstance("box", pad_geom,0xff0000,pad1_z, scene);
-	const pad2 = makeObjectInstance("box", pad_geom,0x0000ff,pad2_z, scene);
-	const ball = makeObjectInstance("sphere", ball_geom,0xffffff,0, scene);
+	const pad1 = await loadAvatar(gameStatus.getStatus('avatar3DPlayer1'), pad1Z, 0xFF0000);
+	const pad2 = await loadAvatar(gameStatus.getStatus('avatar3DPlayer2'), pad2Z, 0x0000FF);
+	
+	const ball = makeObjectInstance("sphere", ballGeom,0xffffff,0, scene);
 	const table = makeTable(scene);
-	const geom = new THREE.BoxGeometry(pad_geom.getX(), pad_geom.getY(), pad_geom.getZ());
+	const geom = new THREE.BoxGeometry(padGeom.getX(), padGeom.getY(), padGeom.getZ());
 	const linesEdgesPad1 = makeEdges(geom,0x4afff4);
 	const linesEdgesPad2 = makeEdges(geom,0xff7fa8);
 	linesEdgesPad1.position.z = pad1.position.z;
@@ -296,22 +351,22 @@ export async function  startGame3D()
 	scene.add(gridCollision);
 
 	// Adding light
-	const color = 0xFFFF00;
+	const color = 0xFFFFFF;
 	const intensity = 3;
-	// const light = new THREE.DirectionalLight(color, intensity);
-	// light.position.set(50, 50, 0);
-	// scene.add(light);
+	const light = new THREE.DirectionalLight(color, intensity);
+	light.position.set(50, 50, 0);
+	scene.add(light);
 
-	const spotLight = new THREE.SpotLight(color);
-	spotLight.position.set(0, 10, 0);
-	spotLight.angle = Math.PI / 6;
-	spotLight.penumbra = 0.1;
-	spotLight.target = table;
-	scene.add(spotLight);
+	// const spotLight = new THREE.SpotLight(color);
+	// spotLight.position.set(0, 10, 0);
+	// spotLight.angle = Math.PI / 6;
+	// spotLight.penumbra = 0.1;
+	// spotLight.target = table;
+	// scene.add(spotLight);
 
-	camera1.position.z = 62;
+	camera1.position.z = -60;
 	camera1.position.y = 15;
-	camera2.position.z = -62;
+	camera2.position.z = 60;
 	camera2.position.y = 15;
 
 	camera1.lookAt(0,0,0);
@@ -327,15 +382,15 @@ export async function  startGame3D()
 		keysPressed[event.code] = false;
 	});
 
-	clock.start();
+	clockGame.start();
+	clockPause.start();
 	if (gameStatus.getStatus('ia') === true)
 		clockIA.start();
-		// window.addEventListener('popstate', function(event)
-		// {
-		// 	pong3D_run = false;
-		// 	console.log("Le jeu s'arrête.");
-		// });
 		
+	scene.add(pad1);
+	scene.add(pad2);
+	scene.add(ball);
+	hideSection('loading-screen');
 	function pong3DAnimate() 
 	{
 		if (gameStatus.getStatus('game_run') === false)
@@ -346,7 +401,7 @@ export async function  startGame3D()
 		if (isGameWon(score))
 		{
 			console.log("game finished");
-			putScoreToDb();
+			putScoreToDb(score);
 			loadPage('pong3D_menu', 'app');
 			return;
 		}
@@ -354,28 +409,23 @@ export async function  startGame3D()
 		requestAnimationFrame(pong3DAnimate);
 		if(!pause)
 			[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause, score);
-		else if(clock.getElapsedTime() > 1.5)
+		else if(clockPause.getElapsedTime() > 1.5)
 			pause = false;
 		
 		linesEdgesPad1.position.x = pad1.position.x;
 		linesEdgesPad2.position.x = pad2.position.x;
 
-		// if (gameStatus.getStatus('ia') === true)
-		// {
-		// 	preventKeys('ArrowLeft');
-		// 	preventKeys('ArrowRight');
-		// }
 		if (keysPressed['ArrowLeft']) {
-			pad1.position.x += 0.75; 
+			pad2.position.x -= 0.75; 
 		}
 		if (keysPressed['ArrowRight']) {
-			pad1.position.x -= 0.75;
+			pad2.position.x += 0.75;
 		}
 		if (keysPressed['KeyA']) {
-			pad2.position.x -= 0.75;
+			pad1.position.x += 0.75;
 		}
 		if (keysPressed['KeyD']) {
-			pad2.position.x += 0.75;
+			pad1.position.x -= 0.75;
 		}
 
 		if (clockIA.getElapsedTime() > 0.5 && gameStatus.getStatus('ia') === true) 

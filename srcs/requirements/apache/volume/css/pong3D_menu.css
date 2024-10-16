@@ -8,19 +8,35 @@ body
 {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: 100vh;
-    width : 100vw
+    width : 100vw;
 }
 
 #header-3d
 {
-    position : absolute;
-    top : 5vh;
-    height: 10%;
+    display: flex;
+    flex-direction: row;
+    height: 30vh;
     padding: 10px;
-    text-align: center;
+    width : 100%;
+}
+
+#header-3d-menu
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap : 2vh;
+    width : 50%;
+}
+#header-save-choices-pong3d
+{
+    width:50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-custom-pong
@@ -34,15 +50,111 @@ body
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-right : 100px;
 }
 
-#button-start-pong-3D-1p
+#pong3d-customization-mode
 {
-    margin-bottom : 50px;
+    width : 100%;
+    height : 5vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap : 3vh;
 }
 
-#pong3d-customization
+#pong3d-customization-player1
 {
-    margint-top : 50 px;
+    width : 100%;
+    height : 30vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap : 3vh;
+}
+
+#pong3d-customization-player2
+{
+    width : 100%;
+    height : 30vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap : 3vh;
+}
+
+.item-avatar-3d
+{
+    width : 15%;
+    height : 100%;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-clip: padding-box;
+    padding : 5px;    
+}
+
+#pong3d-customization-mode .item-avatar-3d:hover
+{
+    border: solid 4px rgb(255, 223, 65);
+}
+
+#pong3d-customization-mode .item-avatar-3d
+{
+    background-color: rgba(231, 94, 35, 0.815);
+    width: 15%;
+    color : white;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#pong3d-customization-player1 .item-avatar-3d:hover
+{
+    border: solid 4px rgb(255, 65, 106);
+}
+
+#pong3d-customization-player2 .item-avatar-3d:hover
+{
+    border: solid 4px rgb(0, 255, 255);
+}
+
+#pong3d-customization-player1 .item-avatar-3d
+{
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+#pong3d-customization-player2 .item-avatar-3d
+{
+    background-color: rgba(0, 0, 255, 0.5);
+}
+
+#customization-pong-1-player-1, #customization-pong-1-player-2
+{
+    background-image: url('../images/parallelepipede.png');
+}
+
+#customization-pong-2-player-1, #customization-pong-2-player-2
+{
+    background-image: url('../images/deathstroke-cosplayer.png');
+}
+
+#customization-pong-3-player-1, #customization-pong-3-player-2
+{
+    background-image: url('../images/borderlands-cosplayer.png');
+}
+
+#customization-pong-4-player-1, #customization-pong-4-player-2
+{
+    background-image: url('../images/harley-quinn-cosplayer.png');
+}
+
+h3 
+{
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 30px;
+    color: black;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke: 2px black;
 }

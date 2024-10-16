@@ -16,7 +16,9 @@ let FirstCall = true;
 let id = -1;
 
 // utiliser fonction match
-let score = [];
+let avatar3DPlayer1 = 0;
+let avatar3DPlayer2 = 0;
+
 
 export function getStatus(name_var)
 {
@@ -44,16 +46,8 @@ export function getStatus(name_var)
 		return player2Power;
 	if (name_var === 'isCardClickable')
 		return isCardClickable;
-	if (name_var === 'tournamentCard')
-		return tournamentCard;
-	if (name_var === 'isCoop')
-		return isCoop;
 	if (name_var === 'score')
 		return score;
-	if (name_var === 'FirstCall')
-		return FirstCall;
-	if (name_var === 'id')
-		return id;
 }
 
 export function setStatus(name_var, status)
@@ -85,15 +79,7 @@ export function setStatus(name_var, status)
 		player2Power = status;
 	else if (name_var === 'isCardClickable')
 		isCardClickable = status;
-	else if (name_var === 'tournamentCard')
-		tournamentCard = status;
-	else if (name_var === 'isCoop')
-		isCoop = status;
 	else if (name_var === 'score')
 		score = status;
-	else if (name_var === 'FirstCall')
-		FirstCall = status;
-	else if (name_var === 'id')
-		id = status;
 }
 
