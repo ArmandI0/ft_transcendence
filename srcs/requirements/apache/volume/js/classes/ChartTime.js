@@ -7,6 +7,17 @@ function roundUpUnlessInt(num)
     return Math.ceil(num);
 }
 
+function getSeconds(timeStr)
+{
+	const timeParts = timeStr.split(':');
+	
+	const hours = parseInt(timeParts[0], 10) * 3600;
+	const minutes = parseInt(timeParts[1], 10) * 60;
+	const seconds = parseFloat(timeParts[2]);
+
+	return hours + minutes + seconds;
+}
+
 export default class ChartBar 
 {
 	constructor(options)
@@ -27,9 +38,9 @@ export default class ChartBar
 		let sum = 0;
 		this.datas.forEach((obj, index, array) => 
 		{
-			if (obj.won === 1)
+			if (obj.won === true)
 				{
-					sum += obj.time;
+					sum += getSeconds(obj.time);
 					i++;
 				}
 			if (i === groupSize || ((index === array.length - 1) && (i != 0)))
@@ -62,7 +73,7 @@ export default class ChartBar
 	generate()
 	{
 
-		const wonGames = this.datas.filter(obj => obj.won === 1).length;
+		const wonGames = this.datas.filter(obj => obj.won === true).length;
 		const labelsX = this.calculateLabelX(wonGames, this.groupSize);
 		const valuesY = this.calculateValuesY(this.groupSize);
 
@@ -78,6 +89,7 @@ export default class ChartBar
 					color : '#FFFFFF',
 					data: valuesY,
 					borderWidth: 1,
+					borderColor: 'rgba(255, 99, 100, 1)',
 				}]
 			},
 			options: 

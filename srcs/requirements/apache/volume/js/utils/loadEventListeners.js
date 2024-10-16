@@ -305,6 +305,7 @@ export async function loadEventListeners(page)
 			} 
 			else {
 				groupSize = 5;
+				alert("Sets size must be between 1 and 100 !");
 			}
 		
 			setSetSize(groupSize);

@@ -4,10 +4,10 @@ import { resetGlobalsVar } from "./gameStatus.js";
 
 export async function launchFunctions(page)
 {
-    if (page === 'charts')
+	if (page === 'charts')
 		generateCharts();
-    if (page === 'pong3D_menu')
-        setBordersAvatarDefault();
-    if (page === 'home')
-        resetGlobalsVar();
+	if (page === 'pong3D_menu')
+		setBordersAvatarDefault();
+	if (page === 'home')
+		resetGlobalsVar();
 }

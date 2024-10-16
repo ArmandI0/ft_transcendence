@@ -15,7 +15,7 @@ export default class ChartPie
 		this.canvas.width = this.canvas.offsetWidth;
 		this.canvas.height = this.canvas.offsetHeight;
 		this.radius = 0;
-		this.won_games_count = this.data.filter(item => item.won === 1).length;
+		this.won_games_count = this.data.filter(item => item.won === true).length;
 	}
 
 	drawLabel(color, currentWidth, currentHeight, currentRadius, angleSize, anglePos,labelText) 
