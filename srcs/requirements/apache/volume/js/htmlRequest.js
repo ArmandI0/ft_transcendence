@@ -54,6 +54,7 @@ export async function loadPage(page, div)
 			alert("Please log in with the 42 api connector");
 			page = 'home';
 			div = 'app';
+			ret = false
 		}
 	}
 	const existingStyles = document.querySelectorAll('link[data-page]');
@@ -91,7 +92,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 	}
 	else
 	{
-		loadPage('home', 'app');
+		await loadPage('home', 'app');
+		window.history.pushState({page : 'home', div : 'app'}, 'home', '');
 	}
     window.addEventListener('popstate', async (event) => {
         const state = event.state;
@@ -108,12 +110,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 		if (event.target.matches('a'))
 		{
 			event.preventDefault();
+			event.stopPropagation()
 			const href = event.target.getAttribute('href');
 			const div = event.target.getAttribute('div');
 			let state = await loadPage(href.substring(1), div);
 
 			if(state)
 				window.history.pushState({page : href.substring(1), div : div}, href.substring(1), '');
+			else
+				window.history.pushState({page : 'home', div : 'app'}, 'home', '');
 			gameStatus.setStatus('game_run', false);
 		}
 	});
