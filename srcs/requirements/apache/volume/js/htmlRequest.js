@@ -45,6 +45,8 @@ async function is_auth()
 
 export async function loadPage(page, div) 
 {
+	let ret = true;
+
 	if (page != 'home')
 	{
 		const isAuthenticated = await is_auth();
@@ -77,6 +79,7 @@ export async function loadPage(page, div)
 		if (container) 
 			container.innerHTML = '<div>Error loading page. Please try again.</div>';
 	}
+	return ret;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
