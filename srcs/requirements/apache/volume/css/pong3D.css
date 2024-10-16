@@ -1,3 +1,5 @@
+/* STRUCTURE*/
+
 body 
 {
     background-image: url('../images/bg_cyberpunk1.jpg');
@@ -7,28 +9,49 @@ body
 #app 
 {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
     height: 100vh;
-    width : 100vw
+    width : 100vw;
 }
 
-#header-3d
+#header-3d-menu
 {
-    position : absolute;
-    top : 5vh;
-    height: 10%;
-    padding: 10px;
-    text-align: center;
+    padding-top: 3vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap : 2vh;
+    width : 10%;
+    height: 100vh;
 }
 
-#grid-3d-render
+#col3
 {
-    flex-grow: 1; 
-    justify-content: center;
+    padding-top: 3vh;
+    width:10%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#display-pong-3D
+{
+    padding-top: 3vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap : 2vh;
+    width : 80%;
+    height: 100vh;
+}
+
+#panel-3d-render
+{
     display: none;
-	grid-template-columns: 95fr 5fr 95fr;
+    flex-direction: row;
+    gap :3vh;
+    justify-content: center;
     height:100%;
     width:100%;
     border:none;
@@ -49,6 +72,7 @@ body
     background-color: transparent;
 }
 
+/* BUTTONS */
 .btn-custom-pong
 {
     background-color: #ce2727;
@@ -60,16 +84,22 @@ body
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-right : 100px;
 }
 
+.btn-custom-pong:hover
+{
+    font-style: normal;
+    color : rgb(145, 19, 19);
+}
+
+/* */
 #score-pong3d p
 {
     margin-top : 2vh;
     display:flex;
     text-align: center;
     justify-content: center;
-    font-size: 40px;
+    font-size: 8vh;
     font-weight: bold;
     color : white;
 }

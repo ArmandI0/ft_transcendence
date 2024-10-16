@@ -84,7 +84,7 @@ export function SendDataPong(player1_score, player2_score, tournament_id, game, 
     {
         console.log('SENDING PONG 1V1 DATA....')
         dataPostPong.mode = 'LOCAL1V1';
-        dataPostPong.player2 = 'player2';
+        dataPostPong.player2 = gameStatus.getStatus('namePlayer2');
         dataPostPong.score_player1 = player1_score;
         dataPostPong.score_player2 = player2_score;
         dataPostPong.game = game;
