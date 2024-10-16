@@ -1,0 +1,40 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    background-color: rgb(39, 79, 148);
+    color: white;
+}
+
+#history-grid {
+    display: flex;
+}
+
+#history-container{
+    width: 800px;
+    position: absolute;
+    margin-top: 100px;
+    margin-left: 30%;
+
+}
+
+.grid-item {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 colonnes */
+    font-size: 1.2em;
+    height: 28px;
+    color: #333;
+    margin: 10px;
+}
+
+.grid-compartment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #ccc; /* Séparation entre les compartiments */
+}
+
+.grid-compartment:last-child {
+    border-right: none;
+}

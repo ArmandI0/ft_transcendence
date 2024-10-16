@@ -693,6 +693,10 @@ export async function loadEventListeners(page)
 			document.getElementById('start').style.display = 'flex';
 		});
 	}
+	else if (page == 'charts')
+	{
+		console.log('toto');
+	}
 }
 
 export async function removeEventListeners(page)
