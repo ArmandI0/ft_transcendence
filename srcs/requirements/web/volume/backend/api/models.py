@@ -17,7 +17,8 @@ class Tournament(models.Model):
 class PongGameResult(models.Model):
     game_id = models.AutoField(primary_key=True)
     player1 = models.ForeignKey(Api42User, on_delete=models.CASCADE)
-    player2 = models.CharField(max_length=255)
+    guest1 = models.CharField(max_length=255, blank=True, null=True)
+    guest2 = models.CharField(max_length=255, blank=True, null=True)
     score_player1 = models.CharField(max_length=255)
     score_player2 = models.CharField(max_length=255)
     GAME_CHOICES = [
@@ -39,6 +40,10 @@ class PongGameResult(models.Model):
     class Meta:
         db_table = 'pong_result'
         ordering = ['-date']
+    def save(self, *args, **kwargs):
+        if self.guest1:
+            self.player1 = None
+        super().save(*args, **kwargs)
 
 class CardGameResult(models.Model):
     game_id = models.AutoField(primary_key=True)
