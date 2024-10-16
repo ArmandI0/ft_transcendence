@@ -139,9 +139,9 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 		if (col_z === -1000)
 		{
 			if (ball.position.z < 0)
-				score[0] += 1;
-			else
 				score[1] += 1;
+			else
+				score[0] += 1;
 			updateScore(score);
 			ball.position.z = 0;
 			ball.position.x = 0;
@@ -290,6 +290,19 @@ function loadAvatar(type, zDist, color)
 	});
 }
 
+function displayWinner(score)
+{
+	hideSection("panel-3d-render");
+	showSection("loading-screen");
+	let text;
+	if (score[0] > score[1])
+		text = "Player 1 won !";
+	else
+		text = `${gameStatus.getStatus("namePlayer2")} won !`;
+	alert(text);
+
+}
+
 export async function  startGame3D()
 {
 	showSection('loading-screen');
@@ -389,8 +402,9 @@ export async function  startGame3D()
 		}
 		if (isGameWon(score))
 		{
+			displayWinner(score);
 			console.log("game finished");
-			SendDataPong(score[0], score[1], -1, "Cyberpong", startTime)
+			SendDataPong(score[0], score[1], -1, "Cyberpong", startTime);
 			loadPage('pong3D_menu', 'app');
 			return;
 		}
@@ -398,7 +412,7 @@ export async function  startGame3D()
 		requestAnimationFrame(pong3DAnimate);
 		if(!pause)
 			[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause, score);
-		else if(clockPause.getElapsedTime() > 1.5)
+		else if(clockPause.getElapsedTime() > 1)
 			pause = false;
 		
 		linesEdgesPad1.position.x = pad1.position.x;
