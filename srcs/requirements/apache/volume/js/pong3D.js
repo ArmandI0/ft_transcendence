@@ -25,7 +25,7 @@ async function putScoreToDb(score, )
 	date: "2024-10-01T14:30:00",   // Date  on verra le format si jamais
 	// tournament_id: 1,              // ID du tournoi laisse a enlever si c'est pas un tournoi
 	// tournament_phase: "0"    // Phase du tournoi 0=final pui 1 2 3 
-};	
+	};	
 	setPongData(datas);
 }
 

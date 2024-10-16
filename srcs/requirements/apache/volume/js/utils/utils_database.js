@@ -1,4 +1,4 @@
-async function setPongData(dataPost) {
+export async function setPongData(dataPost) {
     try {
         const csrfToken = getCookie('csrftoken');
 
