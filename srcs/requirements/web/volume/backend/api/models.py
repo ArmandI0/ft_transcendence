@@ -40,10 +40,6 @@ class PongGameResult(models.Model):
     class Meta:
         db_table = 'pong_result'
         ordering = ['-date']
-    def save(self, *args, **kwargs):
-        if self.guest1:
-            self.player1 = None
-        super().save(*args, **kwargs)
 
 class CardGameResult(models.Model):
     game_id = models.AutoField(primary_key=True)
