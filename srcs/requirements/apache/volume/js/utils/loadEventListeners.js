@@ -13,7 +13,7 @@ import { getCurrentFormattedDate } from "./SendDataHandle.js";
 import { setBordersAvatar} from './avatars.js';
 import { fillHistory } from '../history.js';
 import { is_auth } from '../htmlRequest.js';
-import { logout , updateLoginButton } from '../home.js';
+import { initHomePage } from '../home.js';
 
 export async function loadEventListeners(page)
 {
@@ -91,35 +91,8 @@ export async function loadEventListeners(page)
 			gameStatus.setStatus('namePlayer2', namePlayer2);
 		});		
 	}
-	else if (page === 'home')
-	{
-
-		const button = document.getElementById('button_to_42api');
-		let isLogged = await is_auth();
-		if (isLogged)
-		{
-			console.log('isLogged')
-			button.classList.add('logged-in');
-			button.textContent = 'Logout';
-			document.getElementById('button_to_42api').addEventListener('click', async function() 
-			{
-				await logout();
-				button.classList.remove('logged-in');
-				button.textContent = 'Login with 42 API';
-			});
-		}
-		else
-		{
-			console.log('notLogged')
-			button.classList.remove('logged-in');
-			button.textContent = 'Login with 42 API';
-			document.getElementById('button_to_42api').addEventListener('click', async function() 
-			{
-				window.location.href = 'https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-e7eec0078c1ebf1f2c748a722b939725a58fb11846625ae5893e337c098104f7&redirect_uri=https%3A%2F%2Flocalhost&response_type=code';
-			});	
-			const url_params = new URLSearchParams(window.location.search);
-			handleAPI42return(url_params);
-		}
+	else if (page === 'home') {
+		initHomePage();
 	}
 	else if (page === 'pong')
 	{
