@@ -1,19 +1,3 @@
-document.addEventListener('DOMContentLoaded', function()
-{
-	document.getElementById('login_button').addEventListener('click', async function() 
-	{   
-		await showSection('/users/login');
-	});
-	document.getElementById('register_button').addEventListener('click', async function() 
-	{   
-		await showSection('/users/register');
-	});
-	document.getElementById('disconnect_button').addEventListener('click', async function() 
-	{   
-		await showSection('/users/disconnect');
-	});	
-});
-
 async function showSection1(url)
 {
 	try {
@@ -28,12 +12,11 @@ async function showSection1(url)
 		if (container) {
 			container.innerHTML = html;
 			
-			// Après avoir inséré le HTML, attacher l'événement au formulaire
 			const registerForm = document.getElementById('registerForm');
 			if (registerForm) {
 				registerForm.addEventListener('submit', async function(event) {
-					event.preventDefault(); // Empêche le rechargement de la page
-					await submitRegistrationForm(registerForm); // Soumet le formulaire via AJAX
+					event.preventDefault();
+					await submitRegistrationForm(registerForm);
 				});
 			}
 		} else {
@@ -44,10 +27,9 @@ async function showSection1(url)
 	}
 }
 
-// Fonction pour soumettre le formulaire d'inscription via AJAX
 async function submitRegistrationForm(form)
 {
-    const formData = new FormData(form);  // Récupère les données du formulaire
+    const formData = new FormData(form);
 
     try
 	{

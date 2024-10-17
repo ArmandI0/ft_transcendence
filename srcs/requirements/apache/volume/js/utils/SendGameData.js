@@ -3,28 +3,28 @@ import { getCookie } from "../htmlRequest.js";
 export const dataPostPong = {
     mode: '-----',
     player1: "toto",
-    player2: "Alice Johnson",      // Nom du joueur 2 -> pas besoin de mettre joueur car c'est le user connecte
-    score_player1: "8",            // Score du joueur 1
-    score_player2: "5",            // Score du joueur 2
-    game: "Cyberpong",         // Type de jeu voir les nom preetabli par Nico
-    game_duration: "00:20:00",     // Durée du jeu
-    date: "2024-10-01T14:30:00",   // Date  on verra le format si jamais
-    tournament_id: 1,           // ID du tournoi laisse a enlever si c'est pas un tournoi
-    // tournament_phase: "0"    // Phase du tournoi 0=final pui 1 2 3
+    player2: "Alice Johnson",
+    score_player1: "8",
+    score_player2: "5",
+    game: "Cyberpong",
+    game_duration: "00:20:00",
+    date: "2024-10-01T14:30:00",
+    tournament_id: 1,
+
 };
 
 
 export const dataPostCard = {
     mode: '-----',
     player1: 'player',
-    date: "2024-10-01T15:30:00",   // Date 
-    game_duration: "00:30:00",     // Durée du jeu
-    tournament_id: 2               // ID du tournoi si necessaiere
+    date: "2024-10-01T15:30:00",
+    game_duration: "00:30:00",
+    tournament_id: 2               
 };
 
 export const dataPostTournament = {
-    game_type: "RollandGapong",       // Type de jeu 
-    date: "2024-10-01T15:30:00"       // Date et heure du tournoi
+    game_type: "RollandGapong",
+    date: "2024-10-01T15:30:00"      
 };
 
 export async function setPongData() {
@@ -85,7 +85,6 @@ export async function setCardData() {
     }
 }
 
-// la fonction retourne l'id du tournoi a garder et a passer dans l'enregistrement des parties
 export async function setTournament() {
     try {
         const csrfToken = getCookie('csrftoken');

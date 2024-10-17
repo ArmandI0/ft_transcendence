@@ -108,7 +108,6 @@ export async function getUsername() {
             return null;
         }
         const dataReturn = await response.json();
-        console.log('Succès :', dataReturn);
         return dataReturn;
     } catch (error) {
         console.error('Erreur lors de l\'appel à l\'API :', error);
@@ -171,7 +170,7 @@ export async function generateCharts()
         generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Games played (by game id)`, groupSize);
         generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
 		if (getGameTypeData() === 'Cards')
-        	generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Games won in less than 5 min (by sets of ${groupSize})`, groupSize);
+        	generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Games won in less than 1 min (by sets of ${groupSize})`, groupSize);
 		else
 			generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Games won (by sets of ${groupSize})`, groupSize);
 	}

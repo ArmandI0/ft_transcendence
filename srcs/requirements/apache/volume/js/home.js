@@ -27,25 +27,25 @@ export async function handleAPI42return(url)
 
 export async function updateLoginButton() {
     const button = document.getElementById('button_to_42api');
-    if (!button) return; // Si le bouton n'existe pas, arrêter ici
+    if (!button) return;
 
     let isLogged = await is_auth();
     if (isLogged) {
         button.textContent = 'Logout';
         button.classList.add('logged-in');
-        button.removeEventListener('click', redirectTo42API); // Supprime l'événement de redirection
-        button.addEventListener('click', handleLogout);       // Ajoute l'événement de déconnexion
+        button.removeEventListener('click', redirectTo42API);
+        button.addEventListener('click', handleLogout);
     } else {
         button.textContent = 'Login with 42 API';
         button.classList.remove('logged-in');
-        button.removeEventListener('click', handleLogout);    // Supprime l'événement de déconnexion
-        button.addEventListener('click', redirectTo42API);    // Ajoute l'événement de redirection vers l'API 42
+        button.removeEventListener('click', handleLogout);
+        button.addEventListener('click', redirectTo42API);
     }
 }
 
 export async function handleLogout() {
-    await logout();          // Appelle la fonction de déconnexion
-    updateLoginButton();      // Met à jour le bouton après déconnexion
+    await logout();
+    updateLoginButton();
 }
 
 export async function logout() {
@@ -77,10 +77,9 @@ function redirectTo42API() {
     window.location.href = 'https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-e7eec0078c1ebf1f2c748a722b939725a58fb11846625ae5893e337c098104f7&redirect_uri=https%3A%2F%2Flocalhost&response_type=code';
 }
 
-// Initialisation du comportement du bouton dans la page 'home'
 export async function initHomePage() {
-    await updateLoginButton(); // Met à jour le bouton à l'arrivée sur la page
+    await updateLoginButton();
 
-    const urlParams = new URLSearchParams(window.location.search); // Gère le retour de l'API avec le code
+    const urlParams = new URLSearchParams(window.location.search);
     await handleAPI42return(urlParams);
 }

@@ -237,7 +237,6 @@ async function giveValue()
 
     for (let i = 0; i < 9; i++) 
     {
-        // Sélection aleatoire des paires
         let cardNumber1 = Math.floor(Math.random() * 18);
         let cardNumber2 = Math.floor(Math.random() * 18);
         while (!(findValueInArray(banNumbers, cardNumber1) === undefined) 
@@ -248,27 +247,22 @@ async function giveValue()
             cardNumber2 = Math.floor(Math.random() * 18);
         }
 
-        // Ajout des numeros de cartes aux numeros bannis
         banNumbers.push(cardNumber1);
         banNumbers.push(cardNumber2);
 
-        // Attribution aleatoire des valeurs
         value = Math.floor(Math.random() * 9) + 1;
         while (!(findValueInArray(banValues, value) === undefined))
             value = Math.floor(Math.random() * 9) + 1;
 
-        // Ajout de la valeur aux valeurs bannies
         banValues.push(value);
 
-        // Attribution des valeurs aux cartes
+
         cardValue[cardNumber1] = value;
         cardValue[cardNumber2] = value;
     }
 
-    // Mise a jour des elements HTML avec les valeurs des cartes
     for (let i = 0; i < 18; i++)
         document.getElementById(`card${i + 1}`).textContent = cardValue[i];
-    // Utilisation de la fonction avec une durée de 3 secondes (3000 millisecondes)
     
     if (gameStatus.getStatus('isPower'))
     {

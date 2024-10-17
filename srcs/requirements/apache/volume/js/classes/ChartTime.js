@@ -102,7 +102,7 @@ export default class ChartBar
 			},
 			options: 
 			{
-				responsive: true, // Désactive le redimensionnement automatique
+				responsive: true,
 				maintainAspectRatio: false,
 				plugins: 
 				{
@@ -121,8 +121,8 @@ export default class ChartBar
 					}
 				},					
 				animations: {
-					duration: 1000, // 1 seconde
-					easing: 'easeInCirc', // Animation de rebond à la fin
+					duration: 1000,
+					easing: 'easeInCirc',
 				},
 				scales: {
 					x: {

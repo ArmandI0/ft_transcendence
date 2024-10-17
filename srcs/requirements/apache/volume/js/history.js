@@ -20,7 +20,6 @@ async function getGameHistory() {
         }
 
         const dataReturn = await response.json();
-        console.log('Succès :', dataReturn);
         return dataReturn;
 
     } catch (error) {

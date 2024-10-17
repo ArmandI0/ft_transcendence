@@ -1,5 +1,3 @@
-/* STRUCTURE*/
-
 body 
 {
     background-image: url('../images/bg_cyberpunk1.jpg');
@@ -92,7 +90,6 @@ body
     color : rgb(145, 19, 19);
 }
 
-/* */
 #score-pong3d p
 {
     margin-top : 2vh;

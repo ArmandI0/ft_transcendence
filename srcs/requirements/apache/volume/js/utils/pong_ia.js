@@ -9,20 +9,15 @@ export function iaPlayer(ball_vX, ball_vY, ball_Y, ball_X, p_Y, data)
     const playerCenterY = p_Y + playerRange / 2;
     const IA = document.getElementById('visuIA');
     
-    // Ajustement pour tenir compte de la taille de la balle et du joueur
     let ballCollisionX = 770;
 
-    // vitesse = distance / temps ==> temps = distance / vitesse
     let timeToReachPlayer = (ballCollisionX - ball_X) / ball_vX;
 
-    // Protection contre les divisions par zero
     if (ball_vX === 0)
         timeToReachPlayer = 9999;
 
-    // d = v * t ==> Position probable de la balle en Y
     let futureBallY = ball_Y + ball_vY * timeToReachPlayer;
 
-    // Gestion des rebonds sur les murs
     while (futureBallY < 0 || futureBallY > 400)
     {
         if (futureBallY < 0)
@@ -38,7 +33,7 @@ export function iaPlayer(ball_vX, ball_vY, ball_Y, ball_X, p_Y, data)
         else if (futureBallY > playerCenterY + 10) 
             keyPress = 'ArrowDown';
         else
-            keyPress = null; // Ne rien faire si la balle est dans la zone cible pour eviter mouvements parasites
+            keyPress = null;
     }
     delay = 200;
 
