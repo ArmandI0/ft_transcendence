@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import PongChartResultSerializer , CardChartResultSerializer
+from .serializers import PongChartResultSerializer , CardChartResultSerializer , PongGameResultSerializer , CardGameResultSerializer , GameHistorySerializer
 from itertools import chain
 from operator import attrgetter
 
@@ -151,13 +151,13 @@ def getGameHistory(request):
     try:
         user = request.user
         pong_results = PongGameResult.objects.filter(player1=user).all()
-        card_results = CardGameResult.objects.filter(player1=user).all()
+        card_results = CardGameResult.objects.filter(player=user).all()
         combined_list = sorted(
-        chain(pong_results, card_results), 
-        key=attrgetter('date'),
-        reverse=True
+            chain(pong_results, card_results), 
+            key=attrgetter('date'),
+            reverse=True
         )
-        latest_25_results = combined_list[:25]
-        return Response(combined_list)
+        latest_25_results = GameHistorySerializer(combined_list[:25],many= True)
+        return Response(latest_25_results.data)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
