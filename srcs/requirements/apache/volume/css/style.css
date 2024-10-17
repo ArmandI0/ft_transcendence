@@ -55,6 +55,11 @@
     transform: translateY(-50%);
 }
 
+#button_to_42api.logged-in {
+    background-color: #28a745;
+    color: white;
+}
+
 #tournament-container {
     display: none;
 }
