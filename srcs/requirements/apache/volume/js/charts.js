@@ -91,18 +91,30 @@ function generatePieChart(div_id, data, title)
 	});	
 }
 
-// async function getUsername() {
-// 	const csrfToken = getCookie('csrftoken');
-// 	const response = await fetch('/api/get_result/', {
-// 		method: 'POST',
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 			'X-Requested-With': 'XMLHttpRequest',
-// 			'X-CSRFToken': csrfToken,
-// 		},
-// 		body: JSON.stringify(dataPost),
-// 	});
-// }
+async function getUsername() {
+    try {
+        const csrfToken = getCookie('csrftoken');
+        const response = await fetch('/accounts/get_username/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken,
+            },
+        });
+        if (!response.ok) {
+            const errorData = await response.text();
+            console.error('Erreur lors de la requête :', response.status, errorData);
+            return null;
+        }
+        const dataReturn = await response.json();
+        console.log('Succès :', dataReturn);
+        return dataReturn;
+    } catch (error) {
+        console.error('Erreur lors de l\'appel à l\'API :', error);
+        return null;
+    }
+}
 
 async function getGameDatas() {
     try {
@@ -125,7 +137,6 @@ async function getGameDatas() {
             console.error('Erreur lors de la requête :', response.status, errorData);
             return null;
         }
-
         const dataReturn = await response.json();
         console.log('Succès :', dataReturn);
         return dataReturn;
@@ -135,12 +146,14 @@ async function getGameDatas() {
         return null;
     }
 }
+
 export async function generateCharts()
 {
     showSection("graphs_charts");
     destroyCanvas();
     let groupSize = getSetSize();
     const datas = await getGameDatas();
+	const userData = await getUsername();
     const title_div = document.getElementById("title_charts");
     if (!datas)
     {
@@ -154,7 +167,7 @@ export async function generateCharts()
     }
     else
     {
-        title_div.innerHTML = `<h3>Statistics for User : ${getCookie("login")} - Game : ${getGameTypeData()} - Number of Games : ${datas.length}</h3>`;       
+        title_div.innerHTML = `<h3>Statistics for User : ${userData.username} - Game : ${getGameTypeData()} - Number of Games : ${datas.length}</h3>`;       
         generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Games played (by game id)`, groupSize);
         generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
 		if (getGameTypeData() === 'Cards')
