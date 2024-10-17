@@ -91,6 +91,19 @@ function generatePieChart(div_id, data, title)
 	});	
 }
 
+async function getUsername() {
+	const csrfToken = getCookie('csrftoken');
+	const response = await fetch('/api/get_result/', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'X-Requested-With': 'XMLHttpRequest',
+			'X-CSRFToken': csrfToken,
+		},
+		body: JSON.stringify(dataPost),
+	});
+}
+
 async function getGameDatas() {
     try {
         const csrfToken = getCookie('csrftoken');
