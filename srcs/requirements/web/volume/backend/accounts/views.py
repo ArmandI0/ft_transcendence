@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate , login, logout
 from django.http import JsonResponse, HttpResponseBadRequest
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 import logging
 import requests
 from .utils import get_api42_cred_vault , addUser
@@ -69,3 +71,15 @@ def	is_auth(request):
 		return JsonResponse({"message": "Response : auth"}, status=200)
 	else:
 		return JsonResponse({"message": "Response : no_auth"}, status=401)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUsername(request):
+	try:
+		user = request.user
+		return response({'username' : user.username})
+	except Exception as e:
+		return JsonResponse({'error': str(e)}, status=400)
+
+
+
