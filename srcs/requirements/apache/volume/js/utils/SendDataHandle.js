@@ -1,5 +1,6 @@
 import { dataPostCard, dataPostPong, setPongData , setCardData } from "./SendGameData.js";
 import * as gameStatus from './gameStatus.js' ;
+import { getUsername} from '../charts.js';
 
 export function getCurrentFormattedDate() 
 {
@@ -26,6 +27,8 @@ function formatGameDuration(durationInSeconds)
 
 export async function SendDataPong(player1_score, player2_score, tournament_id, game, startTime)
 {
+    let username;
+
     if (gameStatus.getStatus('ia'))
     {
         const dataUser = await getUsername();
@@ -106,14 +109,19 @@ export async function SendDataPong(player1_score, player2_score, tournament_id, 
     }
 }
 
-export function SendDataCard(elapsedTime, id)
+export async function SendDataCard(elapsedTime, id)
 {
+    const dataUser = await getUsername();
+    let username = dataUser.username;
     let elapsedTimeInSeconds = Math.floor(elapsedTime / 1000);
 
+    console.log('OOOOOOOOOOO', gameStatus.getStatus('tournamentCard'));
     if (!gameStatus.getStatus('tournamentCard'))
     {
         console.log('SENDING CARD SOLO DATA....')
         dataPostCard.mode = 'SOLO';
+        dataPostCard.player1 = username;
+        dataPostCard.game = 'Card';
         dataPostCard.game_duration = formatGameDuration(elapsedTimeInSeconds);
         dataPostCard.date = getCurrentFormattedDate();
         dataPostCard.tournament_id = id;
@@ -123,6 +131,8 @@ export function SendDataCard(elapsedTime, id)
     {
         console.log('SENDING CARD TOURNAMENT DATA....')
         dataPostCard.mode = 'TOURNAMENT';
+        dataPostCard.player1 = 'player';
+        dataPostCard.game = 'Card';
         dataPostCard.game_duration = formatGameDuration(elapsedTimeInSeconds);
         dataPostCard.date = getCurrentFormattedDate();
         dataPostCard.tournament_id = id;

@@ -91,7 +91,7 @@ function generatePieChart(div_id, data, title)
 	});	
 }
 
-async function getUsername() {
+export async function getUsername() {
     try {
         const csrfToken = getCookie('csrftoken');
         const response = await fetch('/accounts/get_username/', {

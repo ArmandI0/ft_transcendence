@@ -140,7 +140,7 @@ function displayChrono(chrono)
     }
 }
 
-export function checkWin() 
+export async function checkWin() 
 {
     const allCards = ['card1', 'card2', 'card3', 'card4', 'card5', 'card6', 'card7', 'card8', 'card9', 'card10', 'card11', 'card12', 'card13', 'card14', 'card15', 'card16', 'card17', 'card18'];
     const allHidden = allCards.every(cardId => {

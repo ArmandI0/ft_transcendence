@@ -16,6 +16,7 @@ export const dataPostPong = {
 
 export const dataPostCard = {
     mode: '-----',
+    player1: 'player',
     date: "2024-10-01T15:30:00",   // Date 
     game_duration: "00:30:00",     // Durée du jeu
     tournament_id: 2               // ID du tournoi si necessaiere

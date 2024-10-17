@@ -14,7 +14,7 @@ let tournamentCard = false;
 let isCoop = false;
 let FirstCall = true;
 let id = -1;
-let namePlayer2 = "Player2 Name";
+let namePlayer2 = "Player2";
 
 let avatar3DPlayer1 = 0;
 let avatar3DPlayer2 = 0;
@@ -37,7 +37,7 @@ export function resetGlobalsVar()
 	isCoop = false;
 	FirstCall = true;
 	id = -1;
-	namePlayer2 = "Player2 Name";
+	namePlayer2 = "Player2";
 	avatar3DPlayer1 = 0;
 	avatar3DPlayer2 = 0;	
 }
@@ -86,6 +86,14 @@ export function getStatus(name_var)
 		return isCardClickable;
 	if (name_var === 'namePlayer2')
 		return namePlayer2;
+	if (name_var === 'tournamentCard')
+		return tournamentCard;
+	if (name_var === 'isCoop')
+		return isCoop;
+	if (name_var === 'FirstCall')
+		return FirstCall;
+	if (name_var = id)
+		return id;
 }
 
 export function setStatus(name_var, status)
@@ -119,5 +127,13 @@ export function setStatus(name_var, status)
 		isCardClickable = status;
 	else if (name_var === 'namePlayer2')
 		namePlayer2 = status;
+	else if (name_var === 'tournamentCard')
+		tournamentCard = status;
+	else if (name_var === 'isCoop')
+		isCoop = status;
+	else if (name_var === 'FirstCall')
+		FirstCall = status;
+	else if (name_var = id)
+		id = status;
 }
 

@@ -302,7 +302,7 @@
     color: transparent;
     transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
     perspective: 1000px;
-    user-select: none;
+    /* user-select: none; */
 }
 
 .card-front {
