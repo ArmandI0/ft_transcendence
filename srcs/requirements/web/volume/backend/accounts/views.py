@@ -6,6 +6,7 @@ import logging
 import requests
 from .utils import get_api42_cred_vault , addUser
 from .models import Api42User
+from rest_framework.response import Response
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +78,7 @@ def	is_auth(request):
 def getUsername(request):
 	try:
 		user = request.user
-		return response({'username' : user.username})
+		return Response({'username' : user.username})
 	except Exception as e:
 		return JsonResponse({'error': str(e)}, status=400)
 
