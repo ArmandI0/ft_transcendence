@@ -44,6 +44,7 @@ class PongGameResult(models.Model):
 class CardGameResult(models.Model):
     game_id = models.AutoField(primary_key=True)
     player = models.ForeignKey(Api42User, on_delete=models.CASCADE)
+    guest1 = models.CharField(max_length=255, blank=True, null=True)
     date = models.DateTimeField()
     game = models.CharField(max_length=255, default="CardGame")
     MODE_CHOICES = [

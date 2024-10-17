@@ -16,6 +16,12 @@ export let cardData = {
 
 export function resetCardGame()
 {
+    let F1 = document.getElementById('player1_finalist');
+    let F2 = document.getElementById('player2_finalist');
+
+    F1.style.color = 'white';
+    F2.style.color = 'white';
+
     ['card1', 'card2', 'card3', 'card4', 'card5', 'card6', 'card7', 'card8', 'card9', 'card10', 'card11', 'card12', 'card13', 'card14', 'card15', 'card16', 'card17', 'card18'].forEach(cardId => {
         const card = document.getElementById(cardId);
         if (card.classList.contains('hidden'))
@@ -90,30 +96,38 @@ function displayChrono(chrono)
         const formattedChrono = formatTime(chrono);
         player1Element.textContent = ` ${formattedChrono}`;
         stockChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), cardData.PlayersCard[0]);
         playerNumber = 1;
+        document.getElementById('start').style.display = 'flex';
     }
     else if (playerNumber === 1)
     {
         const formattedChrono = formatTime(chrono);
         player2Element.textContent = ` ${formattedChrono}`;
         stockChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), cardData.PlayersCard[1]);
         playerNumber = 2;
+        document.getElementById('start').style.display = 'flex';
     }
     else if (playerNumber === 2)
     {
         const formattedChrono = formatTime(chrono);
         player3Element.textContent = ` ${formattedChrono}`;
         stockChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), cardData.PlayersCard[2]);
         playerNumber = 3;
+        document.getElementById('start').style.display = 'flex';
     }
     else if (playerNumber === 3)
     {
         const formattedChrono = formatTime(chrono);
         player4Element.textContent = ` ${formattedChrono}`;
         stockChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), cardData.PlayersCard[3]);
 
         playerNumber = 4;
         demiAndFinal();
+        document.getElementById('start').style.display = 'flex';
     }
     else if(playerNumber === 4)
     {
@@ -121,7 +135,9 @@ function displayChrono(chrono)
         const formattedChrono = formatTime(chrono);
         player3Element.textContent = ` ${formattedChrono}`;
         finalistChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), finalist[0]);
         playerNumber = 5;
+        document.getElementById('start').style.display = 'flex';
     }
     else if (playerNumber === 5)
     {
@@ -129,6 +145,7 @@ function displayChrono(chrono)
         const formattedChrono = formatTime(chrono);
         player4Element.textContent = ` ${formattedChrono}`;
         finalistChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), finalist[1]);
 
         playerNumber = 0;
 
@@ -137,10 +154,22 @@ function displayChrono(chrono)
             p1Final.style.color = 'yellow';
         else if (winner === 1)
             p2Final.style.color = 'yellow';
+        resetGameData()
+
     }
 }
 
-export function checkWin() 
+function resetGameData() {
+    finalistChronos.length = 0;
+    cardData.flippedCards.length = 0;
+    cardData.PlayersCard.length = 0;
+    finalist.length = 0;
+    stockChronos.length = 0;
+
+}
+
+
+export async function checkWin() 
 {
     const allCards = ['card1', 'card2', 'card3', 'card4', 'card5', 'card6', 'card7', 'card8', 'card9', 'card10', 'card11', 'card12', 'card13', 'card14', 'card15', 'card16', 'card17', 'card18'];
     const allHidden = allCards.every(cardId => {
@@ -155,8 +184,11 @@ export function checkWin()
         {
             displayChrono(elapsedTime);
         }
-        SendDataCard(elapsedTime, gameStatus.getStatus('id'));
-        document.getElementById('start').style.display = 'flex';
+        else
+        {
+            SendDataCard(elapsedTime, gameStatus.getStatus('id'), cardData.PlayersCard[0]);
+            document.getElementById('start').style.display = 'flex';
+        }
         
     }
 }

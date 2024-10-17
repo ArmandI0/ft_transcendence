@@ -67,19 +67,33 @@ export async function fillHistory()
 
 function displayLineHistory(obj, index)
 {
-    // const dataUser = await getUsername();
-    // username = dataUser.username;
-
     const historyContainer = document.getElementById('history-container');
-    const data = {
-        game: obj.game_type,
-        mode: obj.data.mode,
-        player1: obj.data.player1,
-        player1_s: obj.data.score_player1,
-        player2: obj.data.player2,
-        player2_s: obj.data.score_player2,
-        date: obj.data.date
-    };
-    const newGridItem = fillCompartments(data);
-    historyContainer.appendChild(newGridItem);
+    if (obj.game_type === 'RollandGapong' || obj.game_type === 'Cyberpong')
+    {
+        const data = {
+            game: obj.game_type,
+            mode: obj.data.mode,
+            player1: obj.data.guest1,
+            player1_s: obj.data.score_player1,
+            player2: obj.data.guest2,
+            player2_s: obj.data.score_player2,
+            date: obj.data.date
+        };
+        const newGridItem = fillCompartments(data);
+        historyContainer.appendChild(newGridItem);
+    }
+    else if (obj.game_type === 'Card')
+    {
+        const data = {
+            game: obj.game_type,
+            mode: obj.data.mode,
+            player1: obj.data.guest1,
+            player1_s: obj.data.score_player1,
+            player2: obj.data.game_duration,
+            player2_s: obj.data.score_player2,
+            date: obj.data.date
+        };
+        const newGridItem = fillCompartments(data);
+        historyContainer.appendChild(newGridItem);
+    }
 }

@@ -226,7 +226,6 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
             player2_score.textContent = 'L';
             if (gameStatus.getStatus('tournamentMod') === true)
             {
-                SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime);
                 tournamentFct(1, player1, player2, ball, tournament, court);
             }
             else
@@ -243,7 +242,6 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
             player1_score.textContent = 'L';
             if (gameStatus.getStatus('tournamentMod') === true)
             {
-                SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime);
                 tournamentFct(2, player1, player2, ball, tournament, court);
             }
             else
@@ -303,27 +301,21 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         player1_score.textContent = player1.score;
         player2_score.textContent = player2.score;
 
-        if (previousDirection !== direction)
+        if (previousDirection != direction)
         {
             if (direction === 'right')
             {
                 if (gameStatus.getStatus('isPower'))
                     gameStatus.setStatus('player2Power', getRandomPower());
                 if (gameStatus.getStatus('player2Power') === true)
-                {
                     greenPlayer2.style.backgroundColor = 'lightgreen';
-                    console.log('2 POWER');
-                }
             }
             else if (direction === 'left')
             {
                 if (gameStatus.getStatus('isPower'))
                     gameStatus.setStatus('player1Power', getRandomPower());
                 if (gameStatus.getStatus('player1Power') === true)
-                {
                     greenPlayer1.style.backgroundColor = 'lightgreen';
-                    console.log('1 POWER');
-                }
             }
             previousDirection = direction;
         }
@@ -365,7 +357,7 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
                 ok = false;
             }
         }
-        if (ball.x >= 420 && ball.x <= 380)
+        if (ball.x >= 420 || ball.x <= 380)
             gameStatus.setStatus('FirstCall', false);
 
         // Collision avec joueur 1 (joueur gauche)
@@ -602,6 +594,7 @@ async function tournamentFct(winner, player1, player2, ball, tournament, court)
             else
                 tournament.playersScore[3]++;
             hideSection('ball');
+            SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime, tournament.playersNames[0], tournament.playersNames[3]);
             displayMatch(tournament.playersNames[1], tournament.playersNames[2]);
             player1.score = 0;
             player2.score = 0;
@@ -622,23 +615,22 @@ async function tournamentFct(winner, player1, player2, ball, tournament, court)
             tournament.firstFinalist = tournament.playersScore[0] > tournament.playersScore[3] ? tournament.playersNames[0] : tournament.playersNames[3];
             tournament.secondFinalist = tournament.playersScore[1] > tournament.playersScore[2] ? tournament.playersNames[1] : tournament.playersNames[2];
             
+            SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime, tournament.playersNames[1], tournament.playersNames[2]);
             displayMatch(tournament.firstFinalist, tournament.secondFinalist);
             player1.score = 0;
             player2.score = 0;
             tournament.secondMatch = false;
             tournament.finalMatch = true;
-            console.log('secondMatch');
             await waitForButtonClick('play-pong');
         }    
     }
     else if (tournament.finalMatch)
     {
-        console.log('LastMatch');
-
         if (winner === 1 || winner === 2)
         {
             tournament.finalMatch = false;
             hideSection('ball');
+            SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime, tournament.firstFinalist, tournament.secondFinalist);
             if (winner === 1)
                 displayWinner(tournament.firstFinalist);
             else

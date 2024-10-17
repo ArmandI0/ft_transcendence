@@ -7,4 +7,4 @@ export const pad2Z = 40;
 export const tableGeom = new XYZ(40, 1, 80);
 export const ballStartDir = new XYZ(0, 0, 0.5);
 
-export const scoreToWin = 5;
+export const scoreToWin = 1;

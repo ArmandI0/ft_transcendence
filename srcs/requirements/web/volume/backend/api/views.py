@@ -72,6 +72,7 @@ def setCardResult(request):
         player = request.user
 
         result.player = player
+        result.guest1 = request.data.get('player1')
         result.score_player = request.data.get('score_player')  
         result.game_duration = request.data.get('game_duration')  
         result.date = request.data.get('date')
@@ -157,7 +158,7 @@ def getGameHistory(request):
             key=attrgetter('date'),
             reverse=True
         )
-        latest_25_results = GameHistorySerializer(combined_list[:25],many= True)
+        latest_25_results = GameHistorySerializer(combined_list[:20],many= True)
         return Response(latest_25_results.data)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
