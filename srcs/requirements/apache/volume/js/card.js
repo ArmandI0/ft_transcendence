@@ -161,6 +161,8 @@ export async function checkWin()
         {
             displayChrono(elapsedTime);
         }
+        else
+            SendDataCard(elapsedTime, gameStatus.getStatus('id'), cardData.PlayersCard[0]);
         document.getElementById('start').style.display = 'flex';
         
     }

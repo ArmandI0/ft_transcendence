@@ -404,7 +404,7 @@ export async function  startGame3D()
 		{
 			displayWinner(score);
 			console.log("game finished");
-			SendDataPong(score[0], score[1], -1, "Cyberpong", startTime, '3D', '3D');
+			SendDataPong(score[0], score[1], -1, "Cyberpong", startTime);
 			loadPage('pong3D_menu', 'app');
 			return;
 		}

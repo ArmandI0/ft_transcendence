@@ -68,7 +68,7 @@ export async function fillHistory()
 function displayLineHistory(obj, index)
 {
     const historyContainer = document.getElementById('history-container');
-    if (obj.game_type === 'RollandGapong')
+    if (obj.game_type === 'RollandGapong' || obj.game_type === 'Cyberpong')
     {
         const data = {
             game: obj.game_type,
