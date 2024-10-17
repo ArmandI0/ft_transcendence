@@ -1,4 +1,4 @@
-import { getCookie } from "./htmlRequest";
+import { getCookie } from "./htmlRequest.js";
 
 const test = {
     game: 'Pong',
