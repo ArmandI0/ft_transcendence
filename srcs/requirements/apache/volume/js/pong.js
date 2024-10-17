@@ -303,27 +303,21 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         player1_score.textContent = player1.score;
         player2_score.textContent = player2.score;
 
-        if (previousDirection !== direction)
+        if (previousDirection != direction)
         {
             if (direction === 'right')
             {
                 if (gameStatus.getStatus('isPower'))
                     gameStatus.setStatus('player2Power', getRandomPower());
                 if (gameStatus.getStatus('player2Power') === true)
-                {
                     greenPlayer2.style.backgroundColor = 'lightgreen';
-                    console.log('2 POWER');
-                }
             }
             else if (direction === 'left')
             {
                 if (gameStatus.getStatus('isPower'))
                     gameStatus.setStatus('player1Power', getRandomPower());
                 if (gameStatus.getStatus('player1Power') === true)
-                {
                     greenPlayer1.style.backgroundColor = 'lightgreen';
-                    console.log('1 POWER');
-                }
             }
             previousDirection = direction;
         }
@@ -352,6 +346,7 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
                     player1.score += 1;
                     player2.score += 1;
                 }
+                console.log('klo');
                 previousDirectionCoop = direction;
                 ok = true;
                 
@@ -365,7 +360,7 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
                 ok = false;
             }
         }
-        if (ball.x >= 420 && ball.x <= 380)
+        if (ball.x >= 420 || ball.x <= 380)
             gameStatus.setStatus('FirstCall', false);
 
         // Collision avec joueur 1 (joueur gauche)
