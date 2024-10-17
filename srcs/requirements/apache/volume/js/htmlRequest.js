@@ -20,7 +20,7 @@ export function getCookie(name)
     return cookieValue;
 }
 
-async function is_auth()
+export async function is_auth()
 {
 	const csrfToken = getCookie('csrftoken');
 	const response = await fetch('/accounts/is_auth/',
@@ -32,13 +32,14 @@ async function is_auth()
 		}
 	});
 	const data = await response.json();
-	if (response.status === 200)
+	if (data.logged === true)
 	{
-		console.log('Success :', data.message);
+		console.log('logged');
 		return true
 	}
 	else
 	{
+		console.log('not logged');
 		return false;
 	}
 }
