@@ -1,15 +1,5 @@
 import { getCookie } from "./htmlRequest.js";
 
-const test = {
-    game: 'Pong',
-    mode: 'LOCAL1V1',
-    player1: 'player1',
-    player1_s: 4,
-    player2: 'player2',
-    player2_s: 1,
-    date: '10/08/2024'
-};
-
 async function getGameHistory() {
     try {
         const csrfToken = getCookie('csrftoken');
@@ -67,9 +57,29 @@ export async function fillHistory()
 {
     const json = await getGameHistory();
 
-    // console.log(json);
+    if(Array.isArray(json))
+    {
+        json.forEach((obj, index) => {
+            displayLineHistory(obj, index);
+        });
+    }
+}
+
+function displayLineHistory(obj, index)
+{
+    // const dataUser = await getUsername();
+    // username = dataUser.username;
 
     const historyContainer = document.getElementById('history-container');
-    const newGridItem = fillCompartments(test);
+    const data = {
+        game: obj.game_type,
+        mode: obj.data.mode,
+        player1: obj.data.player1,
+        player1_s: obj.data.score_player1,
+        player2: obj.data.player2,
+        player2_s: obj.data.score_player2,
+        date: obj.data.date
+    };
+    const newGridItem = fillCompartments(data);
     historyContainer.appendChild(newGridItem);
 }

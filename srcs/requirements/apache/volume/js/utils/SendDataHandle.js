@@ -24,12 +24,15 @@ function formatGameDuration(durationInSeconds)
     return `${hours}:${minutes}:${seconds}`;
 }
 
-export function SendDataPong(player1_score, player2_score, tournament_id, game, startTime)
+export async function SendDataPong(player1_score, player2_score, tournament_id, game, startTime)
 {
     if (gameStatus.getStatus('ia'))
     {
+        const dataUser = await getUsername();
+        username = dataUser.username;
         console.log('SENDING PONG IA DATA....')
         dataPostPong.mode = 'IA';
+        dataPostPong.player1 = username;
         dataPostPong.player2 = 'bot';
         dataPostPong.score_player1 = player1_score;
         dataPostPong.score_player2 = player2_score;
@@ -48,7 +51,6 @@ export function SendDataPong(player1_score, player2_score, tournament_id, game, 
     {
         console.log('SENDING PONG COOP DATA....')
         dataPostPong.mode = 'COOP';
-        dataPostPong.player2 = 'COOP';
         dataPostPong.score_player1 = player1_score;
         dataPostPong.score_player2 = player2_score;
         dataPostPong.game = game;
@@ -66,7 +68,8 @@ export function SendDataPong(player1_score, player2_score, tournament_id, game, 
     {
         console.log('SENDING PONG TOURNAMENT DATA....')
         dataPostPong.mode = 'TOURNAMENT';
-        dataPostPong.player2 = 'player_tournament';
+        dataPostPong.player1 = 'player1';
+        dataPostPong.player2 = 'player2';
         dataPostPong.score_player1 = player1_score;
         dataPostPong.score_player2 = player2_score;
         dataPostPong.game = game;
@@ -82,8 +85,11 @@ export function SendDataPong(player1_score, player2_score, tournament_id, game, 
     }
     else
     {
+        const dataUser = await getUsername();
+        username = dataUser.username;
         console.log('SENDING PONG 1V1 DATA....')
         dataPostPong.mode = 'LOCAL1V1';
+        dataPostPong.player1 = username;
         dataPostPong.player2 = gameStatus.getStatus('namePlayer2');
         dataPostPong.score_player1 = player1_score;
         dataPostPong.score_player2 = player2_score;
