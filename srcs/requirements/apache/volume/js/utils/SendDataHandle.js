@@ -25,7 +25,7 @@ function formatGameDuration(durationInSeconds)
     return `${hours}:${minutes}:${seconds}`;
 }
 
-export async function SendDataPong(player1_score, player2_score, tournament_id, game, startTime)
+export async function SendDataPong(player1_score, player2_score, tournament_id, game, startTime, player1, player2)
 {
     let username;
 
@@ -54,8 +54,10 @@ export async function SendDataPong(player1_score, player2_score, tournament_id, 
     {
         console.log('SENDING PONG COOP DATA....')
         dataPostPong.mode = 'COOP';
+        dataPostPong.player1 = 'number of exchanges :';
+        dataPostPong.player2 = '-----';
         dataPostPong.score_player1 = player1_score;
-        dataPostPong.score_player2 = player2_score;
+        dataPostPong.score_player2 = '------';
         dataPostPong.game = game;
         dataPostPong.tournament_id = tournament_id;
 
@@ -71,8 +73,8 @@ export async function SendDataPong(player1_score, player2_score, tournament_id, 
     {
         console.log('SENDING PONG TOURNAMENT DATA....')
         dataPostPong.mode = 'TOURNAMENT';
-        dataPostPong.player1 = 'player1';
-        dataPostPong.player2 = 'player2';
+        dataPostPong.player1 = player1;
+        dataPostPong.player2 = player2;
         dataPostPong.score_player1 = player1_score;
         dataPostPong.score_player2 = player2_score;
         dataPostPong.game = game;
@@ -109,13 +111,12 @@ export async function SendDataPong(player1_score, player2_score, tournament_id, 
     }
 }
 
-export async function SendDataCard(elapsedTime, id)
+export async function SendDataCard(elapsedTime, id, player)
 {
     const dataUser = await getUsername();
     let username = dataUser.username;
     let elapsedTimeInSeconds = Math.floor(elapsedTime / 1000);
 
-    console.log('OOOOOOOOOOO', gameStatus.getStatus('tournamentCard'));
     if (!gameStatus.getStatus('tournamentCard'))
     {
         console.log('SENDING CARD SOLO DATA....')
@@ -131,7 +132,7 @@ export async function SendDataCard(elapsedTime, id)
     {
         console.log('SENDING CARD TOURNAMENT DATA....')
         dataPostCard.mode = 'TOURNAMENT';
-        dataPostCard.player1 = 'player';
+        dataPostCard.player1 = player;
         dataPostCard.game = 'Card';
         dataPostCard.game_duration = formatGameDuration(elapsedTimeInSeconds);
         dataPostCard.date = getCurrentFormattedDate();

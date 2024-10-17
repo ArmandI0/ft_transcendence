@@ -494,12 +494,11 @@ export async function loadEventListeners(page)
 				setNames();
 
 				// lancement du tournoi
-				console.log('tttttttttttttt');
 				gameStatus.setStatus('tournamentCard', true);
 				dataPostTournament.date = getCurrentFormattedDate();
 				dataPostTournament.game_type = 'Card';
 				gameStatus.setStatus('id', setTournament());
-			} 
+			}
 			else 
 			{
 				alert('Please enter 4 unique player (3-10 caracters)');
