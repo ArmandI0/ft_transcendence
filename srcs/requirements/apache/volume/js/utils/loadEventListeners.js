@@ -11,6 +11,7 @@ import { cardData } from '../card.js';
 import { dataPostTournament, setTournament } from "./SendGameData.js";
 import { getCurrentFormattedDate } from "./SendDataHandle.js";
 import { setBordersAvatar} from './avatars.js';
+import { fillHistory } from '../history.js';
 
 export async function loadEventListeners(page)
 {
@@ -697,6 +698,10 @@ export async function loadEventListeners(page)
 			}
 			document.getElementById('start').style.display = 'flex';
 		});
+	}
+	else if (page == 'history')
+	{
+		fillHistory();
 	}
 }
 

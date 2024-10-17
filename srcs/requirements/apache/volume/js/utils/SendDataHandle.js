@@ -102,11 +102,13 @@ export function SendDataPong(player1_score, player2_score, tournament_id, game, 
 
 export function SendDataCard(elapsedTime, id)
 {
+    let elapsedTimeInSeconds = Math.floor(elapsedTime / 1000);
+
     if (!gameStatus.getStatus('tournamentCard'))
     {
         console.log('SENDING CARD SOLO DATA....')
         dataPostCard.mode = 'SOLO';
-        dataPostCard.game_duration = elapsedTime;
+        dataPostCard.game_duration = formatGameDuration(elapsedTimeInSeconds);
         dataPostCard.date = getCurrentFormattedDate();
         dataPostCard.tournament_id = id;
         setCardData();
@@ -115,7 +117,7 @@ export function SendDataCard(elapsedTime, id)
     {
         console.log('SENDING CARD TOURNAMENT DATA....')
         dataPostCard.mode = 'TOURNAMENT';
-        dataPostCard.game_duration = elapsedTime;
+        dataPostCard.game_duration = formatGameDuration(elapsedTimeInSeconds);
         dataPostCard.date = getCurrentFormattedDate();
         dataPostCard.tournament_id = id;
         setCardData();
