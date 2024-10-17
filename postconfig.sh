@@ -77,18 +77,6 @@ docker exec apache cat /cert/localhost.crt > srcs/secrets/localhost.crt
 docker exec apache cat /cert/localhost.key > srcs/secrets/localhost.key
 
 sleep 5
-# echo "Get credentials django by Vault"
-# vault_output=$(docker exec vault vault read database/creds/dbuser_superuser) >/dev/null 2>/dev/null 
-
-# POSTGRES_USERNAME=$(echo "$vault_output" | grep "username" | awk '{print $2}')
-# POSTGRES_PASSWORD=$(echo "$vault_output" | grep "password" | awk '{print $2}')
-
-# echo "Applying database migrations..."
-# docker exec -e POSTGRES_USER=$POSTGRES_USERNAME -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD web python website/backend/manage.py makemigrations > /dev/null
-# sleep 5
-# docker exec -e POSTGRES_USER=$POSTGRES_USERNAME -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD web python website/backend/manage.py migrate  > /dev/null
-
-# echo "database migrations finished..."
 
 if [ "$(curl --cacert srcs/secrets/localhost.crt -s -o /dev/null -w "%{http_code}" https://localhost)" -ne 200 ]; then
 

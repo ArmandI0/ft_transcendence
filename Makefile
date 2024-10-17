@@ -10,9 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-#include srcs/requirements/vault/conf/.env
-# export $(shell sed 's/=.*//' .env)
-
 # Couleurs
 RED=\033[0;31m
 GREEN=\033[0;32m

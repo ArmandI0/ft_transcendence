@@ -33,24 +33,12 @@ services:
     depends_on:
       - vault
 
-  prometheus:
-    build: requirements/prometheus/.
-    container_name: prometheus
-    image: prometheus
-    ports:
-      - '9090:9090'
-    restart: always
-    networks:
-      - transcendance
-    depends_on:
-      - vault
-
   adminer:
     image: adminer
     container_name: adminer
     restart: always
     ports:
-      - 8080:8080
+      - '8080'
     networks:
       - transcendance
     depends_on: 
