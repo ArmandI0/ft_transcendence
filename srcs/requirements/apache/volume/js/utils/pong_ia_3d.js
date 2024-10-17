@@ -40,7 +40,6 @@ export function iaPlayer(ball_dir, ball, padIA, recenter)
 {
     let keyPress = null;
     let delay = 200;
-    const playerRange = tableGeom.getX();
     const padCenterX = padIA.position.x;
 
 	if (!recenter)
@@ -54,15 +53,7 @@ export function iaPlayer(ball_dir, ball, padIA, recenter)
 			keyPress = 'ArrowLeft'; 
 
 	}
-	else
-	{
-		// if (padCenterX  < 0)
-		// 	keyPress = 'ArrowRight';
-		// else if (padCenterX  > 0)
-		// 	keyPress = 'ArrowLeft'; 
-		// else
-		// 	keyPress = null;
-	}
+
 	
     if (keyPress)
     {

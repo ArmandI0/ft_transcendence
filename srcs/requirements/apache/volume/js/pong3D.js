@@ -6,16 +6,10 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.m
 import  {MTLLoader}  from './utils/MTLLoader.js';
 import  {OBJLoader}  from './utils/OBJLoader.js';
 import { hideSection, showSection } from './utils/showAndHideSections.js';
-// import {setPongData} from './utils/utils_database.js';
 import {SendDataPong} from './utils/SendDataHandle.js';
 
 const clockPause = new THREE.Clock();
 export const clockIA = new THREE.Clock();
-
-// async function putScoreToDb(score, startTime)
-// {
-// 	SendDataPong(score[0], score[1], -1, "Cyberpong", startTime)
-// }
 
 function makeObjectInstance(geomType, geom, color, pos_z) 
 {
@@ -117,7 +111,6 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 	const offset = 6;
 	let col_z = 0;
 
-	// check if wall hit
 	if (Math.abs(ball.position.x) >= tableGeom.getX() / 2 - ballGeom.getX())
 	{
 		ball_dir.setX(-(ball_dir.getX()));
@@ -130,12 +123,10 @@ function pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pau
 		gridCollision.visible = true;
 	}
 
-	// check if pad hit or ball out
 	if (Math.abs(ball.position.z) >= tableGeom.getZ() / 2 - padGeom.getZ() / 1.5)
 	{
 		col_z = checkCollisionPad(ball, pad1, pad2);
 
-		// reset if out
 		if (col_z === -1000)
 		{
 			if (ball.position.z < 0)
@@ -358,13 +349,6 @@ export async function  startGame3D()
 	const light = new THREE.DirectionalLight(color, intensity);
 	light.position.set(50, 50, 0);
 	scene.add(light);
-
-	// const spotLight = new THREE.SpotLight(color);
-	// spotLight.position.set(0, 10, 0);
-	// spotLight.angle = Math.PI / 6;
-	// spotLight.penumbra = 0.1;
-	// spotLight.target = table;
-	// scene.add(spotLight);
 
 	camera1.position.z = -52;
 	camera1.position.y = 15;

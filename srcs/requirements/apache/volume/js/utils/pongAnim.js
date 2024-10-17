@@ -9,16 +9,13 @@ export function slideInRodgerLogo()
 	{
         gameStatus.setStatus('isAnimating', true);
 
-        // Réinitialiser les classes d'animation
         rolandLogo.classList.remove('slide-right-roland');
         rodgerLogo.classList.remove('slide-left');
 
-        // Forcer un reflow pour que les classes soient effectivement retirées
         void rolandLogo.offsetWidth;
 
         rolandLogo.classList.add('slide-right-roland');
 
-        // Attendre la fin de l'animation pour changer l'overlay
         setTimeout(() => {
             rolandLogo.classList.remove('slide-right-roland');
             rolandLogo.style.display = 'none';
@@ -41,19 +38,16 @@ export function slideInRolandLogo()
 	{
 		gameStatus.setStatus('isAnimating', true);
 
-        // Réinitialiser les classes d'animation
         rodgerLogo.classList.remove('slide-right');
         rolandLogo.classList.remove('slide-left-roland');
 
-        // Forcer un reflow pour que les classes soient effectivement retirées
         void rodgerLogo.offsetWidth;
 
 		rolandLogo.style.top = '0';
 		rolandLogo.style.left = '140%';
 
         rodgerLogo.classList.add('slide-right');
-
-        // Attendre la fin de l'animation pour changer l'overlay
+        
         setTimeout(() => {
             rodgerLogo.classList.remove('slide-right');
             rodgerLogo.style.display = 'none';

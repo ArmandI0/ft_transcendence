@@ -10,7 +10,6 @@ let tournament;
 let animationFrameId;
 const keysPressed = {};
 
-/// CLASS PLAYER ////
 class Player {
 
     constructor(elementId) {
@@ -22,8 +21,8 @@ class Player {
             this.height2 = this.height / 2;
             this.CollisionTop = 350;
             this.CollisionBot = 50;
-            this.step = 8; // vitesse de deplacement du joueur
-            this.y = 0; // Position initiale
+            this.step = 8;
+            this.y = 0;
             this.score = 0;
             this.startTime = Date.now();
         }
@@ -40,7 +39,6 @@ class Player {
 
 }
 
-/// CLASS BALL ////
 class Ball{
 
     constructor(elementId){
@@ -103,7 +101,6 @@ class Tournament{
     }
 }
 
-// Fonction pour gérer les événements de clavier
 function setupKeyboardEvents()
 {
     document.addEventListener('keydown', (event) => {
@@ -137,7 +134,6 @@ export async function startPong()
         gameStatus.setStatus('tournamenetInProgress', true);
         await tournament.init(); 
     }
-    // Appliquer les positions initiales
     player1.setPosition (200);
     player2.setPosition(200);
     player3.setPosition(150);
@@ -150,10 +146,9 @@ export async function startPong()
 }
 
 function getRandomPower() {
-    return Math.random() < 1 / 3; // 1/3 chance de retourner true
+    return Math.random() < 1 / 3;
 }
 
-// Fonction pour mettre à jour la position des joueurs
 function updatePlayersPosition(player1, player2, player3)
 {
     let player1Y;
@@ -180,18 +175,13 @@ function updatePlayersPosition(player1, player2, player3)
             player3.setPosition(player3Y);
         }
             
-        
-        // Appliquer les positions mises à jour
         player1.setPosition(player1Y);
         player2.setPosition(player2Y);
 
-        // Appeler la fonction à nouveau pour une animation continue
         requestAnimationFrame(() => updatePlayersPosition(player1, player2, player3));
     }
 }
 
-
-// Fonction pour vérifier le score des joueurs et arrêter le jeu si nécessaire
 function checkCoop(player1, player2, player3, ball, ok)
 {
     if (!ok)
@@ -326,7 +316,6 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         const maxAngle = 70 * (Math.PI / 180);
         const maxSpeedY = Math.tan(maxAngle) * Math.abs(ball.speedX);
 
-        // Collision avec les murs haut et bas
         if (ball.y - ball.rad <= 0 || ball.y + ball.rad >= court.height)
             ball.speedY = -ball.speedY;
         if (ball.y < -11)
@@ -334,7 +323,6 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         if (ball.y > 411)
             ball.y = 410;
 
-        // 'Collision' avec le joueur central
         if (gameStatus.getStatus('isCoop') && ball.x >= 390 && ball.x <= 410)
         {
             if ((ball.y + 10) >= (player3.y + 10) && (ball.y + 10) <= (player3.y + 90))
@@ -360,7 +348,6 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
         if (ball.x >= 420 || ball.x <= 380)
             gameStatus.setStatus('FirstCall', false);
 
-        // Collision avec joueur 1 (joueur gauche)
         if (ball.x - ball.rad <= 20 && ball.x - ball.rad >= 0)
         {
             if (gameStatus.getStatus('isCoop'))
@@ -391,7 +378,6 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
             else if (ball.y - ball.rad <= player1.y + player1.height2 && ball.y >= player1.y)
                 ball.speedY = Math.abs(ball.speedY);
         }
-        // Collision avec joueur 2 (joueur droite)
         else if (ball.x + ball.rad >= 780)
         {
             if (gameStatus.getStatus('isCoop'))
@@ -428,7 +414,6 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
             ok = false;
             checkCoop(player1, player2, player3, ball, ok);
         }
-        // Collision avec les bords gauche et droit du conteneur (score)
         else if (ball.x <= 5 || ball.x >= court.width - 5)
         {
             if (ball.x <= 5)
@@ -439,17 +424,14 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
             greenPlayer1.style.backgroundColor = 'grey';
             greenPlayer2.style.backgroundColor = 'grey';
             
-            // Reset position ball et joueurs
             gameStatus.setStatus('isPaused', true);
             
             player1.setPosition(200);
             player2.setPosition(200);
             ball.setPosition(400, 200);
 
-            // Mettre le jeu en pause
             cancelAnimationFrame(animationFrameId);
 
-            // Attendre 1.5 secs avant de reprendre le mouvement
             setTimeout(() => {
                 ball.speedX = 3 * (Math.random() > 0.5 ? 1 : -1);
                 ball.speedY = 3 * (Math.random() > 0.5 ? 1 : -1);
@@ -461,15 +443,14 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
 
         ball.setPosition(ball.x, ball.y);
 
-        // Vérification du temps écoulé pour appeler iaPlayer
         let currentTime = Date.now();
-        if (currentTime - lastCallTime >= 1000) {  // 1 seconde écoulée
+        if (currentTime - lastCallTime >= 1000) {
             if (gameStatus.getStatus('ia') === true && direction === 'right')
             {
                 iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 1);
                 console.log("iaPlayer called...");
             }
-            lastCallTime = currentTime;  // Mise à jour du dernier appel
+            lastCallTime = currentTime;
         }
         else
         {

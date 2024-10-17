@@ -11,10 +11,8 @@ body, html
 	align-items: center;
 	width: 100vw;
 	height: 100vh;
-    /* background-color: rgb(39, 79, 148); */
-    /* background-image: url('../images/bg_home.jpg'); */
-    background-position: 10% 5%;
-    background-repeat: no-repeat;
+  background-position: 10% 5%;
+  background-repeat: no-repeat;
 }
 
 
@@ -88,10 +86,6 @@ body, html
       rgb(0 164 173) 67%,
       rgba(118, 74, 166, 1) 81%
     );
-  
-    /*  Optional  */
-      /* box-shadow: inset 50px 50px 17px 0px #ff588b,
-      inset 100px 100px 17px 0px #66319f; */
   }
   
   @keyframes animate {

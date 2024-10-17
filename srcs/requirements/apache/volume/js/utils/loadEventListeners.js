@@ -488,7 +488,6 @@ export async function loadEventListeners(page)
 				showSection('tournament-visualizer-card');
 				setNames();
 
-				// lancement du tournoi
 				gameStatus.setStatus('tournamentCard', true);
 				dataPostTournament.date = getCurrentFormattedDate();
 				dataPostTournament.game_type = 'Card';
