@@ -1,18 +1,4 @@
-
-function setLoggedInState(isLoggedIn)
-{
-    const button = document.getElementById('button_to_42api');
-    if (isLoggedIn)
-	{
-        button.classList.add('logged-in');
-        button.textContent = 'Logged In';
-    }
-	else
-	{
-        button.classList.remove('logged-in');
-        button.textContent = 'Login with 42 API';
-    }
-}
+import { getCookie } from "./htmlRequest";
 
 function handleCode(code) 
 {
@@ -22,12 +8,9 @@ function handleCode(code)
 		.then(response => response.json())
 		.then(data => {
 			console.log('Réponse du backend:', data.login);
-			sessionStorage.setItem("username", data.login);
-			setLoggedInState(true);
 		})
 		.catch((error) => {
 			console.error('Erreur:', error);
-			setLoggedInState(false);
 		});
 }
 
@@ -40,6 +23,48 @@ export function handleAPI42return(url)
 		const new_url = window.location.origin + window.location.pathname;
 		history.replaceState({page : 'home', div : 'app'}, 'home', window.location.pathname);
 	}
+}
+
+export async function updateLoginButton()
+{
+	const button = document.getElementById('button_to_42api');
+	let isLogged = await is_auth();
+	if (isLogged)
+	{
+		button.classList.add('logged-in');
+		button.textContent = 'Logout';
+	}
 	else
-        setLoggedInState(false);
+	{
+		button.classList.remove('logged-in');
+		button.textContent = 'Login with 42 API';
+	}
+}
+
+export async function logout()
+{
+    try {
+        const csrfToken = getCookie('csrftoken');
+        const response = await fetch('/accounts/logout/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken,
+            },
+        });
+		const data = await response.json();
+		if (response.status === 200)
+		{
+			console.log('Success :', data.message);
+			return true
+		}
+		else
+		{
+			return false;
+		}
+    } catch (error) {
+        console.error('Erreur lors de l\'appel à l\'API :', error);
+        return null;
+    }
 }
