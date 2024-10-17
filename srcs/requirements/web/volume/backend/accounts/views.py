@@ -67,11 +67,13 @@ def	logoutUser(request):
 	else:
 		return JsonResponse({"message": "Response : no_auth"}, status=401)
 
+@api_view(['GET'])
 def	is_auth(request):
 	if request.user.is_authenticated:
-		return JsonResponse({"message": "Response : auth"}, status=200)
+		return Response({'logged' : True})
 	else:
-		return JsonResponse({"message": "Response : no_auth"}, status=401)
+		return Response({'logged' : False})
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -81,6 +83,4 @@ def getUsername(request):
 		return Response({'username' : user.username})
 	except Exception as e:
 		return JsonResponse({'error': str(e)}, status=400)
-
-
 
