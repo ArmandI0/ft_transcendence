@@ -233,7 +233,6 @@ function loadAvatar(type, zDist, color)
 		path = "./obj3d/Harley Quinn"
 
 	return new Promise((resolve, reject) => {
-		console.log(`le type est : ${type}`);
 		if (type != 0) {
 			const mtlLoader = new MTLLoader();
 			mtlLoader.load(path + '.mtl', function (materials) {
@@ -381,13 +380,11 @@ export async function  startGame3D()
 	{
 		if (gameStatus.getStatus('game_run') === false)
 		{
-			console.log("game interrupted");
 			return;
 		}
 		if (isGameWon(score))
 		{
 			displayWinner(score);
-			console.log("game finished");
 			SendDataPong(score[0], score[1], -1, "Cyberpong", startTime);
 			loadPage('pong3D_menu', 'app');
 			return;

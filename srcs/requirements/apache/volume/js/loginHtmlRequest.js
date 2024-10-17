@@ -43,7 +43,6 @@ async function submitRegistrationForm(form)
         const data = await response.json();
         if (response.ok)
 		{
-            console.log('Succès :', data.message);
             document.getElementById('game-window').innerHTML = `<p>${data.message}</p>`;
         }
 		else

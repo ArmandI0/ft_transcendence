@@ -34,12 +34,10 @@ export async function is_auth()
 	const data = await response.json();
 	if (data.logged === true)
 	{
-		console.log('logged');
 		return true
 	}
 	else
 	{
-		console.log('not logged');
 		return false;
 	}
 }
@@ -65,9 +63,6 @@ export async function loadPage(page, div)
 		loadCss(page);
 	try 
 	{
-		console.log(sessionStorage.getItem("username"));
-		console.log("PAGE = " + page);
-		console.log("DIV = " + div);
 		await loadHtml(page, div);
 		await loadComposant(page);
 		await loadScript(page);
