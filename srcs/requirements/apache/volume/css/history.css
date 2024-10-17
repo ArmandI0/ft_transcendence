@@ -10,10 +10,10 @@ body, html {
 }
 
 #history-container{
-    width: 800px;
+    width: 1000px;
     position: absolute;
     margin-top: 100px;
-    margin-left: 30%;
+    margin-left: 25%;
 
 }
 
@@ -21,7 +21,7 @@ body, html {
     background-color: #ffffff;
     border: 1px solid #ccc;
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 colonnes */
+    grid-template-columns: repeat(7, 1fr);
     font-size: 1.2em;
     height: 28px;
     color: #333;
