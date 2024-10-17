@@ -277,6 +277,8 @@ export async function loadEventListeners(page)
 	}
 	else if (page == 'charts')
 	{
+		let button = document.getElementById('button_to_42api');
+		button.style.display='none';
 		document.getElementById('button-stats-pong').addEventListener('click', function() {
 			setGameTypeData("RollandGapong");
 			generateCharts();
@@ -501,6 +503,8 @@ export async function loadEventListeners(page)
 	}
 	else if (page == 'history')
 	{
+		let button = document.getElementById('button_to_42api');
+		button.style.display='none';
 		fillHistory();
 	}
 }
