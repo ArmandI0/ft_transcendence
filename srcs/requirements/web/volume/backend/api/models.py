@@ -6,7 +6,7 @@ class Tournament(models.Model):
     GAME_TYPE_CHOICES = [
         ('RollandGapong', 'RollandGapong'),
         ('Cyberpong', 'Cyberpong'),
-        ('card', 'Card'),
+        ('Card', 'Card'),
     ]
     game_type = models.CharField(max_length=255, choices= GAME_TYPE_CHOICES)
     date = models.DateTimeField()

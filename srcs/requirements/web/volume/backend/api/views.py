@@ -150,8 +150,8 @@ def getResult(request):
 def getGameHistory(request):
     try:
         user = request.user
-        pong_results = PongGameResult.objects.filter(player=user).all()
-        card_results = CardGameResult.objects.filter(player=user).all()
+        pong_results = PongGameResult.objects.filter(player1=user).all()
+        card_results = CardGameResult.objects.filter(player1=user).all()
         combined_list = sorted(
         chain(pong_results, card_results), 
         key=attrgetter('date'),

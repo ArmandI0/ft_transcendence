@@ -496,7 +496,7 @@ export async function loadEventListeners(page)
 				// lancement du tournoi
 				gameStatus.setStatus('tournamentCard', true);        
 				dataPostTournament.date = getCurrentFormattedDate();
-				dataPostTournament.game_type = 'CardGame';
+				dataPostTournament.game_type = 'Card';
 				gameStatus.setStatus('id', setTournament());
 			} 
 			else 
