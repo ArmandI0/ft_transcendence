@@ -90,6 +90,7 @@ function displayChrono(chrono)
         const formattedChrono = formatTime(chrono);
         player1Element.textContent = ` ${formattedChrono}`;
         stockChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), cardData.PlayersCard[0]);
         playerNumber = 1;
     }
     else if (playerNumber === 1)
@@ -97,6 +98,7 @@ function displayChrono(chrono)
         const formattedChrono = formatTime(chrono);
         player2Element.textContent = ` ${formattedChrono}`;
         stockChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), cardData.PlayersCard[1]);
         playerNumber = 2;
     }
     else if (playerNumber === 2)
@@ -104,6 +106,7 @@ function displayChrono(chrono)
         const formattedChrono = formatTime(chrono);
         player3Element.textContent = ` ${formattedChrono}`;
         stockChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), cardData.PlayersCard[2]);
         playerNumber = 3;
     }
     else if (playerNumber === 3)
@@ -111,6 +114,7 @@ function displayChrono(chrono)
         const formattedChrono = formatTime(chrono);
         player4Element.textContent = ` ${formattedChrono}`;
         stockChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), cardData.PlayersCard[3]);
 
         playerNumber = 4;
         demiAndFinal();
@@ -121,6 +125,7 @@ function displayChrono(chrono)
         const formattedChrono = formatTime(chrono);
         player3Element.textContent = ` ${formattedChrono}`;
         finalistChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), finalist[0]);
         playerNumber = 5;
     }
     else if (playerNumber === 5)
@@ -129,6 +134,7 @@ function displayChrono(chrono)
         const formattedChrono = formatTime(chrono);
         player4Element.textContent = ` ${formattedChrono}`;
         finalistChronos.push(chrono);
+        SendDataCard(chrono, gameStatus.getStatus('id'), finalist[1]);
 
         playerNumber = 0;
 
@@ -155,7 +161,6 @@ export async function checkWin()
         {
             displayChrono(elapsedTime);
         }
-        SendDataCard(elapsedTime, gameStatus.getStatus('id'));
         document.getElementById('start').style.display = 'flex';
         
     }
