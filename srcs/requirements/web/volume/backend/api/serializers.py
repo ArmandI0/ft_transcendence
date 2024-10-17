@@ -23,7 +23,7 @@ class CardChartResultSerializer(serializers.ModelSerializer):
         model = PongGameResult
         fields = ['game_id', 'won' , 'time']
     def get_won(self, obj):
-        if obj.game_duration <= timedelta(minutes=1):
+        if obj.game_duration.hour == 0 and obj.game_duration.minute == 0 and obj.game_duration.second <= 60:
             return True
         else:
             return False
