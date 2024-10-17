@@ -2,6 +2,7 @@ import { getCookie } from "../htmlRequest.js";
 
 export const dataPostPong = {
     mode: '-----',
+    player1: "toto",
     player2: "Alice Johnson",      // Nom du joueur 2 -> pas besoin de mettre joueur car c'est le user connecte
     score_player1: "8",            // Score du joueur 1
     score_player2: "5",            // Score du joueur 2
