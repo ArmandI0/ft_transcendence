@@ -1,6 +1,5 @@
 import { hideSection, showSection } from './showAndHideSections.js';
 import { startGame3D } from '../pong3D.js';
-import { handleAPI42return } from '../home.js';
 import { resetVisualizerTournament, resetPower, startPong, startTournament } from "../pong.js";
 import * as gameStatus from './gameStatus.js' ;
 import { setGameTypeData, setSetSize } from './utils_charts.js';
@@ -12,7 +11,6 @@ import { dataPostTournament, setTournament } from "./SendGameData.js";
 import { getCurrentFormattedDate } from "./SendDataHandle.js";
 import { setBordersAvatar} from './avatars.js';
 import { fillHistory } from '../history.js';
-import { is_auth } from '../htmlRequest.js';
 import { initHomePage } from '../home.js';
 
 export async function loadEventListeners(page)

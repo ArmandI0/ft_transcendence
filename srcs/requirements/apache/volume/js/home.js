@@ -1,18 +1,17 @@
-import { getCookie } from "./htmlRequest";
-import { is_auth } from "./htmlRequest";
-async function handleCode(code) 
+import { getCookie } from "./htmlRequest.js";
+import { is_auth } from "./htmlRequest.js";
+function handleCode(code) 
 {
 	const url = `/accounts/api42?code=${code}`;
 
-	await fetch(url)
+	fetch(url)
 		.then(response => response.json())
 		.then(data => {
 			console.log('Réponse du backend:', data.login);
-			return true;
+			updateLoginButton();
 		})
 		.catch((error) => {
 			console.error('Erreur:', error);
-			return false;
 		});
 }
 
@@ -21,15 +20,8 @@ export async function handleAPI42return(url)
 	if (url.has('code'))
 	{
 		const code = url.get('code');
-		let data = await handleCode(code);
-		console.log(data);
-		if (data) {
-            console.log('Connexion réussie avec:', data.login);
-            // Si la connexion réussit, on met à jour le bouton
-            await updateLoginButton();
-        }
+		let data = handleCode(code);
 		history.replaceState({page : 'home', div : 'app'}, 'home', window.location.pathname);
-		console.log('apres');
 	}
 }
 
