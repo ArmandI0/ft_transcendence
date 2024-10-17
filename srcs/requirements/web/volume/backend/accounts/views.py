@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate , login, logout
 from django.http import JsonResponse, HttpResponseBadRequest
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 import logging
 import requests
 from .utils import get_api42_cred_vault , addUser
@@ -22,13 +24,11 @@ def get42UserData(request, response):
 		if Api42User.objects.filter(login42=log).exists():
 			user = Api42User.objects.get(login42=log)
 		else:
-			print("ADD_USER")
 			user = addUser(user_data)
 		login(request ,user)
 		print('user_created')
 		return JsonResponse(user_data)
 	except ValueError:
-		print(f"Ca bug la: {response.status_code}, Détails: {response.text}")
 		return JsonResponse({'error': 'Failed to retrieve token', 'details': response.json()}, status=response.status_code)
 
 
@@ -71,3 +71,15 @@ def	is_auth(request):
 		return JsonResponse({"message": "Response : auth"}, status=200)
 	else:
 		return JsonResponse({"message": "Response : no_auth"}, status=401)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUsername(request):
+	try:
+		user = request.user
+		return response({'username' : user.username})
+	except Exception as e:
+		return JsonResponse({'error': str(e)}, status=400)
+
+
+

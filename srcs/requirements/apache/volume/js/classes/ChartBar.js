@@ -29,12 +29,17 @@ export default class ChartBar
 		this.datas.forEach((obj, index, array) => 
 		{
 			sum += obj.won;
-			if (i === groupSize || index === array.length - 1)
+			if (i === groupSize)
 			{
 				const barHeight = (sum / i * 100).toFixed(2);
 				listLabels.push(barHeight);
 				sum = 0;
-				i = 1;
+				i = 0;
+			}
+			else if (index === array.length - 1)
+			{
+				const barHeight = (sum / i * 100).toFixed(2);
+				listLabels.push(barHeight);				
 			}
 			i++;
 		});
@@ -43,14 +48,22 @@ export default class ChartBar
 
 	calculateLabelX(nbObj, groupSize)
 	{
-		const nb_el = roundUpUnlessInt(nbObj / groupSize);
 		let listLabels = [];
 		var i = 0;
 		for (i = 1; i <= nbObj; i++)
 		{
-			if (i % groupSize === 0 || i === nbObj)
+			if (i % groupSize === 0)
 			{
-				let x = `${roundUpUnlessInt(i / groupSize)}`;
+				const x2 = i;
+				const x1 = x2 - groupSize + 1;
+				let x = `${x1} - ${x2}`;
+				listLabels.push(x);
+			}
+			else if (i === nbObj)
+			{
+				const x2 = nbObj;		
+				const x1 = x2 - nbObj % groupSize + 1;
+				let x = `${x1} - ${x2}`;
 				listLabels.push(x);
 			}
 		}

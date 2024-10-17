@@ -2,6 +2,20 @@ import {padsWidth, padGeom, ballGeom, pad1Z, pad2Z, tableGeom, ballStartDir} fro
 
 /////////// IA /////////////////
 
+function checkAlignementPad(ball, padIA)
+{
+	const padIA_right = padIA.position.x - padGeom.getX()/2; 
+	const padIA_left = padIA.position.x + padGeom.getX()/2; 
+	const ball_right = ball.position.x - ballGeom.getX();
+	const ball_left = ball.position.x + ballGeom.getX();
+
+		if (ball_left < padIA_right || ball_right > padIA_left)
+			return false;
+		else
+			return true;
+
+}
+
 export function preventKeys(key)
 {
 	document.addEventListener('keydown', function(event) {
@@ -29,45 +43,22 @@ export function iaPlayer(ball_dir, ball, padIA, recenter)
     const playerRange = tableGeom.getX();
     const padCenterX = padIA.position.x;
 
-	// // Ajustement pour tenir compte de la taille de la balle et du joueur
-	// let ballCollisionZ = tableGeom.getY() - ballGeom.getX();
-
-	// let timeToReachPlayer;
-	
-	// // vitesse = distance / temps ==> temps = distance / vitesse
-	// // Protection contre les divisions par zero
-	// if (ball_dir.getZ() === 0)
-	//     timeToReachPlayer = 9999;
-	// else
-	// 	timeToReachPlayer = (ballCollisionZ - ball.position.z) / ball_dir.getZ();
-
-	// // d = v * t ==> Position probable de la balle en Y
-	// let futureBallX = ball.position.x + ball_dir.getX() * timeToReachPlayer;
-
-	// // Gestion des rebonds sur les murs
-	// while (futureBallX < - tableGeom.getX() / 2 || futureBallX > tableGeom.getX() / 2)
-	// {
-	// 	console.log("boucle IA chelou");
-	//     if (futureBallX < - tableGeom.getX() / 2)
-	//         futureBallX = -futureBallX;
-	//     else if (futureBallX > tableGeom.getX() / 2)
-	//         futureBallX = tableGeom.getX() / 2 - futureBallX;
-	// }
-
-	if (recenter)
+	if (!recenter)
 	{
-		if (ball.position.x < padCenterX - padGeom.getX() / 3)
-			keyPress = 'ArrowRight';
-		else if (ball.position.x > padCenterX + padGeom.getX() / 3) 
-			keyPress = 'ArrowLeft'; 
-		else
+		console.log(ball.position.x)
+		if (checkAlignementPad(ball, padIA))
 			keyPress = null;
+		else if (ball.position.x > padCenterX )
+			keyPress = 'ArrowRight';
+		else
+			keyPress = 'ArrowLeft'; 
+
 	}
 	else
 	{
-		// if (padCenterX - padGeom.getX() / 3 > 0)
+		// if (padCenterX  < 0)
 		// 	keyPress = 'ArrowRight';
-		// else if (padCenterX + padGeom.getX() / 3 < 0)
+		// else if (padCenterX  > 0)
 		// 	keyPress = 'ArrowLeft'; 
 		// else
 		// 	keyPress = null;

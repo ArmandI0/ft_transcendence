@@ -32,7 +32,8 @@ def setPongResult(request):
         player1 = request.user
 
         result.player1 = player1
-        result.player2 = request.data.get('player2')
+        result.guest1 = request.data.get('player1')
+        result.guest2 = request.data.get('player2')
         result.score_player1 = request.data.get('score_player1')
         result.score_player2 = request.data.get('score_player2')
         result.game = request.data.get('game')
@@ -156,6 +157,7 @@ def getGameHistory(request):
         key=attrgetter('date'),
         reverse=True
         )
+        latest_25_results = combined_list[:25]
         return Response(combined_list)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)

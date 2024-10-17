@@ -14,11 +14,49 @@ let tournamentCard = false;
 let isCoop = false;
 let FirstCall = true;
 let id = -1;
+let namePlayer2 = "Player2 Name";
 
-// utiliser fonction match
 let avatar3DPlayer1 = 0;
 let avatar3DPlayer2 = 0;
 
+export function resetGlobalsVar()
+{
+	game_run = false;
+	ia = false;
+	isPaused = true;
+	tournamentMod = false;
+	tournamentInProgress = false;
+	paramSectionVisible = false;
+	tutoSectionVisible = false;
+	isPower = false;
+	isAnimating = false;
+	player1Power = false;
+	player2Power = false;
+	isCardClickable = true;
+	tournamentCard = false;
+	isCoop = false;
+	FirstCall = true;
+	id = -1;
+	namePlayer2 = "Player2 Name";
+	avatar3DPlayer1 = 0;
+	avatar3DPlayer2 = 0;	
+}
+
+export function getAvatarType(player)
+{
+	if (player === 1)
+		return avatar3DPlayer1;
+	else
+		return avatar3DPlayer2;
+}
+
+export function setAvatarType(player, type)
+{
+	if (player === 1)
+		avatar3DPlayer1 = type;
+	else
+		avatar3DPlayer2 = type;
+}
 
 export function getStatus(name_var)
 {
@@ -46,8 +84,8 @@ export function getStatus(name_var)
 		return player2Power;
 	if (name_var === 'isCardClickable')
 		return isCardClickable;
-	if (name_var === 'score')
-		return score;
+	if (name_var === 'namePlayer2')
+		return namePlayer2;
 }
 
 export function setStatus(name_var, status)
@@ -79,7 +117,7 @@ export function setStatus(name_var, status)
 		player2Power = status;
 	else if (name_var === 'isCardClickable')
 		isCardClickable = status;
-	else if (name_var === 'score')
-		score = status;
+	else if (name_var === 'namePlayer2')
+		namePlayer2 = status;
 }
 

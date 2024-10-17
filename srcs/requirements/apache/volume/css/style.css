@@ -78,6 +78,8 @@
 
 .btn-custom-pong:hover, .btn-custom2-pong:hover, .btn-custom3-pong:hover {
     background-color: #c0611d;
+    text-decoration: none;
+
 }
 
 .btn-custom2-pong {
