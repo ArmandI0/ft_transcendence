@@ -60,10 +60,27 @@
 
 #button_to_42api {
     position: absolute;
+    right: 150px;
+    top: 50%;
+    margin-left: 50px;
+    transform: translateY(-50%);
+}
+
+#button_to_logout {
+    position: absolute;
     right: 50px;
     top: 50%;
     margin-left: 50px;
     transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0);
+    color :rgb(184, 0, 0);
+    border: solid 1px rgb(184, 0, 0);
+}
+
+#button_to_logout:hover 
+{
+    background-color: #a72828;
+    color:white;
 }
 
 #button_to_42api.logged-in {

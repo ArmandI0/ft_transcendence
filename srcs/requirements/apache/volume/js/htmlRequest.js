@@ -34,12 +34,10 @@ export async function is_auth()
 	const data = await response.json();
 	if (data.logged === true)
 	{
-		console.log("connected");
 		return true
 	}
 	else
 	{
-		console.log("disconnected");
 		return false;
 	}
 }
