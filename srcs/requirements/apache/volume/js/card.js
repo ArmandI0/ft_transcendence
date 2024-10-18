@@ -313,7 +313,7 @@ function formatTime(milliseconds)
 function updateTimer(doc) 
 {
     const currentTime = Date.now();
-    const elapsedTime = currentTime - startTime; // Temps écoulé en millisecondes
+    const elapsedTime = currentTime - startTime;
     doc.textContent = formatTime(elapsedTime);
 }
 
@@ -321,8 +321,8 @@ function stopChrono()
 {
     clearInterval(timer);
     const endTime = Date.now();
-    const elapsedTime = endTime - startTime; // Temps écoulé en millisecondes
-    document.getElementById('chrono-visualizer').textContent = formatTime(elapsedTime); // Afficher le temps final formaté
+    const elapsedTime = endTime - startTime;
+    document.getElementById('chrono-visualizer').textContent = formatTime(elapsedTime);
     return elapsedTime;
 }
 
@@ -331,7 +331,7 @@ export function startGame()
     let doc = document.getElementById('chrono-visualizer');
     document.getElementById('chrono-visualizer').style.display = 'flex';
     startTime = Date.now();
-    timer = setInterval(updateTimer(doc), 50); // Mettre à jour toutes les 50 millisecondes pour plus de précision
+    timer = setInterval(updateTimer(doc), 50);
     giveValue();
 }
 

@@ -1,6 +1,4 @@
 
-/*/////////////////////////////////////*/
-
 .square-card {
     width: 400px;
     height: 400px;
@@ -10,19 +8,19 @@
     text-align: center;
     margin: 50px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 15px; /* Arrondir les bordures */
-    border: 3px solid gold; /* Bordures jaunes or */
-    background-color: rgba(128, 128, 128, 0.5); /* Fond gris légèrement transparent */
+    border-radius: 15px;
+    border: 3px solid gold;
+    background-color: rgba(128, 128, 128, 0.5);
 }
 
 .card-title {
-    color: gold;; /* Couleur jaune */
-    font-weight: bold; /* Texte en gras */
+    color: gold;
+    font-weight: bold;
 }
 
 .card-text {
-    color: gold;; /* Couleur jaune */
-    font-weight: bold; /* Texte en gras */
+    color: gold;
+    font-weight: bold;
 }
 
 .square-card:hover {
@@ -83,8 +81,8 @@
     height: 100vh;
 }
 
-
 /*//////// BUTTONS STYLE /////////*/
+
 .btn-custom-pong {
     padding: 20px 40px;
 }
@@ -140,6 +138,6 @@
 }
 
 .card-img-top {
-    border-radius: 15px; /* Arrondir les bords des images */
+    border-radius: 15px;
     opacity: 0.8;
 }
