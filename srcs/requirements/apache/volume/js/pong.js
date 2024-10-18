@@ -199,8 +199,11 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
     const player1_score = document.getElementById('player1-score');
     const player2_score = document.getElementById('player2-score');
 
-    player1_score.textContent = player1.score;
-    player2_score.textContent = player2.score;
+    if (player1.score && player2.score)
+    {
+        player1_score.textContent = player1.score;
+        player2_score.textContent = player2.score;
+    }
 
     if (player1.score >= 1 || player2.score >= 1) 
     {

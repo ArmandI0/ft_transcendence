@@ -310,11 +310,11 @@ function formatTime(milliseconds)
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}.${remainingMilliseconds < 100 ? '0' : ''}${remainingMilliseconds < 10 ? '0' : ''}${remainingMilliseconds}`;
 }
 
-function updateTimer() 
+function updateTimer(doc) 
 {
     const currentTime = Date.now();
     const elapsedTime = currentTime - startTime; // Temps écoulé en millisecondes
-    document.getElementById('chrono-visualizer').textContent = formatTime(elapsedTime);
+    doc.textContent = formatTime(elapsedTime);
 }
 
 function stopChrono() 
@@ -328,9 +328,10 @@ function stopChrono()
 
 export function startGame() 
 {
+    let doc = document.getElementById('chrono-visualizer');
     document.getElementById('chrono-visualizer').style.display = 'flex';
     startTime = Date.now();
-    timer = setInterval(updateTimer, 50); // Mettre à jour toutes les 50 millisecondes pour plus de précision
+    timer = setInterval(updateTimer(doc), 50); // Mettre à jour toutes les 50 millisecondes pour plus de précision
     giveValue();
 }
 
