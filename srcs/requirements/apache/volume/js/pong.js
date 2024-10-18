@@ -221,7 +221,6 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
             {
                 SendDataPong(player1.score, player2.score, -1, 'RollandGapong', player1.startTime);
                 document.getElementById('play-pong').style.display = 'block';
-                
             }
         } 
         else
@@ -626,7 +625,6 @@ async function tournamentFct(winner, player1, player2, ball, tournament, court)
     }
     catch(error)
     {
-        console.log("tu quitte trop tot ");
         gameStatus.setStatus('tournamenetInProgress', false);
     }
 }

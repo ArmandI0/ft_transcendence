@@ -92,7 +92,7 @@ export function getStatus(name_var)
 		return isCoop;
 	if (name_var === 'FirstCall')
 		return FirstCall;
-	if (name_var === id)
+	if (name_var === 'id')
 		return id;
 }
 
@@ -130,7 +130,7 @@ export function setStatus(name_var, status)
 		isCoop = status;
 	else if (name_var === 'FirstCall')
 		FirstCall = status;
-	else if (name_var = id)
+	else if (name_var === 'id')
 		id = status;
 }
 

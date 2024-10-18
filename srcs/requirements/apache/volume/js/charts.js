@@ -71,24 +71,30 @@ function addLegendBoxes(colors, div_id)
 
 function generatePieChart(div_id, data, title)
 {
-	const p_title = document.querySelector("#" + div_id + " p");
-	p_title.innerHTML = title;
-	var chart = document.querySelector("#" + div_id + " div canvas");
-	const colorsSet = ["#80DEEA", "#FFE082", "#FFAE00"]
-	var pieChart = new ChartPie(
-		{
-			canvas: chart,
-			datas: data,
-			title_options:[title, "#000"],
-			colors: colorsSet,
-			padding:10
-		}
-	);
-	pieChart.generate();
-	addLegendBoxes(colorsSet, div_id);
-	window.addEventListener('resize', () => {
-		updateCanvasSize(pieChart);
-	});	
+	try
+	{
+		const p_title = document.querySelector("#" + div_id + " p");
+		p_title.innerHTML = title;
+		var chart = document.querySelector("#" + div_id + " div canvas");
+		const colorsSet = ["#80DEEA", "#FFE082", "#FFAE00"]
+		var pieChart = new ChartPie(
+			{
+				canvas: chart,
+				datas: data,
+				title_options:[title, "#000"],
+				colors: colorsSet,
+				padding:10
+			}
+		);
+		pieChart.generate();
+		addLegendBoxes(colorsSet, div_id);
+		window.addEventListener('resize', () => {
+			updateCanvasSize(pieChart);
+		});
+	}
+	catch
+	{
+	}	
 }
 
 export async function getUsername() {
