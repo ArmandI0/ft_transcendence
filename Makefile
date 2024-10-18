@@ -10,14 +10,12 @@
 #                                                                              #
 # **************************************************************************** #
 
-# Couleurs
 RED=\033[0;31m
 GREEN=\033[0;32m
 YELLOW=\033[1;93m
 BLUE=\033[1;94m
-NC=\033[0m # No Color
+NC=\033[0m
 
-# Règles
 all: config start postconfig
 
 config :
@@ -26,7 +24,6 @@ config :
 postconfig :
 	./postconfig.sh
 	
-# Lancer les containers un par un
 start:
 	@echo "${YELLOW}Lancement des containers...${NC}"
 	@docker compose -f srcs/docker-compose.yml up --build -d
@@ -39,7 +36,6 @@ start:
 	@echo " \\/   |_|  \\__,_|_| |_|___/\\___\\___|_| |_|\\__,_|\\__,_|_| |_|\\___\\___|"
 	@echo "${NC}"
 	@echo "${BLUE}-> Transcendance website :${NC} https://localhost"
-	@echo "${BLUE}-> Prometheus :${NC} https://localhost:9090"
 
 debug:
 	@echo "${YELLOW}Lancement des containers...${NC}"
@@ -53,17 +49,11 @@ debug:
 	@echo " \\/   |_|  \\__,_|_| |_|___/\\___\\___|_| |_|\\__,_|\\__,_|_| |_|\\___\\___|"
 	@echo "${NC}"
 	@echo "${BLUE}-> Transcendance website :${NC} https://localhost"
-	@echo "${BLUE}-> Prometheus :${NC} https://localhost:9090"
-
-
-# Arrêter les containers
 
 stop:
 	@echo "${RED}Arrêt des containers...${NC}"
 	@docker compose -f srcs/docker-compose.yml down
 	@echo "${GREEN}Containers arrêtés.${NC}"
-
-# Arrêter les containers et nettoyer le système Docker
 
 remove:
 	@echo "${RED}Arrêt des containers...${NC}"
@@ -81,8 +71,6 @@ remove:
 		echo "Aucune image Docker à supprimer."; \
 	fi
 	@echo "${GREEN}Nettoyage du système Docker terminé.${NC}"
-
-# Recréation complète (nettoyer + tout refaire)
 
 re: stop all
 

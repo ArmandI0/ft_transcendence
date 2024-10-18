@@ -2,7 +2,6 @@ body, html
 {
     height: 100%;
     margin: 0;
-    background-color: rgb(39, 79, 148);
 	color :white;
 }
 
@@ -154,10 +153,10 @@ body, html
 
 .btn-custom-pong
 {
-    background-color: #ffb764;
-    border: 4px solid rgb(255, 136, 0);
-    color: rgb(255, 102, 0);
-    border-radius: 50px;
+    background-color: rgba(44, 60, 105, 0.4);
+    border: 2px solid gold;
+    color: white;
+    border-radius: 5px;
     font-size: 16px;
     font-family: "Arial", serif;
     font-weight: bold;
@@ -168,3 +167,94 @@ body, html
 	padding-top: 0.5vh;
 	height : 4vh;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background: #00003f;
+    height: 98dvh;
+  }
+  
+  .container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: grid;
+    place-items: center;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  
+  .content {
+    --_gap: 1.5rem;
+    --_color: hsl(60 92% 71% / 1);
+    width: 58%;
+    max-width: 500px;
+    padding: 2.75rem;
+    border: 2px solid hsl(60deg 67% 44% / 64%);
+    border-radius: 20px;
+    color: var(--_color);
+  }
+  
+  .content p {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: var(--_gap);
+  }
+  
+  .content span {
+    font-size: 1.3em;
+    letter-spacing: 1.3px;
+    line-height: 1.2;
+  }
+  
+  .content button {
+    display: block;
+    margin-top: var(--_gap);
+    padding: 0.6em 0.9em;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    background: #020043;
+    margin-left: auto;
+    color: var(--_color);
+  }
+  
+  .blob {
+    position: absolute;
+    opacity: 0.5;
+    width: 400px;
+    aspect-ratio: 1/1;
+    animation: animate 10s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite
+      alternate forwards;
+    filter: blur(40px);
+    z-index: -1;
+    background: linear-gradient(
+      47deg,
+      rgba(255, 88, 139, 1) 21%,
+      rgb(0 164 173) 67%,
+      rgba(118, 74, 166, 1) 81%
+    );
+  }
+  
+  @keyframes animate {
+    0% {
+      translate: 40% -25%;
+      border-radius: 60% 40% 30% 70% / 100% 85% 92% 74%;
+    }
+    50% {
+      translate: 0% 13%;
+      border-radius: 20% 71% 47% 70% / 81% 15% 22% 54%;
+      rotate: 41deg;
+      scale: 1.15;
+    }
+    100% {
+      translate: -45% 39%;
+      border-radius: 100% 75% 92% 74% / 60% 80% 30% 70%;
+      rotate: -60deg;
+      scale: 1.05;
+    }
+  }
