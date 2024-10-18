@@ -205,11 +205,11 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
         player2_score.textContent = player2.score;
     }
 
-    if (player1.score >= 1 || player2.score >= 1) 
+    if (player1.score >= 3 || player2.score >= 3) 
     {
         gameStatus.setStatus('isPaused', true);;
         
-        if (player1.score >= 1)
+        if (player1.score >= 3)
         {
             player1_score.textContent = 'W';
             player2_score.textContent = 'L';
@@ -626,7 +626,6 @@ async function tournamentFct(winner, player1, player2, ball, tournament, court)
     }
     catch(error)
     {
-        console.log("tu quitte trop tot ");
         gameStatus.setStatus('tournamenetInProgress', false);
     }
 }

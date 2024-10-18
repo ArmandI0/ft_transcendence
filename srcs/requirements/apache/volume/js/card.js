@@ -331,7 +331,7 @@ export function startGame()
     let doc = document.getElementById('chrono-visualizer');
     document.getElementById('chrono-visualizer').style.display = 'flex';
     startTime = Date.now();
-    timer = setInterval(updateTimer(doc), 50);
+    timer = setInterval(() => updateTimer(doc), 50);
     giveValue();
 }
 
