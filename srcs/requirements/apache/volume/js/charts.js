@@ -143,30 +143,36 @@ async function getGameDatas() {
 
 export async function generateCharts()
 {
-    showSection("graphs_charts");
-    destroyCanvas();
-    let groupSize = getSetSize();
-    const datas = await getGameDatas();
-	const userData = await getUsername();
-    const title_div = document.getElementById("title_charts");
-    if (!datas)
-    {
-        hideSection("graphs_charts");
-        title_div.innerHTML = '<h3>Error with loading datas</h3>';
-    }
-    else if ((Array.isArray(datas) && datas.length === 0) )
-    {
-        hideSection("graphs_charts");
-        title_div.innerHTML = '<h3>No statistics available yet : go play some games !</h3>';        
-    }
-    else
-    {
-        title_div.innerHTML = `<h3>Statistics for User : ${userData.username} - Game : ${getGameTypeData()} - Number of Games : ${datas.length}</h3>`;       
-        generateBarsChart('bars-score-by-game', datas, `Proportion of games won by group of size ${groupSize}`, "Proportion of games won (%)", `Games played`, groupSize);
-        generatePieChart('pie-win-defeat', datas, "Proportion of games won");
-		if (getGameTypeData() === 'Cards')
-        	generateLineChart('time-graph', datas, "", "Average time to win(in secs)", `Games won in less than 1 min (by sets of ${groupSize})`, groupSize);
+	try
+	{
+		showSection("graphs_charts");
+		destroyCanvas();
+		let groupSize = getSetSize();
+		const datas = await getGameDatas();
+		const userData = await getUsername();
+		const title_div = document.getElementById("title_charts");
+		if (!datas)
+		{
+			hideSection("graphs_charts");
+			title_div.innerHTML = '<h3>Error with loading datas</h3>';
+		}
+		else if ((Array.isArray(datas) && datas.length === 0) )
+		{
+			hideSection("graphs_charts");
+			title_div.innerHTML = '<h3>No statistics available yet : go play some games !</h3>';        
+		}
 		else
-			generateLineChart('time-graph', datas, "", "Average time to win(in secs)", `Games won (by sets of ${groupSize})`, groupSize);
+		{
+			title_div.innerHTML = `<h3>Statistics for User : ${userData.username} - Game : ${getGameTypeData()} - Number of Games : ${datas.length}</h3>`;       
+			generateBarsChart('bars-score-by-game', datas, `Proportion of games won by group of size ${groupSize}`, "Proportion of games won (%)", `Games played`, groupSize);
+			generatePieChart('pie-win-defeat', datas, "Proportion of games won");
+			if (getGameTypeData() === 'Cards')
+				generateLineChart('time-graph', datas, "", "Average time to win(in secs)", `Games won in less than 1 min (by sets of ${groupSize})`, groupSize);
+			else
+				generateLineChart('time-graph', datas, "", "Average time to win(in secs)", `Games won (by sets of ${groupSize})`, groupSize);
+		}
+	}
+	catch
+	{
 	}
 }
