@@ -268,191 +268,197 @@ let ok = null;
 
 function updateBallPosition(ball, player1, player2, player3, court, tournament)
 {
-    let greenPlayer1 = document.getElementById('player1');
-    let greenPlayer2 = document.getElementById('player2');
-    let greenPlayer3 = document.getElementById('player3');
-    const player1_score = document.getElementById('player1-score');
-    const player2_score = document.getElementById('player2-score');
-
-
-    
-    if (gameStatus.getStatus('isPaused') === false) 
+    try
     {
-        ball.x += ball.speedX;
-        ball.y += ball.speedY;
 
-        let direction = ball.speedX > 0 ? 'right' : 'left';
-
-        player1_score.textContent = player1.score;
-        player2_score.textContent = player2.score;
-
-        if (previousDirection != direction)
+        let greenPlayer1 = document.getElementById('player1');
+        let greenPlayer2 = document.getElementById('player2');
+        let greenPlayer3 = document.getElementById('player3');
+        const player1_score = document.getElementById('player1-score');
+        const player2_score = document.getElementById('player2-score');
+    
+    
+        
+        if (gameStatus.getStatus('isPaused') === false) 
         {
-            if (direction === 'right')
+            ball.x += ball.speedX;
+            ball.y += ball.speedY;
+    
+            let direction = ball.speedX > 0 ? 'right' : 'left';
+    
+            player1_score.textContent = player1.score;
+            player2_score.textContent = player2.score;
+    
+            if (previousDirection != direction)
             {
-                if (gameStatus.getStatus('isPower'))
-                    gameStatus.setStatus('player2Power', getRandomPower());
-                if (gameStatus.getStatus('player2Power') === true)
-                    greenPlayer2.style.backgroundColor = 'lightgreen';
-            }
-            else if (direction === 'left')
-            {
-                if (gameStatus.getStatus('isPower'))
-                    gameStatus.setStatus('player1Power', getRandomPower());
-                if (gameStatus.getStatus('player1Power') === true)
-                    greenPlayer1.style.backgroundColor = 'lightgreen';
-            }
-            previousDirection = direction;
-        }
-
-        if (!gameStatus.getStatus('isCoop'))
-            checkPlayerScore(player1, player2, ball, tournament, court);
-
-        const maxAngle = 70 * (Math.PI / 180);
-        const maxSpeedY = Math.tan(maxAngle) * Math.abs(ball.speedX);
-
-        if (ball.y - ball.rad <= 0 || ball.y + ball.rad >= court.height)
-            ball.speedY = -ball.speedY;
-        if (ball.y < -11)
-            ball.y = 10;
-        if (ball.y > 411)
-            ball.y = 410;
-
-        if (gameStatus.getStatus('isCoop') && ball.x >= 390 && ball.x <= 410)
-        {
-            if ((ball.y + 10) >= (player3.y + 10) && (ball.y + 10) <= (player3.y + 90))
-            {
-                if (previousDirectionCoop != direction && !gameStatus.getStatus('FirstCall'))
-                {   
-                    player1.score += 1;
-                    player2.score += 1;
+                if (direction === 'right')
+                {
+                    if (gameStatus.getStatus('isPower'))
+                        gameStatus.setStatus('player2Power', getRandomPower());
+                    if (gameStatus.getStatus('player2Power') === true)
+                        greenPlayer2.style.backgroundColor = 'lightgreen';
                 }
-                previousDirectionCoop = direction;
-                ok = true;
+                else if (direction === 'left')
+                {
+                    if (gameStatus.getStatus('isPower'))
+                        gameStatus.setStatus('player1Power', getRandomPower());
+                    if (gameStatus.getStatus('player1Power') === true)
+                        greenPlayer1.style.backgroundColor = 'lightgreen';
+                }
+                previousDirection = direction;
+            }
+    
+            if (!gameStatus.getStatus('isCoop'))
+                checkPlayerScore(player1, player2, ball, tournament, court);
+    
+            const maxAngle = 70 * (Math.PI / 180);
+            const maxSpeedY = Math.tan(maxAngle) * Math.abs(ball.speedX);
+    
+            if (ball.y - ball.rad <= 0 || ball.y + ball.rad >= court.height)
+                ball.speedY = -ball.speedY;
+            if (ball.y < -11)
+                ball.y = 10;
+            if (ball.y > 411)
+                ball.y = 410;
+    
+            if (gameStatus.getStatus('isCoop') && ball.x >= 390 && ball.x <= 410)
+            {
+                if ((ball.y + 10) >= (player3.y + 10) && (ball.y + 10) <= (player3.y + 90))
+                {
+                    if (previousDirectionCoop != direction && !gameStatus.getStatus('FirstCall'))
+                    {   
+                        player1.score += 1;
+                        player2.score += 1;
+                    }
+                    previousDirectionCoop = direction;
+                    ok = true;
+                    
+                    greenPlayer3.style.backgroundColor = 'green';
+                    setTimeout(() => {
+                        greenPlayer3.style.backgroundColor = 'grey';
+                    }, 1000);
+                }
+                else
+                {
+                    ok = false;
+                }
+            }
+            if (ball.x >= 420 || ball.x <= 380)
+                gameStatus.setStatus('FirstCall', false);
+    
+            if (ball.x - ball.rad <= 20 && ball.x - ball.rad >= 0)
+            {
+                if (gameStatus.getStatus('isCoop'))
+                    checkCoop(player1, player2, player3, ball, ok);
+                if (ball.y >= player1.y - player1.height2 && ball.y <= player1.y + player1.height2)
+                {
+                    if (gameStatus.getStatus('player1Power') === true)
+                    {
+                        ball.speedX = -ball.speedX * 4;
+                        ball.speedX = Math.min(ball.speedX, 9);
+                        ball.speedY = 0;
+                        greenPlayer1.style.backgroundColor = 'grey';
+                    }
+                    else
+                    {    
+                        let hitPosition = ball.y - player1.y;
+    
+                        ball.speedX = -ball.speedX;
+                        ball.speedY = hitPosition * 0.3;
+    
+                        if (Math.abs(ball.speedY) > maxSpeedY)
+                            ball.speedY = Math.sign(ball.speedY) * maxSpeedY;
+                    }
+                }
+                else if (ball.y + ball.rad >= player1.y - player1.height2 && ball.y <= player1.y)
+                    ball.speedY = -Math.abs(ball.speedY);
+                else if (ball.y - ball.rad <= player1.y + player1.height2 && ball.y >= player1.y)
+                    ball.speedY = Math.abs(ball.speedY);
+            }
+            else if (ball.x + ball.rad >= 780)
+            {
+                if (gameStatus.getStatus('isCoop'))
+                    checkCoop(player1, player2, player3, ball, ok);
+                if (ball.y >= player2.y - player2.height2 && ball.y <= player2.y + player2.height2)
+                {
+                    if (gameStatus.getStatus('player2Power') === true)
+                    {
+                        ball.speedX = -ball.speedX * 4;
+                        ball.speedX = Math.min(ball.speedX, 9);
+                        ball.speedY = 0;
+                        greenPlayer2.style.backgroundColor = 'grey';
+                    }
+                    else
+                    {
+                        let hitPosition = ball.y - player2.y;
+    
+                        ball.speedX = -ball.speedX;
+                        ball.speedY = hitPosition * 0.3;
+    
+                        if (Math.abs(ball.speedY) > maxSpeedY)
+                            ball.speedY = Math.sign(ball.speedY) * maxSpeedY;
+                    }
+                }
+                else if (ball.y + ball.rad >= player2.y - player2.height2 && ball.y <= player2.y)
+                    ball.speedY = -Math.abs(ball.speedY);
+                else if (ball.y - ball.rad <= player2.y + player2.height2 && ball.y >= player2.y)
+                    ball.speedY = Math.abs(ball.speedY);
+            }
+    
+            if (gameStatus.getStatus('isCoop') && (ball.x <= 5 || ball.x >= court.width - 5))
+            {
+                ok = false;
+                checkCoop(player1, player2, player3, ball, ok);
+            }
+            else if (ball.x <= 5 || ball.x >= court.width - 5)
+            {
+                if (ball.x <= 5)
+                    player2.score += 1;
+                if (ball.x >= court.width - 5)
+                    player1.score += 1;
                 
-                greenPlayer3.style.backgroundColor = 'green';
+                greenPlayer1.style.backgroundColor = 'grey';
+                greenPlayer2.style.backgroundColor = 'grey';
+                
+                gameStatus.setStatus('isPaused', true);
+                
+                player1.setPosition(200);
+                player2.setPosition(200);
+                ball.setPosition(400, 200);
+    
+                cancelAnimationFrame(animationFrameId);
+    
                 setTimeout(() => {
-                    greenPlayer3.style.backgroundColor = 'grey';
-                }, 1000);
+                    ball.speedX = 3 * (Math.random() > 0.5 ? 1 : -1);
+                    ball.speedY = 3 * (Math.random() > 0.5 ? 1 : -1);
+                    gameStatus.setStatus('isPaused', false);
+                    requestAnimationFrame(() => updateBallPosition(ball, player1, player2, player3, court, tournament));
+                }, 1500);
+                return;
+            }
+    
+            ball.setPosition(ball.x, ball.y);
+    
+            let currentTime = Date.now();
+            if (currentTime - lastCallTime >= 1000) {
+                if (gameStatus.getStatus('ia') === true && direction === 'right')
+                {
+                    iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 1);
+                }
+                lastCallTime = currentTime;
             }
             else
             {
-                ok = false;
+                iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 0);
             }
+    
+            animationFrameId = requestAnimationFrame(() => updateBallPosition(ball, player1, player2, player3, court, tournament));
         }
-        if (ball.x >= 420 || ball.x <= 380)
-            gameStatus.setStatus('FirstCall', false);
-
-        if (ball.x - ball.rad <= 20 && ball.x - ball.rad >= 0)
-        {
-            if (gameStatus.getStatus('isCoop'))
-                checkCoop(player1, player2, player3, ball, ok);
-            if (ball.y >= player1.y - player1.height2 && ball.y <= player1.y + player1.height2)
-            {
-                if (gameStatus.getStatus('player1Power') === true)
-                {
-                    ball.speedX = -ball.speedX * 4;
-                    ball.speedX = Math.min(ball.speedX, 9);
-                    ball.speedY = 0;
-                    greenPlayer1.style.backgroundColor = 'grey';
-                }
-                else
-                {    
-                    let hitPosition = ball.y - player1.y;
-
-                    ball.speedX = -ball.speedX;
-                    ball.speedY = hitPosition * 0.3;
-
-                    if (Math.abs(ball.speedY) > maxSpeedY)
-                        ball.speedY = Math.sign(ball.speedY) * maxSpeedY;
-                }
-            }
-            else if (ball.y + ball.rad >= player1.y - player1.height2 && ball.y <= player1.y)
-                ball.speedY = -Math.abs(ball.speedY);
-            else if (ball.y - ball.rad <= player1.y + player1.height2 && ball.y >= player1.y)
-                ball.speedY = Math.abs(ball.speedY);
-        }
-        else if (ball.x + ball.rad >= 780)
-        {
-            if (gameStatus.getStatus('isCoop'))
-                checkCoop(player1, player2, player3, ball, ok);
-            if (ball.y >= player2.y - player2.height2 && ball.y <= player2.y + player2.height2)
-            {
-                if (gameStatus.getStatus('player2Power') === true)
-                {
-                    ball.speedX = -ball.speedX * 4;
-                    ball.speedX = Math.min(ball.speedX, 9);
-                    ball.speedY = 0;
-                    greenPlayer2.style.backgroundColor = 'grey';
-                }
-                else
-                {
-                    let hitPosition = ball.y - player2.y;
-
-                    ball.speedX = -ball.speedX;
-                    ball.speedY = hitPosition * 0.3;
-
-                    if (Math.abs(ball.speedY) > maxSpeedY)
-                        ball.speedY = Math.sign(ball.speedY) * maxSpeedY;
-                }
-            }
-            else if (ball.y + ball.rad >= player2.y - player2.height2 && ball.y <= player2.y)
-                ball.speedY = -Math.abs(ball.speedY);
-            else if (ball.y - ball.rad <= player2.y + player2.height2 && ball.y >= player2.y)
-                ball.speedY = Math.abs(ball.speedY);
-        }
-
-        if (gameStatus.getStatus('isCoop') && (ball.x <= 5 || ball.x >= court.width - 5))
-        {
-            ok = false;
-            checkCoop(player1, player2, player3, ball, ok);
-        }
-        else if (ball.x <= 5 || ball.x >= court.width - 5)
-        {
-            if (ball.x <= 5)
-                player2.score += 1;
-            if (ball.x >= court.width - 5)
-                player1.score += 1;
-            
-            greenPlayer1.style.backgroundColor = 'grey';
-            greenPlayer2.style.backgroundColor = 'grey';
-            
-            gameStatus.setStatus('isPaused', true);
-            
-            player1.setPosition(200);
-            player2.setPosition(200);
-            ball.setPosition(400, 200);
-
-            cancelAnimationFrame(animationFrameId);
-
-            setTimeout(() => {
-                ball.speedX = 3 * (Math.random() > 0.5 ? 1 : -1);
-                ball.speedY = 3 * (Math.random() > 0.5 ? 1 : -1);
-                gameStatus.setStatus('isPaused', false);
-                requestAnimationFrame(() => updateBallPosition(ball, player1, player2, player3, court, tournament));
-            }, 1500);
-            return;
-        }
-
-        ball.setPosition(ball.x, ball.y);
-
-        let currentTime = Date.now();
-        if (currentTime - lastCallTime >= 1000) {
-            if (gameStatus.getStatus('ia') === true && direction === 'right')
-            {
-                iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 1);
-            }
-            lastCallTime = currentTime;
-        }
-        else
-        {
-            iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 0);
-        }
-
-        animationFrameId = requestAnimationFrame(() => updateBallPosition(ball, player1, player2, player3, court, tournament));
+    }
+    catch
+    {
     }
 }
-
 
 ////////// TOURNAMENT HANDLE ///////////////////
 
@@ -555,61 +561,69 @@ async function tournamentFct(winner, player1, player2, ball, tournament, court)
 {         
     if (!tournament || !tournament.playersNames)
         return;
-    gameStatus.setStatus('tournamentInProgress', true);
-    if (tournament.firstMatch)
-    {
-        displayMatch(tournament.playersNames[0], tournament.playersNames[3]);   
-        if (winner === 1 || winner === 2)
-        {
-            if (winner === 1)
-                tournament.playersScore[0]++;
-            else
-                tournament.playersScore[3]++;
-            hideSection('ball');
-            SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime, tournament.playersNames[0], tournament.playersNames[3]);
-            displayMatch(tournament.playersNames[1], tournament.playersNames[2]);
-            player1.score = 0;
-            player2.score = 0;
-            tournament.firstMatch = false;
-            tournament.secondMatch = true;
-            await waitForButtonClick('play-pong');
-        }
+    try{
+            gameStatus.setStatus('tournamentInProgress', true);
+            if (tournament.firstMatch)
+            {
+                displayMatch(tournament.playersNames[0], tournament.playersNames[3]);   
+                if (winner === 1 || winner === 2)
+                {
+                    if (winner === 1)
+                        tournament.playersScore[0]++;
+                    else
+                        tournament.playersScore[3]++;
+                    hideSection('ball');
+                    SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime, tournament.playersNames[0], tournament.playersNames[3]);
+                    displayMatch(tournament.playersNames[1], tournament.playersNames[2]);
+                    player1.score = 0;
+                    player2.score = 0;
+                    tournament.firstMatch = false;
+                    tournament.secondMatch = true;
+                    await waitForButtonClick('play-pong');
+                }
+            }
+            else if (tournament.secondMatch)
+            {
+        
+                if (winner === 1 || winner === 2)
+                {
+                    if (winner === 1)
+                        tournament.playersScore[1]++;
+                    else
+                        tournament.playersScore[2]++;
+                    hideSection('ball');
+                    tournament.firstFinalist = tournament.playersScore[0] > tournament.playersScore[3] ? tournament.playersNames[0] : tournament.playersNames[3];
+                    tournament.secondFinalist = tournament.playersScore[1] > tournament.playersScore[2] ? tournament.playersNames[1] : tournament.playersNames[2];
+                    
+                    SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime, tournament.playersNames[1], tournament.playersNames[2]);
+                    displayMatch(tournament.firstFinalist, tournament.secondFinalist);
+                    player1.score = 0;
+                    player2.score = 0;
+                    tournament.secondMatch = false;
+                    tournament.finalMatch = true;
+                    await waitForButtonClick('play-pong');
+                }    
+            }
+            else if (tournament.finalMatch)
+            {
+                if (winner === 1 || winner === 2)
+                {
+                    tournament.finalMatch = false;
+                    hideSection('ball');
+                    SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime, tournament.firstFinalist, tournament.secondFinalist);
+                    if (winner === 1)
+                        displayWinner(tournament.firstFinalist);
+                    else
+                        displayWinner(tournament.secondFinalist);
+                    await waitForButtonClickBack('Home-pong')
+                    gameStatus.setStatus('tournamentMod', false);
+                    gameStatus.setStatus('tournamenetInProgress', false);
+                }
+            }
     }
-    else if (tournament.secondMatch)
+    catch(error)
     {
-        if (winner === 1 || winner === 2)
-        {
-            if (winner === 1)
-                tournament.playersScore[1]++;
-            else
-                tournament.playersScore[2]++;
-            hideSection('ball');
-            tournament.firstFinalist = tournament.playersScore[0] > tournament.playersScore[3] ? tournament.playersNames[0] : tournament.playersNames[3];
-            tournament.secondFinalist = tournament.playersScore[1] > tournament.playersScore[2] ? tournament.playersNames[1] : tournament.playersNames[2];
-            
-            SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime, tournament.playersNames[1], tournament.playersNames[2]);
-            displayMatch(tournament.firstFinalist, tournament.secondFinalist);
-            player1.score = 0;
-            player2.score = 0;
-            tournament.secondMatch = false;
-            tournament.finalMatch = true;
-            await waitForButtonClick('play-pong');
-        }    
-    }
-    else if (tournament.finalMatch)
-    {
-        if (winner === 1 || winner === 2)
-        {
-            tournament.finalMatch = false;
-            hideSection('ball');
-            SendDataPong(player1.score, player2.score, tournament.id, 'RollandGapong', player1.startTime, tournament.firstFinalist, tournament.secondFinalist);
-            if (winner === 1)
-                displayWinner(tournament.firstFinalist);
-            else
-                displayWinner(tournament.secondFinalist);
-            await waitForButtonClickBack('Home-pong')
-            gameStatus.setStatus('tournamentMod', false);
-            gameStatus.setStatus('tournamenetInProgress', false);
-        }
+        console.log("tu quitte trop tot ");
+        gameStatus.setStatus('tournamenetInProgress', false);
     }
 }
