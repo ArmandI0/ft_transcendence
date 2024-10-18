@@ -61,9 +61,6 @@ class MTLLoader extends Loader {
 					onError( e );
 
 				} else {
-
-					console.error( e );
-
 				}
 
 				scope.manager.itemError( url );

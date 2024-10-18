@@ -12,11 +12,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf vault.zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# RUN groupadd vault && useradd -r -g vault vault
 
 RUN mkdir -p /vault/config /vault/logs  
-    # && chown -R vault:vault /vault
-
     
 COPY ./conf/vault.hcl /vault/config/.
 COPY ./conf/vault_config.sh /conf/vault_config.sh

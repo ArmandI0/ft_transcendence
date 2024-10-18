@@ -13,7 +13,6 @@ export async function setPongData(dataPost) {
         });
         if (!response.ok) {
             const errorData = await response.text();
-            console.error('Erreur lors de la requête :', response.status, errorData);
             return null;
         }
 
@@ -21,7 +20,6 @@ export async function setPongData(dataPost) {
         return dataReturn;
 
     } catch (error) {
-        console.error('Erreur lors de l\'appel à l\'API :', error);
         return null;
     }
 }

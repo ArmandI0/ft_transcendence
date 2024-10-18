@@ -10,7 +10,6 @@ function handleCode(code)
 			updateLoginButton();
 		})
 		.catch((error) => {
-			console.error('Erreur:', error);
 		});
 }
 
@@ -62,11 +61,9 @@ export async function logout() {
         if (response.status === 200) {
             return true;
         } else {
-            console.error('Failed to logout');
             return false;
         }
     } catch (error) {
-        console.error('Erreur lors de la déconnexion:', error);
         return false;
     }
 }
