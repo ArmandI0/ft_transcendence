@@ -18,7 +18,6 @@ export async function setPongData(dataPost) {
         }
 
         const dataReturn = await response.json();
-        console.log('Succès :', dataReturn);
         return dataReturn;
 
     } catch (error) {

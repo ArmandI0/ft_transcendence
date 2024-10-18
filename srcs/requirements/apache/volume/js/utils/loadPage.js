@@ -44,7 +44,6 @@ export async function loadScript(page)
 
 	return new Promise((resolve) => {
 		script.onload = () => {
-			console.log(`Script ${page}.js chargé avec succès.`);
 			resolve();
 		};
 		script.onerror = () => {

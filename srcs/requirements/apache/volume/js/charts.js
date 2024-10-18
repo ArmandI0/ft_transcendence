@@ -137,7 +137,6 @@ async function getGameDatas() {
             return null;
         }
         const dataReturn = await response.json();
-        console.log('Succès :', dataReturn);
         return dataReturn;
 
     } catch (error) {

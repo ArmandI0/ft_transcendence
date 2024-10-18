@@ -7,7 +7,6 @@ function handleCode(code)
 	fetch(url)
 		.then(response => response.json())
 		.then(data => {
-			console.log('Réponse du backend:', data.login);
 			updateLoginButton();
 		})
 		.catch((error) => {
@@ -61,7 +60,6 @@ export async function logout() {
         });
         const data = await response.json();
         if (response.status === 200) {
-            console.log('Success:', data.message);
             return true;
         } else {
             console.error('Failed to logout');

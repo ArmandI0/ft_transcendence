@@ -44,7 +44,6 @@ export function iaPlayer(ball_vX, ball_vY, ball_Y, ball_X, p_Y, data)
     {
         const keyCode = keyPress === 'ArrowUp' ? 38 : 40;
         
-        console.log(keyCode);
         const keydownEvent = new KeyboardEvent('keydown', {
             key: keyPress,
             code: keyPress,

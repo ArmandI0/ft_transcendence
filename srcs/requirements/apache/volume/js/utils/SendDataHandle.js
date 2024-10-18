@@ -33,7 +33,6 @@ export async function SendDataPong(player1_score, player2_score, tournament_id, 
     {
         const dataUser = await getUsername();
         username = dataUser.username;
-        console.log('SENDING PONG IA DATA....')
         dataPostPong.mode = 'IA';
         dataPostPong.player1 = username;
         dataPostPong.player2 = 'bot';
@@ -52,7 +51,6 @@ export async function SendDataPong(player1_score, player2_score, tournament_id, 
     }
     else if (gameStatus.getStatus('isCoop'))
     {
-        console.log('SENDING PONG COOP DATA....')
         dataPostPong.mode = 'COOP';
         dataPostPong.player1 = 'number of exchanges :';
         dataPostPong.player2 = '-----';
@@ -71,7 +69,6 @@ export async function SendDataPong(player1_score, player2_score, tournament_id, 
     }
     else if (gameStatus.getStatus('tournamentMod'))
     {
-        console.log('SENDING PONG TOURNAMENT DATA....')
         dataPostPong.mode = 'TOURNAMENT';
         dataPostPong.player1 = player1;
         dataPostPong.player2 = player2;
@@ -92,7 +89,6 @@ export async function SendDataPong(player1_score, player2_score, tournament_id, 
     {
         const dataUser = await getUsername();
         username = dataUser.username;
-        console.log('SENDING PONG 1V1 DATA....')
         dataPostPong.mode = 'LOCAL1V1';
         dataPostPong.player1 = username;
         dataPostPong.player2 = gameStatus.getStatus('namePlayer2');
@@ -119,7 +115,6 @@ export async function SendDataCard(elapsedTime, id, player)
 
     if (!gameStatus.getStatus('tournamentCard'))
     {
-        console.log('SENDING CARD SOLO DATA....')
         dataPostCard.mode = 'SOLO';
         dataPostCard.player1 = username;
         dataPostCard.game = 'Card';
@@ -130,7 +125,6 @@ export async function SendDataCard(elapsedTime, id, player)
     }
     else
     {
-        console.log('SENDING CARD TOURNAMENT DATA....')
         dataPostCard.mode = 'TOURNAMENT';
         dataPostCard.player1 = player;
         dataPostCard.game = 'Card';

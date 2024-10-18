@@ -47,7 +47,6 @@ export async function setPongData() {
         }
 
         const dataReturn = await response.json();
-        console.log('Succès :', dataReturn);
         return dataReturn;
 
     } catch (error) {
@@ -76,7 +75,6 @@ export async function setCardData() {
         }
 
         const dataReturn = await response.json();
-        console.log('Succès :', dataReturn);
         return dataReturn;
 
     } catch (error) {
@@ -105,7 +103,6 @@ export async function setTournament() {
         }
 
         const dataReturn = await response.json();
-        console.log('Succès :', dataReturn);
         return dataReturn.id;
 
     } catch (error) {

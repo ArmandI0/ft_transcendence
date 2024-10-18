@@ -84,7 +84,6 @@ class Court{
 class Tournament{
     
     constructor(){
-        console.log("TOURNAMENT CREATED");
         this.firstMatch = true;
         this.secondMatch = false;
         this.finalMatch = false;
@@ -97,7 +96,6 @@ class Tournament{
     }
     async init() {
         this.id = await setTournament();
-        console.log("BLABLA " + this.id);
     }
 }
 
@@ -129,7 +127,6 @@ export async function startPong()
 
     if (gameStatus.getStatus('tournamentMod') === true && gameStatus.getStatus('tournamentInProgress') === false)
     {
-        console.log('NEW TOURNAMENT');
         tournament = new Tournament();
         gameStatus.setStatus('tournamenetInProgress', true);
         await tournament.init(); 
@@ -211,7 +208,6 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
         
         if (player1.score >= 1)
         {
-            console.log('PLAYER1 WIN!');
             player1_score.textContent = 'W';
             player2_score.textContent = 'L';
             if (gameStatus.getStatus('tournamentMod') === true)
@@ -227,7 +223,6 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
         } 
         else
         {
-            console.log('PLAYER2 WIN!');
             player2_score.textContent = 'W';
             player1_score.textContent = 'L';
             if (gameStatus.getStatus('tournamentMod') === true)
@@ -356,7 +351,6 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
             {
                 if (gameStatus.getStatus('player1Power') === true)
                 {
-                    console.log('BOOOOM');
                     ball.speedX = -ball.speedX * 4;
                     ball.speedX = Math.min(ball.speedX, 9);
                     ball.speedY = 0;
@@ -386,7 +380,6 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
             {
                 if (gameStatus.getStatus('player2Power') === true)
                 {
-                    console.log('BOOOOM');
                     ball.speedX = -ball.speedX * 4;
                     ball.speedX = Math.min(ball.speedX, 9);
                     ball.speedY = 0;
@@ -448,7 +441,6 @@ function updateBallPosition(ball, player1, player2, player3, court, tournament)
             if (gameStatus.getStatus('ia') === true && direction === 'right')
             {
                 iaPlayer(ball.speedX, ball.speedY, ball.y, ball.x, player2.y, 1);
-                console.log("iaPlayer called...");
             }
             lastCallTime = currentTime;
         }
@@ -472,7 +464,6 @@ export function startTournament()
         Players.push(inputElements[i].value);
     }
     
-    console.log(Players);
     if (validatePlayers(Players)) 
     {
         hideSection('tournament-container-pong');

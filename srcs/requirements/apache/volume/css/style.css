@@ -11,7 +11,7 @@
     margin: 50px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 15px; /* Arrondir les bordures */
-    border: 2px solid gold; /* Bordures jaunes or */
+    border: 3px solid gold; /* Bordures jaunes or */
     background-color: rgba(128, 128, 128, 0.5); /* Fond gris légèrement transparent */
 }
 
@@ -62,14 +62,14 @@
 
 #button_to_42api {
     position: absolute;
-    right: 220px;
+    right: 50px;
     top: 50%;
     margin-left: 50px;
     transform: translateY(-50%);
 }
 
 #button_to_42api.logged-in {
-    background-color: #28a745;
+    background-color: #a72828;
     color: white;
 }
 
@@ -122,13 +122,24 @@
     margin-bottom: 2%;
 }
 
-.navbar-nav.me-auto.mb-2.mb-lg-0 a, .navbar-brand
+.navbar-nav.me-auto.mb-2.mb-lg-0 a
 {
     color : white;
+    font-weight: bold;
+}
+
+.navbar-brand
+{
+    color : gold;
     font-weight: bold;
 }
 
 .navbar-nav.me-auto.mb-2.mb-lg-0 a:hover, .navbar-brand:hover
 {
     color : gold;
+}
+
+.card-img-top {
+    border-radius: 15px; /* Arrondir les bords des images */
+    opacity: 0.8;
 }

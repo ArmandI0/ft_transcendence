@@ -20,7 +20,6 @@ export function preventKeys(key)
 {
 	document.addEventListener('keydown', function(event) {
 		if (event.key === key) {
-			console.log(event.key);
 			event.preventDefault();
 		}
 	});
@@ -44,7 +43,6 @@ export function iaPlayer(ball_dir, ball, padIA, recenter)
 
 	if (!recenter)
 	{
-		console.log(ball.position.x)
 		if (checkAlignementPad(ball, padIA))
 			keyPress = null;
 		else if (ball.position.x > padCenterX )
