@@ -205,11 +205,11 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
         player2_score.textContent = player2.score;
     }
 
-    if (player1.score >= 3 || player2.score >= 3) 
+    if (player1.score >= 1 || player2.score >= 1) 
     {
         gameStatus.setStatus('isPaused', true);;
         
-        if (player1.score >= 3)
+        if (player1.score >= 1)
         {
             player1_score.textContent = 'W';
             player2_score.textContent = 'L';
@@ -221,7 +221,6 @@ function checkPlayerScore(player1, player2, ball, tournament, court)
             {
                 SendDataPong(player1.score, player2.score, -1, 'RollandGapong', player1.startTime);
                 document.getElementById('play-pong').style.display = 'block';
-                
             }
         } 
         else
