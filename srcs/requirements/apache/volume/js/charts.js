@@ -7,10 +7,16 @@ import { showSection, hideSection } from "./utils/showAndHideSections.js";
 
 function updateCanvasSize(chart) 
 {
-	const chart_element = document.querySelector("#pie-win-defeat canvas");
-	chart_element.width = chart_element.offsetWidth;
-	chart_element.height = chart_element.offsetHeight;
-	chart.generate();
+	try
+	{
+		const chart_element = document.querySelector("#pie-win-defeat canvas");
+		chart_element.width = chart_element.offsetWidth;
+		chart_element.height = chart_element.offsetHeight;
+		chart.generate();
+	}
+	catch
+	{
+	}
 }
 
 
