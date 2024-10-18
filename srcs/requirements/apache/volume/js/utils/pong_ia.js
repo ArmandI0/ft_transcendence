@@ -37,8 +37,8 @@ export function iaPlayer(ball_vX, ball_vY, ball_Y, ball_X, p_Y, data)
     }
     delay = 200;
 
-    
-    IA.style.top = futureBallY + 'px';
+    if (IA)
+        IA.style.top = futureBallY + 'px';
 
     if (keyPress)
     {
