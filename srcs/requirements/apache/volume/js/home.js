@@ -15,12 +15,17 @@ function handleCode(code)
 
 export async function handleAPI42return(url)
 {
-	if (url.has('code'))
-	{
+    try
+    {
 		const code = url.get('code');
 		let data = handleCode(code);
+		const new_url = window.location.origin + window.location.pathname;
 		history.replaceState({page : 'home', div : 'app'}, 'home', window.location.pathname);
-	}
+    }
+    catch
+    {
+        
+    }
 }
 
 export async function updateLoginButton() {

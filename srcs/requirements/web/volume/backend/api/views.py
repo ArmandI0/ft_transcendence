@@ -134,7 +134,7 @@ def getResult(request):
             serializer = PongChartResultSerializer(results, many=True)
             return Response(serializer.data)
         elif gameType == 'Cyberpong':
-            results = PongGameResult.objects.filter(player1=user, game=gameType, mode='IA').order_by('-date').all()
+            results = PongGameResult.objects.filter(player1=user, game=gameType).order_by('-date').all()
             serializer = PongChartResultSerializer(results, many=True)
             return Response(serializer.data)
         elif gameType == 'Cards':
