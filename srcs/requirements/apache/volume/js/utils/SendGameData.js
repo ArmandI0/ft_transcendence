@@ -42,7 +42,6 @@ export async function setPongData() {
         });
         if (!response.ok) {
             const errorData = await response.text();
-            console.error('Erreur lors de la requête :', response.status, errorData);
             return null;
         }
 
@@ -50,7 +49,6 @@ export async function setPongData() {
         return dataReturn;
 
     } catch (error) {
-        console.error('Erreur lors de l\'appel à l\'API :', error);
         return null;
     }
 }
@@ -70,7 +68,6 @@ export async function setCardData() {
         });
         if (!response.ok) {
             const errorData = await response.text();
-            console.error('Erreur lors de la requête :', response.status, errorData);
             return null;
         }
 
@@ -78,7 +75,6 @@ export async function setCardData() {
         return dataReturn;
 
     } catch (error) {
-        console.error('Erreur lors de l\'appel à l\'API :', error);
         return null;
     }
 }
@@ -98,7 +94,6 @@ export async function setTournament() {
         });
         if (!response.ok) {
             const errorData = await response.text();
-            console.error('Erreur lors de la requête :', response.status, errorData);
             return null;
         }
 
@@ -106,7 +101,6 @@ export async function setTournament() {
         return dataReturn.id;
 
     } catch (error) {
-        console.error('Erreur lors de l\'appel à l\'API :', error);
         return null;
     }
 }

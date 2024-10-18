@@ -17,4 +17,3 @@ RUN mkdir cert
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /cert/localhost.key -out /cert/localhost.crt -subj "/CN=localhost"
 
 ENTRYPOINT [ "bash", "/conf.sh" ]
-#ENTRYPOINT [ "apachectl", "-D", "FOREGROUND" ]

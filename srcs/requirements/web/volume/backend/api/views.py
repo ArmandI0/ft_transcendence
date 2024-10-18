@@ -130,15 +130,15 @@ def getResult(request):
         # gameType = data.get('gameType')
 
         if gameType == 'RollandGapong':
-            results = PongGameResult.objects.filter(player1=user, game=gameType).order_by('-date').all()
+            results = PongGameResult.objects.filter(player1=user, game=gameType, mode='IA').order_by('-date').all()
             serializer = PongChartResultSerializer(results, many=True)
             return Response(serializer.data)
         elif gameType == 'Cyberpong':
-            results = PongGameResult.objects.filter(player1=user, game=gameType).order_by('-date').all()
+            results = PongGameResult.objects.filter(player1=user, game=gameType, mode='IA').order_by('-date').all()
             serializer = PongChartResultSerializer(results, many=True)
             return Response(serializer.data)
         elif gameType == 'Cards':
-            results = CardGameResult.objects.filter(player=user).order_by('-date').all()
+            results = CardGameResult.objects.filter(player=user, mode='SOLO').order_by('-date').all()
             serializer = CardChartResultSerializer(results, many=True)
             return Response(serializer.data)
         else:

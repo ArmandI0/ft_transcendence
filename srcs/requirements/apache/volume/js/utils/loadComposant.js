@@ -9,9 +9,6 @@ export async function loadComposant(page)
 		const container = document.getElementById('navbar');
 		
 		if (container)
-			container.innerHTML = html;
-		else
-			console.error(`Le conteneur navbar n'existe pas`);
-				
+			container.innerHTML = html;	
 	}
 }

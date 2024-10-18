@@ -71,7 +71,6 @@ export async function loadPage(page, div)
 	}
 	catch (error) 
 	{
-		console.error('Error fetching the section:', error);
 		const container = document.getElementById(div);
 		if (container) 
 			container.innerHTML = '<div>Error loading page. Please try again.</div>';

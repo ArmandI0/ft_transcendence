@@ -104,13 +104,11 @@ export async function getUsername() {
         });
         if (!response.ok) {
             const errorData = await response.text();
-            console.error('Erreur lors de la requête :', response.status, errorData);
             return null;
         }
         const dataReturn = await response.json();
         return dataReturn;
     } catch (error) {
-        console.error('Erreur lors de l\'appel à l\'API :', error);
         return null;
     }
 }
@@ -133,14 +131,12 @@ async function getGameDatas() {
         });
         if (!response.ok) {
             const errorData = await response.text();
-            console.error('Erreur lors de la requête :', response.status, errorData);
             return null;
         }
         const dataReturn = await response.json();
         return dataReturn;
 
     } catch (error) {
-        console.error('Erreur lors de l\'appel à l\'API :', error);
         return null;
     }
 }
@@ -166,11 +162,11 @@ export async function generateCharts()
     else
     {
         title_div.innerHTML = `<h3>Statistics for User : ${userData.username} - Game : ${getGameTypeData()} - Number of Games : ${datas.length}</h3>`;       
-        generateBarsChart('bars-score-by-game', datas, `Proportion of games won by ${groupSize}`, "Proportion of games won (%)", `Games played (by game id)`, groupSize);
-        generatePieChart('pie-win-defeat', datas, "Proportion of games won overall");
+        generateBarsChart('bars-score-by-game', datas, `Proportion of games won by group of size ${groupSize}`, "Proportion of games won (%)", `Games played`, groupSize);
+        generatePieChart('pie-win-defeat', datas, "Proportion of games won");
 		if (getGameTypeData() === 'Cards')
-        	generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Games won in less than 1 min (by sets of ${groupSize})`, groupSize);
+        	generateLineChart('time-graph', datas, "", "Average time to win(in secs)", `Games won in less than 1 min (by sets of ${groupSize})`, groupSize);
 		else
-			generateLineChart('time-graph', datas, "Time to win", "Average time (in secs)", `Games won (by sets of ${groupSize})`, groupSize);
+			generateLineChart('time-graph', datas, "", "Average time to win(in secs)", `Games won (by sets of ${groupSize})`, groupSize);
 	}
 }

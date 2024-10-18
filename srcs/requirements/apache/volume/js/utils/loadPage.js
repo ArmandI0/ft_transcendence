@@ -21,10 +21,7 @@ export async function loadHtml(page,div)
 	
 	if (container) {
 		container.innerHTML = html;
-	} 
-	else
-		console.error(`Le conteneur ${div} n'existe pas`);
-		
+	}	
 }
 
 export async function loadScript(page) 
@@ -47,7 +44,6 @@ export async function loadScript(page)
 			resolve();
 		};
 		script.onerror = () => {
-			console.warn(`Le script ${page}.js n'a pas pu être chargé. Aucune erreur retournée.`); 
 			resolve();
 		};
 		document.body.appendChild(script);

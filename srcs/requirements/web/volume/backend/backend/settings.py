@@ -152,14 +152,12 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://frontend:8080'
-#     'http://localhost:8080'
-#     "http://web:8000",
-#     'http://localhost:8000'
-# ]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost',
+    'https://localhost',
+    'http://127.0.0.1',
+    'http://web:8000',
+]
 
 AUTH_USER_MODEL = 'accounts.Api42User'
 
