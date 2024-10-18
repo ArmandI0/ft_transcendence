@@ -295,136 +295,143 @@ function displayWinner(score)
 
 export async function  startGame3D()
 {
-	showSection('loading-screen');
-    gameStatus.setStatus('game_run', true);
-	let pause = false;
-	let score = [0,0];
-	const container1 = document.getElementById('view-player1');
-	const container2 = document.getElementById('view-player2');
-
-	const width_3d = container1.clientWidth;
-	const height_3d = container1.clientHeight;
-
-	const scene = new THREE.Scene();
-	const camera1 = new THREE.PerspectiveCamera(75, width_3d / height_3d, 0.1, 1000);
-	const renderer1 = new THREE.WebGLRenderer({
-		alpha:true,
-	});
-	
-	const camera2 = new THREE.PerspectiveCamera(75, width_3d / height_3d, 0.1, 1000);
-	const renderer2 = new THREE.WebGLRenderer({
-		alpha:true,
-	});
-
-	renderer1.setSize(width_3d,height_3d); 
-	container1.appendChild(renderer1.domElement);
-
-	renderer2.setSize(width_3d,height_3d);
-	container2.appendChild(renderer2.domElement);
-
-	let ball_dir = ballStartDir;
-
-	// Adding objects
-	const pad1 = await loadAvatar(gameStatus.getAvatarType(1), pad1Z, 0xFF0000);
-	const pad2 = await loadAvatar(gameStatus.getAvatarType(2), pad2Z, 0x0000FF);
-	
-	const ball = makeObjectInstance("sphere", ballGeom,0xffffff,0, scene);
-	const table = makeTable(scene);
-	const geom = new THREE.BoxGeometry(padGeom.getX(), padGeom.getY(), padGeom.getZ());
-	const linesEdgesPad1 = makeEdges(geom,0x4afff4);
-	const linesEdgesPad2 = makeEdges(geom,0xff7fa8);
-	linesEdgesPad1.position.z = pad1.position.z;
-	linesEdgesPad2.position.z = pad2.position.z;
-	scene.add(linesEdgesPad1);
-	scene.add(linesEdgesPad2);
-
-	const gridCollision = makeGridCollision(1);
-	gridCollision.visible = false;
-	scene.add(gridCollision);
-
-	// Adding light
-	const color = 0xFFFFFF;
-	const intensity = 3;
-	const light = new THREE.DirectionalLight(color, intensity);
-	light.position.set(50, 50, 0);
-	scene.add(light);
-
-	camera1.position.z = -52;
-	camera1.position.y = 15;
-	camera2.position.z = 52;
-	camera2.position.y = 15;
-
-	camera1.lookAt(0,0,0);
-	camera2.lookAt(0,0,0);
-
-	let keysPressed = {};
-
-	document.addEventListener('keydown', function(event) {
-		keysPressed[event.code] = true;
-	});
-	
-	document.addEventListener('keyup', function(event) {
-		keysPressed[event.code] = false;
-	});
-
-	clockPause.start();
-	if (gameStatus.getStatus('ia') === true)
-		clockIA.start();
-		
-	scene.add(pad1);
-	scene.add(pad2);
-	scene.add(ball);
-	hideSection('loading-screen');
-	let startTime = Date.now();
-	function pong3DAnimate() 
+	try
 	{
-		if (gameStatus.getStatus('game_run') === false)
-		{
-			return;
-		}
-		if (isGameWon(score))
-		{
-			displayWinner(score);
-			SendDataPong(score[0], score[1], -1, "Cyberpong", startTime);
-			loadPage('pong3D_menu', 'app');
-			return;
-		}
-		
-		requestAnimationFrame(pong3DAnimate);
-		if(!pause)
-			[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause, score);
-		else if(clockPause.getElapsedTime() > 1)
-			pause = false;
-		
-		linesEdgesPad1.position.x = pad1.position.x;
-		linesEdgesPad2.position.x = pad2.position.x;
+		showSection('loading-screen');
+		gameStatus.setStatus('game_run', true);
+		let pause = false;
+		let score = [0,0];
+		const container1 = document.getElementById('view-player1');
+		const container2 = document.getElementById('view-player2');
 
-		if (keysPressed['ArrowLeft']) {
-			pad2.position.x -= 0.75; 
-		}
-		if (keysPressed['ArrowRight']) {
-			pad2.position.x += 0.75;
-		}
-		if (keysPressed['KeyA']) {
-			pad1.position.x += 0.75;
-		}
-		if (keysPressed['KeyD']) {
-			pad1.position.x -= 0.75;
-		}
+		const width_3d = container1.clientWidth;
+		const height_3d = container1.clientHeight;
 
-		if (clockIA.getElapsedTime() > 0.2 && gameStatus.getStatus('ia') === true) 
-		{
-			if (ball_dir.getZ() < 0)
-				iaPlayer(ball_dir, ball, pad2,1);
-			else
-				iaPlayer(ball_dir, ball, pad2,0);
+		const scene = new THREE.Scene();
+		const camera1 = new THREE.PerspectiveCamera(75, width_3d / height_3d, 0.1, 1000);
+		const renderer1 = new THREE.WebGLRenderer({
+			alpha:true,
+		});
+		
+		const camera2 = new THREE.PerspectiveCamera(75, width_3d / height_3d, 0.1, 1000);
+		const renderer2 = new THREE.WebGLRenderer({
+			alpha:true,
+		});
+
+		renderer1.setSize(width_3d,height_3d); 
+		container1.appendChild(renderer1.domElement);
+
+		renderer2.setSize(width_3d,height_3d);
+		container2.appendChild(renderer2.domElement);
+
+		let ball_dir = ballStartDir;
+
+		// Adding objects
+		const pad1 = await loadAvatar(gameStatus.getAvatarType(1), pad1Z, 0xFF0000);
+		const pad2 = await loadAvatar(gameStatus.getAvatarType(2), pad2Z, 0x0000FF);
+		
+		const ball = makeObjectInstance("sphere", ballGeom,0xffffff,0, scene);
+		const table = makeTable(scene);
+		const geom = new THREE.BoxGeometry(padGeom.getX(), padGeom.getY(), padGeom.getZ());
+		const linesEdgesPad1 = makeEdges(geom,0x4afff4);
+		const linesEdgesPad2 = makeEdges(geom,0xff7fa8);
+		linesEdgesPad1.position.z = pad1.position.z;
+		linesEdgesPad2.position.z = pad2.position.z;
+		scene.add(linesEdgesPad1);
+		scene.add(linesEdgesPad2);
+
+		const gridCollision = makeGridCollision(1);
+		gridCollision.visible = false;
+		scene.add(gridCollision);
+
+		// Adding light
+		const color = 0xFFFFFF;
+		const intensity = 3;
+		const light = new THREE.DirectionalLight(color, intensity);
+		light.position.set(50, 50, 0);
+		scene.add(light);
+
+		camera1.position.z = -52;
+		camera1.position.y = 15;
+		camera2.position.z = 52;
+		camera2.position.y = 15;
+
+		camera1.lookAt(0,0,0);
+		camera2.lookAt(0,0,0);
+
+		let keysPressed = {};
+
+		document.addEventListener('keydown', function(event) {
+			keysPressed[event.code] = true;
+		});
+		
+		document.addEventListener('keyup', function(event) {
+			keysPressed[event.code] = false;
+		});
+
+		clockPause.start();
+		if (gameStatus.getStatus('ia') === true)
 			clockIA.start();
-		}
+			
+		scene.add(pad1);
+		scene.add(pad2);
+		scene.add(ball);
+		hideSection('loading-screen');
+		let startTime = Date.now();
+		function pong3DAnimate() 
+		{
+			if (gameStatus.getStatus('game_run') === false)
+			{
+				return;
+			}
+			if (isGameWon(score))
+			{
+				displayWinner(score);
+				SendDataPong(score[0], score[1], -1, "Cyberpong", startTime);
+				loadPage('pong3D_menu', 'app');
+				return;
+			}
+			
+			requestAnimationFrame(pong3DAnimate);
+			if(!pause)
+				[ball_dir, pause] = pong3DUpdateBallPosition(ball, ball_dir, pad1, pad2, gridCollision, pause, score);
+			else if(clockPause.getElapsedTime() > 1)
+				pause = false;
+			
+			linesEdgesPad1.position.x = pad1.position.x;
+			linesEdgesPad2.position.x = pad2.position.x;
 
-		renderer1.render(scene, camera1);
-		renderer2.render(scene, camera2);
+			if (keysPressed['ArrowLeft']) {
+				pad2.position.x -= 0.75; 
+			}
+			if (keysPressed['ArrowRight']) {
+				pad2.position.x += 0.75;
+			}
+			if (keysPressed['KeyA']) {
+				pad1.position.x += 0.75;
+			}
+			if (keysPressed['KeyD']) {
+				pad1.position.x -= 0.75;
+			}
+
+			if (clockIA.getElapsedTime() > 0.2 && gameStatus.getStatus('ia') === true) 
+			{
+				if (ball_dir.getZ() < 0)
+					iaPlayer(ball_dir, ball, pad2,1);
+				else
+					iaPlayer(ball_dir, ball, pad2,0);
+				clockIA.start();
+			}
+
+			renderer1.render(scene, camera1);
+			renderer2.render(scene, camera2);
+		}
+		pong3DAnimate();
 	}
-	pong3DAnimate();
+	catch
+	{
+
+	}
 }
 
 

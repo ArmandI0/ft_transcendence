@@ -33,7 +33,7 @@ LOGGING = {
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
-            'stream': 'ext://sys.stdout',  # Utiliser la sortie standard pour les logs
+            'stream': 'ext://sys.stdout',
         },
     },
     'root': {
@@ -79,7 +79,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # Vous pouvez ajouter des répertoires si nécessaire
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

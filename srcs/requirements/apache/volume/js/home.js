@@ -19,7 +19,7 @@ export async function handleAPI42return(url)
 	{
 		const code = url.get('code');
 		let data = handleCode(code);
-		history.replaceState({page : 'home', div : 'app'}, 'home', window.location.pathname);
+		history.replaceState({page : 'home', div : 'app'}, 'home', '');
 	}
 }
 
