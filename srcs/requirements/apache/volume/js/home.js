@@ -7,7 +7,6 @@ function handleCode(code)
 	fetch(url)
 		.then(response => response.json())
 		.then(data => {
-			console.log('Réponse du backend:', data.login);
 			sessionStorage.setItem("username", data.login);
 		})
 		.catch((error) => {
